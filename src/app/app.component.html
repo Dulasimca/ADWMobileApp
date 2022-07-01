@@ -5,7 +5,7 @@
     <mat-sidenav-content>
       <app-menu-header (sidenavToggle)="sidenav.toggle()"></app-menu-header>
       <main>
-        <div [ngClass.xs]="'content-mobile'" [ngClass.md]="'content-system'" [ngClass.lg]="'content-system'">
+        <div #maincontainer id="maincontainer" [ngClass.xs]="'content-mobile'" [ngClass.md]="'content-system'" [ngClass.lg]="'content-system'">
         <router-outlet></router-outlet>
       </div>
       </main>

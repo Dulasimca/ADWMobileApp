@@ -114,7 +114,6 @@ export class StudentfacilityMasterComponent implements OnInit {
 
   }
   onView() {
-    this.data = [];
     const params = {
    'DCode' : this.login_user.districtCode,
    'TCode' : this.login_user.talukId,
@@ -149,40 +148,27 @@ export class StudentfacilityMasterComponent implements OnInit {
   }
 
   onDataChecking() {
-    this.data = [];
     this.noofCounts = 0;
     this.remarks ='';
     this.FacilityDetailIds =0;
-    const params = {
-   'DCode' : this.login_user.districtCode,
-   'TCode' : this.login_user.talukId,
-   'HostelId' : this.login_user.hostelId,
-   'FacilityId' : this.facilityName
-    }
-    this._restApiService.getByParameters(PathConstants.StudentFacilityDetails_Get,params).subscribe(res =>{
-      if (res !== null && res !== undefined && res.length !== 0) {
-        res.Table.forEach(i => {
-        this.noofCounts = i.NoOfCounts;
-        this.remarks =i.Remarks;
-        this.FacilityDetailIds =i.FacilityDetailId;  
- 
-    this._messageService.clear();
+    if(this.data.length !== 0) {
+      for(let i = 0; i < this.data.length; i ++) {
+        if((this.data[i].FacilityId * 1) === (this.facilityName * 1)) {
+          this.noofCounts = this.data[i].NoOfCounts;
+          this.remarks =this.data[i].Remarks;
+          this.FacilityDetailIds =this.data[i].FacilityDetailId;  
           this._messageService.add({
-            key: 't-msg', severity: ResponseMessage.SEVERITY_INFO,
-            summary: ResponseMessage.SUMMARY_ALERT, life: 4000,
-            detail: 'Facility already exist' 
+            key: 't-msg', severity: ResponseMessage.SEVERITY_WARNING,
+            summary: ResponseMessage.SUMMARY_WARNING, detail: 'Selected facility name is already exist please update'
           })
-        })
-    
-  } else {
-    this._messageService.clear();
-    this._messageService.add({
-      key: 't-msg', severity: ResponseMessage.SEVERITY_WARNING,
-      summary: ResponseMessage.SUMMARY_WARNING, detail: ResponseMessage.NoRecordMessage
-    })
+          break;
+        } else {
+          continue;
+        }
+      }
+    }
   }
-});
-}
+   
 
   onRowSelect(event, selectedRow) {
    this.FacilityDetailIds = selectedRow.FacilityDetailId;

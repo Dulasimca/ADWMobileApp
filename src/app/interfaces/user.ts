@@ -12,4 +12,5 @@ export interface User {
     hostelName: string;
     domainUrl: string;
     hasBiometric: boolean;
+    isDefaultPwd: boolean;
 }

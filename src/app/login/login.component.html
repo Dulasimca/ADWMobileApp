@@ -1,50 +1,61 @@
-<block-ui>
-    <div #login class="p-col-12 p-md-12 p-lg-12">
-        <p-toast position="top-center" key="t-msg"></p-toast>
-        <div class="p-grid">
-            <div class="p-col-3"></div>
-            <div class="p-col-12 p-md-10 p-lg-6 no-padding card">
-                <div class="txt-center">
-                    <img src="assets/layout/images/TN_Govt_Logo_login.png" class="menu-logo">
-                    <img src="assets/layout/images/HO_CM_TNADW.png" class="menu-logo">
-                </div>
-                <div style="height: 50px;" class="login-header">
-                    <div class="txt-center login-header-txt">TN ADW HOSTEL MANAGEMENT SYSTEM LOGIN</div>
-                </div>
-                <div class="p-col-1"></div>
-                <div class="p-grid">
-                    <div class="p-col-3"></div>
-                    <div class="p-col-12 p-md-12 p-lg-6">
-                        <div #uname class="p-col-12 p-md-12 p-lg-12">
-                            <div class="p-inputgroup">
-                                <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
-                                <input type="text" pInputText placeholder="Username" [(ngModel)]="username" required>
-                            </div>
-                        </div>
-                        <div #pwd class="p-col-12 p-md-12 p-lg-12">
-                            <div class="p-inputgroup">
-                                <span class="p-inputgroup-addon"><i class="pi pi-lock"></i></span>
-                                <input id="pswd" type="password" pInputText placeholder="Password"
-                                    [(ngModel)]="password" required>
-                                <span class="p-inputgroup-addon" (click)="onShowPswd()">
-                                    <i *ngIf="!showPswd" disabled class="fa fa-eye" aria-hidden="true"></i>
-                                    <i *ngIf="showPswd" class="fa fa-eye-slash" aria-hidden="true"></i>
-                                </span>
-                            </div>
+<div #login class="p-col-12 p-md-12 p-lg-12">
+    <p-toast position="top-center" key="t-msg"></p-toast>
+    <div class="p-grid" style="display:flex; justify-content:center">
+        <div class="p-col-12 p-md-10 p-lg-6 no-padding card">
+            <div class="txt-center">
+                <img src="assets/layout/images/TN_Govt_Logo_login.png" class="menu-logo">
+                <img src="assets/layout/images/HO_CM_TNADW.png" class="menu-logo">
+            </div>
+            <div style="height: 50px;" class="login-header">
+                <div class="txt-center login-header-txt">TN ADW HOSTEL MANAGEMENT SYSTEM</div>
+            </div>
+            <div class="p-col-1"></div>
+            <div class="p-col-12 txt-center">
+                <label>LOGIN</label>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-3"></div>
+                <div class="p-col-12 p-md-12 p-lg-6">
+                    <div #uname class="p-col-12 p-md-12 p-lg-12">
+            </div>
+            <div class="p-grid" style="display:flex; justify-content:center">
+                    <div #uname class="p-col-12 p-md-12 p-lg-12">
+                        <div class="p-inputgroup">
+                            <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                            <input type="text" pInputText placeholder="Username" [(ngModel)]="username" required>
                         </div>
                     </div>
-                </div>
-                <div class="p-col-12 txt-center align-center">
-                    <button pButton type="button" label="Sign In" icon="pi pi-sign-in" (click)="onLogin()"></button>
-                </div>
-                <div class="p-col-12 txt-center">
-                    <span class="login-text">New Student to Login?</span>
-                    <span class="login-a-text" routerLink="/studentfeedback-registration" routerLinkActive="active"> Create your user account now</span>
-                </div>
-                <div style="text-align: end;"> <span class="login-link" routerLink="/privacy-policy" routerLinkActive="active">Privacy Policy
-                </span></div>
+                    <div #pwd class="p-col-12 p-md-12 p-lg-12">
+                        <div class="p-inputgroup">
+                            <span class="p-inputgroup-addon"><i class="pi pi-lock"></i></span>
+                            <input id="pswd" type="password" pInputText placeholder="Password" [(ngModel)]="password"
+                                required>
+                            <span class="p-inputgroup-addon" (click)="onShowPswd()">
+                                <i *ngIf="!showPswd" disabled class="fa fa-eye" aria-hidden="true"></i>
+                                <i *ngIf="showPswd" class="fa fa-eye-slash" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                    </div>
             </div>
-            <div class="p-col-3"></div>
+            <div class="p-col-12 txt-center align-center">
+                <button pButton type="button" label="Sign In" icon="pi pi-sign-in" (click)="onLogin()"
+                [disabled]="(!username || !password)"></button>
+            </div>
+            <div class="p-col-12 txt-center">
+                <span class="login-text">Online Student Registration --></span>
+                <span class="login-link" routerLink="/online-registration" routerLinkActive="active"> Click here..</span>
+            </div>
+            <div class="p-col-12 txt-center">
+                <span class="login-text">Already Registered..?</span>
+                <span class="login-link" routerLink="/online-check" routerLinkActive="active"> Click here..</span> 
+            </div>
+            <div class="p-col-12 p-md-12 p-lg-12 no-pad" style="text-align: end;"><span class="login-link" routerLink="/privacy-policy" routerLinkActive="active">Privacy Policy
+                </span></div>
+                <div class="txt-center">
+                    <div><img src="assets/layout/images/google-play2x.png" class="google-play"></div>
+                    <a href="assets/layout/apk/TNADWHMS.apk" accept=".apk" download="TNADWHMS">Click here to download app</a>
+                 </div>
         </div>
+        <div class="p-col-3"></div>
     </div>
-</block-ui>
+</div>

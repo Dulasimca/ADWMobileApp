@@ -16,7 +16,7 @@ export class SidenavListComponent implements OnInit {
       if (value) {
         this.items = this._authService.menu;
         this.items.forEach(i => {
-          if (i.routerLink !== null && i.routerLink !== '') {
+          if ((i.routerLink !== null && i.routerLink !== '') || i.label === 'Logout') {
             i.command = () => { this.onSidenavClose(); };
           } else if (i.items !== undefined) {
             if (i.items.length !== 0) {

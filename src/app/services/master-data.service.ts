@@ -64,7 +64,7 @@ export class MasterService {
 
     getMaster(value): any {
         this.log_info = this._authService.UserInfo;
-        this.roleId = (this.log_info.roleId * 1);
+        this.roleId = this.log_info != undefined && this.log_info != null ? (this.log_info.roleId * 1) : 1;
         this.masterData = [];
         switch (value) {
             //district master
@@ -88,15 +88,15 @@ export class MasterService {
                 if (this.data.Table1 !== undefined && this.data.Table1 !== null) {
                     this.data.Table1.forEach(t => {
                         if (this.roleId === 1) {
-                              this.masterData.push({ name: t.Talukname, code: t.Talukid, dcode: t.Districtcode });
-                        } else if(this.roleId === 2) {
+                            this.masterData.push({ name: t.Talukname, code: t.Talukid, dcode: t.Districtcode });
+                        } else if (this.roleId === 2) {
                             if ((this.log_info.districtCode * 1) === (t.Districtcode * 1)) {
-                                  this.masterData.push({ name: t.Talukname, code: t.Talukid, dcode: t.Districtcode });
+                                this.masterData.push({ name: t.Talukname, code: t.Talukid, dcode: t.Districtcode });
                             }
                         } else {
                             if ((this.log_info.talukId * 1) === (t.Talukid * 1)) {
                                 this.masterData.push({ name: t.Talukname, code: t.Talukid, dcode: t.Districtcode });
-                          }
+                            }
                         }
                     })
                 } else {
@@ -137,7 +137,7 @@ export class MasterService {
             case 'AY':
                 if (this.data.Table5 !== undefined && this.data.Table5 !== null) {
                     this.data.Table5.forEach(a => {
-                        this.masterData.push({ name: a.ShortYear, code: a.Id });
+                        this.masterData.push({ name: a.ShortYear, code: a.Id, type: a.ShortNumber, fDate: a.FromDate, tDate: a.ToDate });
                     })
                 } else {
                     this.masterData = [];
@@ -253,16 +253,16 @@ export class MasterService {
                     this.masterData = [];
                 }
                 break;
-                //hotsel fnunctioning type
-                case 'HF':
-                    if (this.data.Table15 !== undefined && this.data.Table15 !== null) {
-                        this.data.Table15.forEach(h => {
-                            this.masterData.push({ name: h.Name, code: h.Id });
-                        })
-                    } else {
-                        this.masterData = [];
-                    }
-                    break;
+            //hotsel fnunctioning type
+            case 'HF':
+                if (this.data.Table15 !== undefined && this.data.Table15 !== null) {
+                    this.data.Table15.forEach(h => {
+                        this.masterData.push({ name: h.Name, code: h.Id });
+                    })
+                } else {
+                    this.masterData = [];
+                }
+                break;
             //medium
             case 'MD':
                 if (this.data.Table16 !== undefined && this.data.Table16 !== null) {
@@ -273,11 +273,29 @@ export class MasterService {
                     this.masterData = [];
                 }
                 break;
-                 //sub caste
+            //sub caste
             case 'SC':
                 if (this.data.Table17 !== undefined && this.data.Table17 !== null) {
                     this.data.Table17.forEach(s => {
                         this.masterData.push({ name: s.Name, code: s.SubId, casteId: s.Id });
+                    })
+                } else {
+                    this.masterData = [];
+                }
+                break;
+            case 'M':
+                if (this.data.Table18 !== undefined && this.data.Table18 !== null) {
+                    this.data.Table18.forEach(m => {
+                        this.masterData.push({ name: m.MealName, code: m.Id });
+                    })
+                } else {
+                    this.masterData = [];
+                }
+                break;
+            case 'NT':
+                if (this.data.Table19 !== undefined && this.data.Table19 !== null) {
+                    this.data.Table19.forEach(t => {
+                        this.masterData.push({ name: t.Name, code: t.Id });
                     })
                 } else {
                     this.masterData = [];

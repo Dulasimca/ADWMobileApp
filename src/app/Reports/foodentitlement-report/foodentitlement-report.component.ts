@@ -23,6 +23,7 @@ export class FoodentitlementReportComponent implements OnInit {
   data:any;
   cols:any;
   showTable: boolean;
+  disableExcel: boolean = true;
 
   constructor(private restApiService: RestAPIService, 
     private masterService: MasterService, private _messageService: MessageService,private _authService: AuthService) { }
@@ -81,9 +82,10 @@ onLoad() {
         this.data.forEach(i => {
           i.Flag = (i.Flag) ? 'Active' : 'Inactive';
         })
-        
+        this.disableExcel = false;
       }else{
         // this.showTable = false;
+        this.disableExcel = true;
       this._messageService.clear();
       this._messageService.add({
         key: 't-msg', severity: ResponseMessage.SEVERITY_WARNING,

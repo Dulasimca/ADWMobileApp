@@ -38,10 +38,10 @@
                     <div class="p-grid">
                         <div class="p-col-12 p-md-1 p-lg-1 no-padding"></div>
                         <div class="p-col-12 p-md-10 p-lg-10 no-padding">
-                            <p-treeTable [value]="treeData" [loading]="loading">
+                            <p-treeTable [value]="treeData"  [loading]="loading">
                                 <ng-template pTemplate="header">
                                     <tr>
-                                        <th style="width: 120px;">S.No.</th>
+                                        <th>S.No.</th>
                                         <th>Name</th>
                                         <th>Amount</th>
                                         <th>Expenditure</th>
@@ -50,7 +50,7 @@
                                 </ng-template>
                                 <ng-template pTemplate="body" let-rowNode let-rowData="rowData" let-rowIndex="rowIndex">
                                     <tr [ttRow]="rowNode" [ngStyle]="{'background-color': getColor(rowData.hashType)}">
-                                        <td style="width: 120px;">
+                                        <td>
                                             <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
                                             {{rowData.slno}}.
                                         </td>

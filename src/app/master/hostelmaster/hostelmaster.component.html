@@ -17,7 +17,7 @@
                                     <div><label for="_Functioningtype">Hostel Functioning Type</label></div>
                                     <p-dropdown name="_Functioningtype" [options]="FunctioningtypeOptions"
                                         [(ngModel)]="Functioningtype" (onClick)="onSelect('HF')"
-                                        [disabled]="disableFields" required>
+                                         required>
                                     </p-dropdown>
                                 </div>
                                 <div class="p-col-12 p-md-6 p-lg-2">
@@ -33,6 +33,27 @@
                                          [(ngModel)]="TalukId" (onClick)="onSelect('TK')"
                                         [disabled]="disableFields" required>
                                     </p-dropdown>
+                                </div>
+                                <div class="p-col-12 p-md-6 p-lg-2">
+                                    <label for="_mp">MP<span
+                                        class="form-mandatory-field">*</span></label>
+                                    <p-dropdown name="_mp"  [options]="MPOptions"
+                                         [(ngModel)]="MPId" [disabled]="disableFields" (onChange)="onChangeMP()" required>
+                                    </p-dropdown>
+                                </div>
+                                <div class="p-col-12 p-md-6 p-lg-2">
+                                    <label for="_mla">MLA<span
+                                        class="form-mandatory-field">*</span></label>
+                                    <p-dropdown name="_mla"  [options]="MLAOptions"
+                                         [(ngModel)]="MLAId" [disabled]="disableFields" required>
+                                    </p-dropdown>
+                                </div>
+                                <div class="p-col-12 p-md-6 p-lg-2">
+                                    <div><label for="_spcldashildar">Special Dashildar<span
+                                                class="form-mandatory-field">*</span></label>
+                                    </div>
+                                    <input type="text" name="_spcldashildar" class="p-col-10" pInputText
+                                    [disabled]="disableFields" [(ngModel)]="SpecialDashildar" required />
                                 </div>
                                 <div class="p-col-12 p-md-6 p-lg-2">
                                     <div><label for="_hostelname">Hostelname<span
@@ -52,7 +73,7 @@
                                     <div><label for="_hostelopendate">Hostel Opening Date<span
                                         class="form-mandatory-field">*</span></label>
                                         <p-calendar [showOtherMonths]="false" [(ngModel)]="hostelOpeningDate"  
-                                        [showIcon]="true" name="_hostelopendate" required>
+                                         [showIcon]="true" name="_hostelopendate" required>
                                         </p-calendar>
                             </div>
                                 </div>
@@ -61,7 +82,8 @@
                                                 class="form-mandatory-field">*</span></label>
                                     </div>
                                     <input class="p-col-12" type="text" name="_mobno" pInputText minlength="10"
-                                        maxlength="10" [(ngModel)]="mobileNo" appInputFormat="digitOnly" required />
+                                        maxlength="10" [(ngModel)]="mobileNo" pattern="^[6789]\d{9,9}$" 
+                                        title="Phone number with 6-9 and remaing 9 digit with 0-9" appInputFormat="digitOnly" required />
                                         
                                 </div>
                                 <div class="p-col-12 p-md-6 p-lg-1">
@@ -115,16 +137,25 @@
                                     pInputText  [(ngModel)]="nearestPhc" appInputFormat="noSpecialChars" required />
                                         
                                 </div>
+                                <div class="p-col-12 p-md-6 p-lg-3">
+                                    <p-radioButton name="Flag" label="ACTIVE" value=1 [(ngModel)]="selectedType"
+                                            required>
+                                        </p-radioButton>&nbsp;
+                                        <p-radioButton name="Flag" label="INACTIVE" value=0 [(ngModel)]="selectedType"
+                                            required>
+                                        </p-radioButton>
+                                </div>
                             
                                 <div class="p-col-12 txt-center">
                                     <button pButton type="button" label="Submit" (click)="onSubmit()" 
                                     [disabled]="((disableFields && (!f.dirty || !f.valid)) || (!disableFields && !f.valid))"  class="btn-bg"></button>&nbsp;
-                                        <button pButton type="button" label="View" (click)="onView()" 
-                                        class="btn-bg"></button>
+                                        <!-- <button pButton type="button" label="View" (click)="onView()" 
+                                        class="btn-bg"></button> -->
                                 </div>
+                            </div>
                           <p-table #dt [columns]="cols" [value]="data" [paginator]="true" [rows]="10"
-                          [rowsPerPageOptions]="[5,10,15,20]"  totalRecords="totalRecords" pageLinks="3"
-                          [globalFilterFields]="['Name','HostelNameTamil','HostelName']">
+                          [rowsPerPageOptions]="[5,10,15,20]" responsiveLayout="scroll"  totalRecords="totalRecords" pageLinks="3"
+                          [globalFilterFields]="['Name','HostelNameTamil','HostelName','HostelCode']">
                           <ng-template pTemplate="caption">
                             <div class="p-d-flex">
                                 <span class="p-input-icon-left p-ml-auto">
@@ -171,7 +202,7 @@
                             </tr>
                           </ng-template>
                         </p-table>
-                            </div>
+                            
                         </div>
                     </form>
                 </p-card>

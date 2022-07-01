@@ -2,7 +2,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { MessageService, SelectItem } from 'primeng/api';
+import { Observable } from 'rxjs';
 import { ResponseMessage } from 'src/app/Common-Modules/messages';
 import { PathConstants } from 'src/app/Common-Modules/PathConstants';
 import { User } from 'src/app/interfaces/user';
@@ -24,6 +26,7 @@ export class StudentFeedbackRegistrationComponent implements OnInit {
   dob: any;
   email: any;
   studentName: any;
+  studentExistingID: any;
   yearRange: any;
   districtOptions: SelectItem[];
   talukOptions: SelectItem[];
@@ -35,6 +38,7 @@ export class StudentFeedbackRegistrationComponent implements OnInit {
   logged_user: User;
   StudentId: any;
   @ViewChild('f', { static: false }) _studentFeedback: NgForm;
+  @BlockUI() blockUI: NgBlockUI;
   enableField: boolean;
   userMasterId: string;
   userData: any = [];
@@ -42,19 +46,34 @@ export class StudentFeedbackRegistrationComponent implements OnInit {
   feedbackRegData: any = [];
   disableSave: boolean;
   studentname: string;
+  response: any;
 
   constructor(private _authService: AuthService, private _restApiService: RestAPIService, private _masterService: MasterService,
-    private _messageService: MessageService) { }
+    private _messageService: MessageService) { 
+    this.blockUI.start();
+      let master = new Observable<any[]>();
+    master = this._masterService.initializeMaster();
+    master.subscribe(response => {
+      this.response = response;
+    });
+    }
 
   ngOnInit(): void {
     const current_year = new Date().getFullYear();
     const start_year_range = current_year - 30;
     this.yearRange = start_year_range + ':' + current_year;
     this.logged_user = this._authService.UserInfo;
-    this.districts = this._masterService.getDistrictAll();
-    this.taluks = this._masterService.getTalukAll();
     this.StudentId = 0;
-
+    // var time = 100;
+    // var loop = 1;
+    // for(let i=0; i<loop; i++) {
+    //   if()
+    // }
+    setTimeout(() => {
+      this.districts = this._masterService.getDistrictAll();
+        this.taluks = this._masterService.getTalukAll();
+        this.blockUI.stop();
+    }, 500);
   }
 
   onSelect(type) {
@@ -90,7 +109,7 @@ export class StudentFeedbackRegistrationComponent implements OnInit {
         'DCode': this.district,
         'TCode': this.taluk,
         'HostelId': 0
-        
+
       }
       if (this.district !== null && this.district !== undefined) {
         this._restApiService.getByParameters(PathConstants.Hostel_Get, params).subscribe(res => {
@@ -188,27 +207,26 @@ export class StudentFeedbackRegistrationComponent implements OnInit {
   }
 
   loadStudentsData() {
-    if(this.district !== null && this.district !== undefined && this.taluk !== null && this.taluk !== undefined && this.hostel !== null && this.hostel !== undefined){
-    const params = {
-      'DCode': this.district,
-      'TCode': this.taluk,
-      'HCode': this.hostel
-    }
-    this._restApiService.getByParameters(PathConstants.Registration_Get, params).subscribe(res => {
-      if (res !== undefined && res !== null && res.length !== 0) {
-        this.StudentsData = res;
-        console.log('rs', this.StudentsData)
-      } else {
-        this._messageService.clear();
-        this._messageService.add({
-          key: 't-msg', severity: ResponseMessage.SEVERITY_WARNING,
-          summary: ResponseMessage.SUMMARY_WARNING, detail: ResponseMessage.NoRecordMessage
-        })
+    if (this.district !== null && this.district !== undefined && this.taluk !== null && this.taluk !== undefined && this.hostel !== null && this.hostel !== undefined) {
+      const params = {
+        'DCode': this.district,
+        'TCode': this.taluk,
+        'HCode': this.hostel
       }
-    })
-    this.onView();
+      this._restApiService.getByParameters(PathConstants.Registration_Get, params).subscribe(res => {
+        if (res !== undefined && res !== null && res.length !== 0) {
+          this.StudentsData = res;          
+        } else {
+          this._messageService.clear();
+          this._messageService.add({
+            key: 't-msg', severity: ResponseMessage.SEVERITY_WARNING,
+            summary: ResponseMessage.SUMMARY_WARNING, detail: ResponseMessage.NoRecordMessage
+          })
+        }
+      })
+      this.onView();
+    }
   }
-}
 
   onAadharChange() {
     this.studentName = '';
@@ -229,8 +247,9 @@ export class StudentFeedbackRegistrationComponent implements OnInit {
           } else {
             isExists = false;
             continue;  //continuing the loop
-          }
+          }          
         }
+    
         if (!isExists) {
           this._messageService.clear();
           this._messageService.add({
@@ -258,7 +277,7 @@ export class StudentFeedbackRegistrationComponent implements OnInit {
             this._messageService.add({
               key: 't-msg', severity: ResponseMessage.SEVERITY_WARNING,
               summary: ResponseMessage.SUMMARY_ALERT, life: 4500,
-               detail: 'Hi' +' '+ this.studentname + '!' + ' ' +'You have been registered already. '
+              detail: 'Hi' + ' ' + this.studentname + '!' + ' ' + 'You have been registered already. '
             })
             break; //break the loop
           } else {
@@ -313,6 +332,7 @@ export class StudentFeedbackRegistrationComponent implements OnInit {
       }
     }
   }
+
   clearForm() {
     this._studentFeedback.reset();
   }

@@ -1,0 +1,1139 @@
+<block-ui>
+    <div class="p-grid">
+        <div class="p-col-12 p-md-12 p-lg-12">
+            <p-toast position="top-center" key="t-msg"></p-toast>
+            <p-panel>
+                <ng-template pTemplate="header">
+                    <div class="p-col-12 p-md-12 p-lg-12 no-padding">
+                        <div class="p-grid">
+                            <div class="p-col-6 p-md-6 p-lg-6 no-padding p-panel-title">இணைய வழி பதிவு/Online
+                                Registration</div>
+                            <div class="p-col-6 p-md-6 p-lg-6 no-padding" style="text-align: end;">
+                                <span>கல்வியாண்டு/Academic Year:</span>
+                                <span style="font-weight: bold;"> {{accountingYear}} </span>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+                <p-card>
+                    <form #f="ngForm" name="_onlineRegistrationForm">
+                        <div class="p-col-12 p-md-12 p-lg-12">
+                            <p-tabView>
+                                <p-tabPanel header="மாணவரின் விவரங்கள்/Student Info">
+                                    <div #main1 class="p-grid" style="margin-top: 10px;">
+                                        <div class="p-col-1"></div>
+                                        <div class="p-col-12 p-md-12 p-lg-10 card border-blue">
+                                            <div class="div-header" style="font-weight: 500;">விடுதியின்
+                                                விவரங்கள்/Hostel
+                                                Details</div>
+                                            <div #row1 class="p-col-12 border-blue">
+                                                <div #grid1 class="p-grid div-main">
+                                                    <div #field17 class="p-field p-col-12 p-md-6 p-lg-3">
+                                                        <span class="p-float-label p-input-icon-right">
+                                                            <p-dropdown name="_hosteldistrict"
+                                                                [options]="hostelDistrictOptions" [(ngModel)]="district"
+                                                                (onClick)="onSelect('DT', 1)"
+                                                                (ngModelChange)="refreshField('D')" [filter]="true"
+                                                                filterBy="label" [showClear]="true" required>
+                                                            </p-dropdown>
+                                                            <label style="font-size: 12px;"
+                                                                for="_hosteldistrict">மாவட்டம்/Hostel District<span
+                                                                    class="form-mandatory-field">*</span></label>
+                                                        </span>
+                                                    </div>
+                                                    <div #field17 class="p-field p-col-12 p-md-6 p-lg-3">
+                                                        <span class="p-float-label p-input-icon-right">
+                                                            <p-dropdown name="_hosteltaluk"
+                                                                [options]="hostelTalukOptions" [(ngModel)]="taluk"
+                                                                (onClick)="onSelect('TK', 1)"
+                                                                (onChange)="refreshField('T')" [filter]="true"
+                                                                filterBy="label" [showClear]="true" required>
+                                                            </p-dropdown>
+                                                            <label style="font-size: 12px;"
+                                                                for="_hosteltaluk">தாலுக்கா/Hostel Taluk<span
+                                                                    class="form-mandatory-field">*</span></label>
+                                                        </span>
+                                                    </div>
+                                                    <div #field17 class="p-field p-col-12 p-md-12 p-lg-5">
+                                                        <span class="p-float-label p-input-icon-right">
+                                                            <p-dropdown name="_hos" [options]="hostelOptions"
+                                                                [(ngModel)]="hostelName" optionLabel="label"
+                                                                (onChange)="showGender()" [filter]="true"
+                                                                filterBy="label" [showClear]="true" required>
+                                                            </p-dropdown>
+                                                            <label style="font-size: 12px;" for="_hos">விடுதியின்
+                                                                பெயர்/Hostel Name<span
+                                                                    class="form-mandatory-field">*</span></label>
+                                                        </span>
+                                                    </div>
+                                                    <div class="p-col-12 p-md-12 p-lg-6 no-pad-top">
+                                                        <div>
+                                                            <p-radioButton name="_oldStudent" label="பழைய மாணவர்/Old"
+                                                                value=1 [(ngModel)]="obj.orphanageSelectedType">
+                                                            </p-radioButton>&nbsp;
+                                                            <p-radioButton name="_newStudent" label="புதிய மாணவர்/New"
+                                                                value=0 [(ngModel)]="obj.orphanageSelectedType">
+                                                            </p-radioButton>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-col-1"></div>
+                                    <div #main1 class="p-grid">
+                                        <div class="p-col-1"></div>
+                                        <div class="p-col-12 p-md-12 p-lg-10 card border-blue">
+                                            <div class="div-header" style="font-weight: 500;">சுய விவரங்கள்/Personal
+                                                Info</div>
+                                            <div #row1 class="p-col-12 border-blue">
+                                                <div class="p-grid">
+                                                    <div class="p-col-12 p-md-12 p-lg-10">
+                                                        <div #row1 class="p-col-12 p-md-12 p-lg-12">
+                                                            <div #grid1 class="p-grid div-main"
+                                                                style="padding-left: 0 !important">
+                                                                <div #field1 class="p-field p-col-12 p-md-12 p-lg-3">
+                                                                    <span>
+                                                                        <label style="font-size: 12px;"
+                                                                            for="_studentname">மாணவர் பெயர்<span
+                                                                                class="form-mandatory-field">*</span></label>
+                                                                        <input type="text" name="_studentname"
+                                                                            id="sname" pInputText
+                                                                            [(ngModel)]="obj.studentName" required
+                                                                            appInputFormat="englishOnly"
+                                                                            placeholder="Student Name">
+
+                                                                    </span>
+                                                                </div>
+                                                                <div #field2 class="p-field p-col-12 p-md-12 p-lg-3">
+                                                                    <span>
+                                                                        <label style="font-size: 12px;"
+                                                                            for="_emisno">EMIS/பதிவு எண்<span
+                                                                                class="form-mandatory-field">*</span></label>
+                                                                        <input type="text" name="_emisno" pInputText
+                                                                            [(ngModel)]="obj.emisno" minlength="1"
+                                                                            maxlength="18" placeholder="EMIS No/Reg No."
+                                                                            required>
+
+                                                                    </span>
+                                                                </div>
+                                                                <div #field3 class="p-field p-col-12 p-md-12 p-lg-2">
+                                                                    <span>
+                                                                        <label style="font-size: 12px;"
+                                                                            for="_dob">பிறந்த தேதி<span
+                                                                                class="form-mandatory-field">*</span>
+                                                                        </label>
+                                                                        <p-calendar dateFormat="dd/mm/yy"
+                                                                            [appendTo]="field3"
+                                                                            [showOtherMonths]="false"
+                                                                            [(ngModel)]="obj.dob" name="_dob"
+                                                                            [monthNavigator]="true"
+                                                                            [readonlyInput]="true"
+                                                                            [yearNavigator]="true"
+                                                                            yearRange="{{yearRange}}"
+                                                                            inputId="dateofbirth" [showIcon]="true"
+                                                                            (onSelect)="calculateAge()"
+                                                                            placeholder="D.O.B" required>
+                                                                        </p-calendar>
+                                                                    </span>
+                                                                </div>
+                                                                <div #field4 class="p-field p-col-12 p-md-6 p-lg-2">
+                                                                    <span>
+                                                                        <label style="font-size: 12px;"
+                                                                            for="_age">வயது</label>
+                                                                        <input type="text" name="_age" id="sname"
+                                                                            pInputText [(ngModel)]="ageTxt"
+                                                                            [disabled]="true" placeholder="Age">
+                                                                    </span>
+                                                                </div>
+                                                                <div #field5 class="p-field p-col-12 p-md-6 p-lg-2">
+                                                                    <span class=" p-input-icon-right">
+                                                                        <label style="font-size: 12px;"
+                                                                            for="_bloodgroup">இரத்த வகை<span
+                                                                                class="form-mandatory-field">*</span></label>
+                                                                        <p-dropdown name="_bloodgroup"
+                                                                            [options]="bloodGroupOptions"
+                                                                            (onClick)="onSelect('BG', 0)"
+                                                                            [(ngModel)]="obj.bloodGroup" [filter]="true"
+                                                                            filterBy="label" [showClear]="true"
+                                                                            placeholder="Blood Group" required>
+                                                                        </p-dropdown>
+
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div #row2 class="p-col-12 p-md-12 p-lg-12">
+                                                            <div #grid2 class="p-grid">
+                                                                <div #field6 class="p-field p-col-12 p-md-12 p-lg-2">
+                                                                    <span class="p-input-icon-right">
+                                                                        <label style="font-size: 12px;"
+                                                                            for="_gender">பாலினம்<span
+                                                                                class="form-mandatory-field">*</span></label>
+                                                                        <p-dropdown name="_gender"
+                                                                            [options]="genderOptions"
+                                                                            (onClick)="onSelect('GD', 0)"
+                                                                            [(ngModel)]="obj.gender" [showClear]="true"
+                                                                            placeholder="Gender" required>
+                                                                        </p-dropdown>
+
+                                                                    </span>
+                                                                </div>
+                                                                <div #field7 class="p-field p-col-12 p-md-12 p-lg-2">
+                                                                    <span class="p-input-icon-right">
+                                                                        <label style="font-size: 12px;"
+                                                                            for="_mothertongue">தாய் மொழி<span
+                                                                                class="form-mandatory-field">*</span></label>
+                                                                        <p-dropdown name="_mothertongue"
+                                                                            [options]="motherTongueOptions"
+                                                                            (onClick)="onSelect('MT', 0)"
+                                                                            [(ngModel)]="obj.motherTongue"
+                                                                            [showClear]="true"
+                                                                            placeholder="Mother Tongue" required>
+                                                                        </p-dropdown>
+
+                                                                    </span>
+                                                                </div>
+                                                                <div #field8 class="p-field p-col-12 p-md-12 p-lg-2">
+                                                                    <span class="p-input-icon-right">
+                                                                        <label style="font-size: 12px;"
+                                                                            for="_caste">சாதி<span
+                                                                                class="form-mandatory-field">*</span></label>
+                                                                        <p-dropdown name="_caste"
+                                                                            [options]="casteOptions"
+                                                                            (onClick)="onSelect('CT', 0)"
+                                                                            (onChange)="refreshFields('C')"
+                                                                            [(ngModel)]="obj.caste" [filter]="true"
+                                                                            filterBy="label" [showClear]="true"
+                                                                            placeholder="Caste" required>
+                                                                        </p-dropdown>
+
+                                                                    </span>
+                                                                </div>
+                                                                <div #field9 class="p-field p-col-12 p-md-6 p-lg-2">
+                                                                    <span>
+                                                                        <label style="font-size: 12px;"
+                                                                            for="_subcaste">உட்பிரிவு சாதி<span
+                                                                                class="form-mandatory-field">*</span></label>
+                                                                        <p-dropdown name="_subcaste"
+                                                                            [options]="subCasteOptions" [filter]="true"
+                                                                            filterBy="label" [showClear]="true"
+                                                                            (onClick)="onSelect('SC', 0)"
+                                                                            [(ngModel)]="obj.subCaste"
+                                                                            [showClear]="true" placeholder="Sub Caste"
+                                                                            required>
+                                                                        </p-dropdown>
+
+                                                                    </span>
+                                                                </div>
+                                                                <div #field10 class="p-field p-col-12 p-md-12 p-lg-2">
+                                                                    <span class="p-input-icon-right">
+                                                                        <label style="font-size: 12px;"
+                                                                            for="_religion">மதம்<span
+                                                                                class="form-mandatory-field">*</span></label>
+                                                                        <p-dropdown name="_religion"
+                                                                            [options]="religionOptions"
+                                                                            (onClick)="onSelect('RL', 0)"
+                                                                            [(ngModel)]="obj.religion"
+                                                                            [showClear]="true" placeholder="Religion"
+                                                                            required>
+                                                                        </p-dropdown>
+
+                                                                    </span>
+                                                                </div>
+                                                                <div #field11 class="p-field p-col-12 p-md-12 p-lg-2">
+                                                                    <span>
+                                                                        <label style="font-size: 12px;"
+                                                                            for="_mobno">தொடர்பு கைபேசி எண்<span
+                                                                                class="form-mandatory-field">*</span></label>
+                                                                        <input type="text" name="_mobno" pInputText
+                                                                            [(ngModel)]="obj.mobileNo"
+                                                                            appInputFormat="digitOnly" minlength="10"
+                                                                            maxlength="10" pattern="^[6789]\d{9,9}$"
+                                                                            placeholder="Mobile No"
+                                                                            title="Phone number starts with 6-9 and remaing 9 digit with 0-9"
+                                                                            required>
+
+                                                                    </span>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="p-col-12 p-md-12 p-lg-2 no-pad-top">
+                                                        <div class="p-col-12 p-md-12 p-lg-12">
+                                                            <div #field16><img [src]="studentImage"
+                                                                    style="width: 100px; height: 100px;" />
+                                                                <input style="display: none" name="_studentimage"
+                                                                    type="file" (change)="onFileUpload($event, 1)"
+                                                                    #userFile>
+                                                                <button class="b-size" style="margin: 0 !important;"
+                                                                    icon="pi pi-plus edit-size" pButton type="file"
+                                                                    #file (click)="userFile.click()">
+                                                                </button>
+                                                                <span class="form-mandatory-field">*</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div #row2 class="p-col-12 p-md-12 p-lg-12 no-pad-top">
+                                                    <div class="p-grid">
+                                                        <div #field12 class="p-field p-col-12 p-md-12 p-lg-2">
+                                                            <span>
+                                                                <label style="font-size: 12px;" for="_altmobno">மாற்று
+                                                                    கைபேசி எண் </label>
+                                                                <input type="text" name="_altmobno" pInputText
+                                                                    [(ngModel)]="obj.altMobNo" pattern="^[6789]\d{9,9}$"
+                                                                    title="Phone number starts with 6-9 and remaing 9 digit with 0-9"
+                                                                    appInputFormat="digitOnly" minlength="10"
+                                                                    placeholder="Alternate Mobile No" maxlength="10">
+                                                            </span>
+                                                        </div>
+                                                        <div #field13 class="p-field p-col-12 p-md-12 p-lg-2">
+                                                            <span>
+                                                                <label style="font-size: 12px;"
+                                                                    for="_admissionno">சேர்க்கை எண்<span
+                                                                        class="form-mandatory-field">*</span></label>
+                                                                <input type="text" name="_admissionno" pInputText
+                                                                    [(ngModel)]="obj.admissionNo"
+                                                                    appInputFormat="noSpecialChars" minlength="1"
+                                                                    maxlength="40" placeholder="Admission No." required>
+
+                                                            </span>
+                                                        </div>
+                                                        <div #field14 class="p-field p-col-12 p-md-12 p-lg-2">
+                                                            <span>
+                                                                <label style="font-size: 12px;"
+                                                                    for="_totalyincome">ஆண்டு வருமானம்<span
+                                                                        class="form-mandatory-field">*</span></label>
+                                                                <input type="text" name="_totalyincome" pInputText
+                                                                    [(ngModel)]="obj.totalYIncome"
+                                                                    appInputFormat="digitOnly" minlength="1"
+                                                                    maxlength="30" placeholder="Annual Income" required>
+                                                            </span>
+                                                        </div>
+                                                        <div #field15 class="p-field p-col-12 p-md-12 p-lg-3">
+                                                            <span>
+                                                                <label style="font-size: 12px;"
+                                                                    for="_remarks">கருத்துக்கள்</label>
+                                                                <input type="text" name="_remarks" pInputText
+                                                                    [(ngModel)]="obj.remarks" placeholder="Remarks">
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div #main2 class="p-grid" style="margin-top: 10px;">
+                                        <div class="p-col-1"></div>
+                                        <div class="p-col-12 p-md-12 p-lg-10 card border-blue">
+                                            <div class="p-col-12 p-md-12 p-lg-12 div-header">
+                                                <div class="p-grid">
+                                                    <div class="p-col-12 p-md-6 p-lg-4 no-pad-top no-pad-btm"
+                                                        style="font-weight: 500;">மாற்றுத்திறனாளி/Physically
+                                                        Changelled
+                                                        <p-checkbox #field29 [(ngModel)]="isDisability" binary="true"
+                                                            inputId="binary">
+                                                        </p-checkbox>
+                                                    </div>
+                                                    <div class="p-col-12 p-md-6 p-lg-4 div-header no-pad-top no-pad-btm"
+                                                        style="font-weight: 500;">இலங்கை அகதிகள்/Srilankan Refugees
+                                                        <div class="p-col-12 no-padding">
+                                                            <p-radioButton name="_refugeesYes" label="YES" value=1
+                                                                [(ngModel)]="obj.refugeeSelectedType">
+                                                            </p-radioButton>&nbsp;
+                                                            <p-radioButton name="_refugeesNo" label="NO" value=0
+                                                                [(ngModel)]="obj.refugeeSelectedType">
+                                                            </p-radioButton>
+                                                        </div>
+                                                    </div>
+                                                    <div class="p-col-12 p-md-6 p-lg-4 div-header no-pad-top no-pad-btm"
+                                                        style="font-weight: 500;">ஆதரவற்ற குழந்தைகள்/Orphanages
+                                                        <div class="p-col-12 no-padding">
+                                                            <p-radioButton name="_orphanageYes" label="YES" value=1
+                                                                [(ngModel)]="obj.orphanageSelectedType">
+                                                            </p-radioButton>&nbsp;
+                                                            <p-radioButton name="_orphanageNo" label="NO" value=0
+                                                                [(ngModel)]="obj.orphanageSelectedType">
+                                                            </p-radioButton>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="isDisability || (obj.refugeeSelectedType == 1)" #row1
+                                                class="p-col-12 border-blue">
+                                                <div #grid1 class="p-grid div-main">
+                                                    <div #field30 *ngIf="isDisability"
+                                                        class="p-field p-col-6 p-md-6 p-lg-6">
+                                                        <span>
+                                                            <label style="font-size: 12px;"
+                                                                for="_disability">மாற்றுத்திறனின் வகை<span
+                                                                    class="form-mandatory-field">*</span></label>
+                                                            <input type="text" name="_disability" pInputText
+                                                                [(ngModel)]="obj.disabilityType"
+                                                                placeholder="Physically Changelled Type" required>
+                                                        </span>
+                                                    </div>
+                                                    <div #field31 *ngIf="(obj.refugeeSelectedType == 1)"
+                                                        class="p-field p-col-6 p-md-4 p-lg-2">
+                                                        <span>
+                                                            <label style="font-size: 12px;" for="_refugeeId">அடையாள
+                                                                எண்ணை உள்ளிடவும்/Enter ID</label>
+                                                            <input type="text" name="_refugeeId" pInputText
+                                                                [(ngModel)]="obj.refugeeId">
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div #main3 class="p-grid" style="margin-top: 10px;">
+                                        <div class="p-col-1"></div>
+                                        <div class="p-col-12 p-md-12 p-lg-10 card border-blue">
+                                            <div class="div-header" style="font-weight: 500;">கல்வி நிறுவன
+                                                விவரங்கள்/Institution Details</div>
+                                            <div #row1 class="p-col-12 border-blue">
+                                                <div #grid1 class="p-grid div-main">
+                                                    <div #field17 class="p-field p-col-12 p-md-12 p-lg-2">
+                                                        <p-radioButton name="_school" label="பள்ளி/School" value=1
+                                                            [(ngModel)]="institutionType" (onClick)="onSelectType(1)">
+                                                        </p-radioButton> &nbsp;
+                                                        <p-radioButton name="_college" label="கல்லூரி/College" value=0
+                                                            [(ngModel)]="institutionType" (onClick)="onSelectType(0)">
+                                                        </p-radioButton>
+                                                    </div>
+                                                    <div #field18 *ngIf="institutionType=='1'"
+                                                        class="p-field p-col-12 p-md-12 p-lg-4">
+                                                        <span>
+                                                            <label style="font-size: 12px;" for="_schoolname">பள்ளியின்
+                                                                பெயர்<span class="form-mandatory-field">*</span></label>
+                                                            <p-dropdown name="_schoolname" [options]="schoolOptions"
+                                                                (onClick)="onSelect('SH', 1)"
+                                                                (onChange)="onSelectInstitute(1)"
+                                                                [(ngModel)]="obj.currentInstituteInfo"
+                                                                optionLabel="label" [filter]="true" filterBy="label"
+                                                                [showClear]="true" placeholder="School Name" required>
+                                                            </p-dropdown>
+                                                        </span>
+                                                    </div>
+                                                    <div #field19 *ngIf="institutionType=='1'"
+                                                        class="p-field p-col-12 p-md-12 p-lg-2">
+                                                        <span>
+                                                            <label style="font-size: 12px;" for="_class">வகுப்பு<span
+                                                                    class="form-mandatory-field">*</span></label>
+                                                            <p-dropdown name="_class" [options]="classOptions"
+                                                                (onClick)="onSelect('CL', 0)"
+                                                                (onChange)="checkScholardhipEligibility()"
+                                                                [(ngModel)]="obj.classId" [filter]="true"
+                                                                filterBy="label" [showClear]="true" placeholder="Class"
+                                                                required>
+                                                            </p-dropdown>
+
+                                                        </span>
+                                                    </div>
+                                                    <div #field21 *ngIf="institutionType=='0'"
+                                                        class="p-field p-col-12 p-md-12 p-lg-3">
+                                                        <span>
+                                                            <label style="font-size: 12px;"
+                                                                for="_collegename">கல்லூரியின் பெயர்<span
+                                                                    class="form-mandatory-field">*</span></label>
+                                                            <p-dropdown name="_collegename" [options]="schoolOptions"
+                                                                (onClick)="onSelect('SH', 2)"
+                                                                (onChange)="onSelectInstitute(1)"
+                                                                [(ngModel)]="obj.currentInstituteInfo"
+                                                                optionLabel="label" [filter]="true" filterBy="label"
+                                                                [showClear]="true" placeholder="College Name" required>
+                                                            </p-dropdown>
+
+                                                        </span>
+                                                    </div>
+                                                    <div #field22 *ngIf="institutionType=='0'"
+                                                        class="p-field p-col-12 p-md-12 p-lg-2">
+                                                        <span>
+                                                            <label style="font-size: 12px;" for="_course">பட்டப்படிப்பு
+                                                                <span class="form-mandatory-field">*</span></label>
+                                                            <p-dropdown name="_course" [options]="classOptions"
+                                                                (onClick)="onSelect('CL', 0)" [(ngModel)]="obj.classId"
+                                                                [filter]="true" filterBy="label" [showClear]="true"
+                                                                placeholder="Course Studying" required>
+                                                            </p-dropdown>
+                                                        </span>
+                                                    </div>
+                                                    <div #field22 *ngIf="institutionType=='0'"
+                                                        class="p-field p-col-12 p-md-12 p-lg-2">
+                                                        <span>
+                                                            <label style="font-size: 12px;" for="_courseyear">கல்வி
+                                                                பயிலும் ஆண்டு<span
+                                                                    class="form-mandatory-field">*</span></label>
+                                                            <p-dropdown name="_courseyear" [options]="courseYearOptions"
+                                                                (onClick)="onSelect('CL', 0)"
+                                                                [(ngModel)]="obj.courseYearId" [filter]="true"
+                                                                filterBy="label" [showClear]="true" placeholder="Year">
+                                                            </p-dropdown>
+                                                        </span>
+                                                    </div>
+                                                    <div #field23 *ngIf="institutionType=='0'"
+                                                        class="p-field p-col-12 p-md-12 p-lg-3">
+                                                        <span>
+                                                            <label style="font-size: 12px;" for="_coursetitle">பட்டப்
+                                                                படிப்பின் பெயர்</label>
+                                                            <input type="text" name="_coursetitle" pInputText
+                                                                [(ngModel)]="obj.courseTitle" placeholder="Subject">
+                                                        </span>
+                                                    </div>
+                                                    <div #field20 class="p-field p-col-12 p-md-12 p-lg-2">
+                                                        <span>
+                                                            <label style="font-size: 12px;" for="_schoolmedium">பயிற்று
+                                                                மொழி</label>
+                                                            <p-dropdown name="_schoolmedium" [options]="mediumOptions"
+                                                                (onClick)="onSelect('MD', 0)" [(ngModel)]="obj.medium"
+                                                                placeholder="Medium" [showClear]="true">
+                                                            </p-dropdown>
+                                                        </span>
+                                                    </div>
+                                                    <div #field24 *ngIf="enableScholarship"
+                                                        class="p-field p-col-12 p-md-12 p-lg-2">
+                                                        <span>
+                                                            <label style="font-size: 12px;"
+                                                                for="_scholarshipid">உதவித்தொகை எண்</label>
+                                                            <input type="text" name="_scholarshipid" pInputText
+                                                                [(ngModel)]="obj.scholarshipId"
+                                                                placeholder="Scholarship No.">
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div #main4 class="p-grid" style="margin-top: 10px;">
+                                        <div class="p-col-1"></div>
+                                        <div class="p-col-12 p-md-12 p-lg-10 card border-blue">
+                                            <div class="div-header" style="font-weight: 500;">கடந்த கல்வி விவரங்கள்/Last
+                                                Studied Details</div>
+                                            <div #row1 class="p-col-12 border-blue">
+                                                <div #grid1 class="p-grid div-main">
+                                                    <div #field17 class="p-field p-col-12 p-md-2 p-lg-2">
+                                                        <span class="p-input-icon-right">
+                                                            <label style="font-size: 12px;"
+                                                                for="_institutedistrict">மாவட்டம்</label>
+                                                            <p-dropdown name="_institutedistrict"
+                                                                [options]="districtOptions" [(ngModel)]="instituteDcode"
+                                                                (onClick)="onSelect('DT', 2)"
+                                                                (onChange)="loadInstitute(2)" [filter]="true"
+                                                                filterBy="label" [showClear]="true"
+                                                                placeholder="Institute District">
+                                                            </p-dropdown>
+                                                        </span>
+                                                    </div>
+                                                    <div #field25 class="p-field p-col-12 p-md-4 p-lg-4">
+                                                        <span>
+                                                            <label style="font-size: 12px;"
+                                                                for="_lastinstitutionname">கல்வி நிறுவனத்தின்
+                                                                பெயர்</label>
+                                                            <p-dropdown name="_lastinstitutionname"
+                                                                [options]="instituteOptions"
+                                                                [(ngModel)]="obj.instituteInfo"
+                                                                (onChange)="onSelectInstitute(2)" optionLabel="label"
+                                                                [filter]="true" filterBy="label" [showClear]="true"
+                                                                placeholder="Institution Name">
+                                                            </p-dropdown>
+                                                        </span>
+                                                    </div>
+                                                    <div #field26 class="p-field p-col-12 p-md-6 p-lg-6">
+                                                        <span>
+                                                            <label style="font-size: 12px;" for="_lastaddress">கல்வி
+                                                                நிறுவனத்தின் முகவரி</label>
+                                                            <input type="text" name="_lastaddress" pInputText
+                                                                [(ngModel)]="obj.lastStudiedInstituteAddress"
+                                                                readonly="{{isInsAddrAvailable}}"
+                                                                placeholder="Institution Address">
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div #main5 class="p-grid" style="margin-top: 10px;">
+                                        <div class="p-col-1"></div>
+                                        <div class="p-col-12 p-md-12 p-lg-10 card border-blue">
+                                            <div class="div-header" style="font-weight: 500;">மாணவர் இருப்பிட
+                                                முகவரி/Address</div>
+                                            <div #row1 class="p-col-12 p-md-12 p-lg-12 div-main border-blue">
+                                                <div #field31 class="p-field p-col-12 p-md-12 p-lg-4 no-pad-top">
+                                                    <span class="p-float-label">
+                                                        <input type="text" name="_addressline1" pInputText
+                                                            [(ngModel)]="obj.address1" required>
+                                                        <label style="font-size: 12px;" for="_addressline1">Address Line
+                                                            1<span class="form-mandatory-field">*</span></label>
+                                                    </span>
+                                                    <span style="font-size: 12px;">கதவு எண்/Door no., Building,
+                                                        Company</span>
+                                                </div>
+                                                <div #field32 class="p-field p-col-12 p-md-12 p-lg-4 no-pad-top">
+                                                    <span class="p-float-label">
+                                                        <input type="text" name="_addressline2" pInputText
+                                                            [(ngModel)]="obj.address2" required>
+                                                        <label style="font-size: 12px;" for="_addressline2">Address Line
+                                                            2<span class="form-mandatory-field">*</span></label>
+                                                    </span>
+                                                    <span style="font-size: 12px;">தெருவின் பெயர்/Area, Colony, Street
+                                                        name </span>
+                                                </div>
+                                                <div #field33 class="p-field p-col-12 p-md-12 p-lg-4 no-pad-top">
+                                                    <span>
+                                                        <label style="font-size: 12px;" for="_landmark">இடத்திற்கான
+                                                            அடையாளம்</label>
+                                                        <input type="text" name="_landmark" pInputText
+                                                            [(ngModel)]="obj.landmark" placeholder="Landmark">
+                                                    </span>
+                                                    <!-- <span style="font-size: 12px;">eg: </span> -->
+                                                </div>
+                                                <div #insiderow1 class="p-col-12 p-md-12 p-lg-12 no-pad-top">
+                                                    <div #grid1 class="p-grid">
+                                                        <div #field34 class="p-field p-col-12 p-md-12 p-lg-2">
+                                                            <span class="p-input-icon-right">
+                                                                <label style="font-size: 12px;"
+                                                                    for="_district">மாவட்டம்<span
+                                                                        class="form-mandatory-field">*</span></label>
+                                                                <p-dropdown name="_district" [options]="districtOptions"
+                                                                    (onClick)="onSelect('DT', 3)"
+                                                                    (onChange)="refreshFields('D')"
+                                                                    [(ngModel)]="obj.distrctCode" [filter]="true"
+                                                                    filterBy="label" [showClear]="true"
+                                                                    placeholder="District" required>
+                                                                </p-dropdown>
+
+                                                            </span>
+                                                        </div>
+                                                        <div #field35 class="p-field p-col-12 p-md-12 p-lg-2">
+                                                            <span class="p-input-icon-right">
+                                                                <label style="font-size: 12px;"
+                                                                    for="_taluk">தாலுக்கா<span
+                                                                        class="form-mandatory-field">*</span></label>
+                                                                <p-dropdown name="_taluk" [options]="talukOptions"
+                                                                    (onClick)="onSelect('TK', 2)" [showClear]="true"
+                                                                    [(ngModel)]="obj.talukCode" placeholder="Taluk"
+                                                                    required>
+                                                                </p-dropdown>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div #grid2 class="p-grid">
+                                                        <div #field36 class="p-field p-col-12 p-md-12 p-lg-2">
+                                                            <span>
+                                                                <label style="font-size: 12px;"
+                                                                    for="_village">கிராமம்</label>
+                                                                <input type="text" name="_village" pInputText
+                                                                    [(ngModel)]="obj.village" placeholder="Village"
+                                                                    size="25">
+                                                            </span>
+                                                        </div>
+                                                        <div #field37 class="p-field p-col-12 p-md-12 p-lg-2">
+                                                            <span>
+                                                                <label style="font-size: 12px;" for="_pincode">அஞ்சல்
+                                                                    குறியீடு<span
+                                                                        class="form-mandatory-field">*</span></label>
+                                                                <input type="text" name="_pincode" pInputText
+                                                                    [(ngModel)]="obj.pincode" appInputFormat="digitOnly"
+                                                                    minlength="6" maxlength="6" placeholder="Pincode"
+                                                                    required>
+
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div #main6 class="p-grid" style="margin-top: 10px;">
+                                        <div class="p-col-1"></div>
+                                        <div class="p-col-12 p-md-12 p-lg-10 card border-blue">
+                                            <div class="div-header" style="font-weight: 500;">பயண தூர
+                                                விவரம்(கி.மீ)/Distance Details - in Kms
+                                            </div>
+                                            <div #row1 class="p-col-12 border-blue">
+                                                <div #grid1 class="p-grid div-main">
+                                                    <div #field27 class="p-field p-col-12 p-md-12 p-lg-5">
+                                                        <span>
+                                                            <label style="font-size: 12px;"
+                                                                for="_distance1">விடுதியிலிருந்து வீடுவரையிலான பயண
+                                                                தூரம்<span class="form-mandatory-field">*</span></label>
+                                                            <input type="text" name="_distance1" pInputText
+                                                                [(ngModel)]="obj.distanceFromHostelToHome"
+                                                                appInputFormat="digitOnly"
+                                                                placeholder="Distance From Hostel To Home" required>
+
+                                                        </span>
+                                                    </div>
+                                                    <div #field28 class="p-field p-col-12 p-md-12 p-lg-5">
+                                                        <span>
+                                                            <label style="font-size: 12px;"
+                                                                for="_distance2">விடுதியிலிருந்து
+                                                                கல்விநிறுவனத்திற்கான பயண தூரம்<span
+                                                                    class="form-mandatory-field">*</span></label>
+                                                            <input type="text" name="_distance2" pInputText
+                                                                [(ngModel)]="obj.distanceFromHostelToInstitute"
+                                                                appInputFormat="digitOnly"
+                                                                placeholder="Distance From Hostel To Institute"
+                                                                required>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div #main7 class="p-grid" style="margin-top: 10px;">
+                                        <div class="p-col-1"></div>
+                                        <div class="p-col-12 p-md-12 p-lg-10 card border-blue">
+                                            <div class="div-header" style="font-weight: 500;">அடையாள
+                                                விவரங்கள்/Identification Details
+                                            </div>
+                                            <div #row1 class="p-col-12 border-blue">
+                                                <div #grid1 class="p-grid div-main">
+                                                    <div #field38 class="p-field p-col-12 p-md-12 p-lg-3">
+                                                        <span>
+                                                            <label style="font-size: 12px;" for="_aadharno">ஆதார்
+                                                                எண்<span class="form-mandatory-field">*</span></label>
+                                                            <input type="text" name="_aadharno" pInputText
+                                                                [(ngModel)]="aadharNo" appInputFormat="digitOnly"
+                                                                (input)="validateAadhaar(aadharNo)" minlength="12"
+                                                                maxlength="12" placeholder="Aadhaar Number" required>
+
+                                                        </span>
+                                                        <div style="font-size: 13px;color: red;">
+                                                            {{aadharValidationMsg}}</div>
+                                                    </div>
+                                                    <div #field39 class="p-field p-col-12 p-md-12 p-lg-3">
+                                                        <span>
+                                                            <label style="font-size: 12px;" for="_rationcardno">குடும்ப
+                                                                அட்டை எண்</label>
+                                                            <input type="text" name="_rationcardno" pInputText
+                                                                [(ngModel)]="obj.rationCardrNo"
+                                                                placeholder="Ration Card No.">
+
+                                                        </span>
+                                                    </div>
+                                                    <div #field39 class="p-field p-col-12 p-md-12 p-lg-3">
+                                                        <span>
+                                                            <label style="font-size: 12px;"
+                                                                for="_communitycertificateno">சாதி சான்றிதழ் எண்</label>
+                                                            <input type="text" name="_communitycertificateno" pInputText
+                                                                [(ngModel)]="obj.communityCertificateNo"
+                                                                placeholder="Community Certificate No.">
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div #main8 class="p-grid" style="margin-top: 10px;">
+                                        <div class="p-col-1"></div>
+                                        <div class="p-col-12 p-md-12 p-lg-10 card border-blue">
+                                            <div class="div-header" style="font-weight: 500;">வங்கி விவரங்கள்/Bank
+                                                Details</div>
+                                            <div #row1 class="p-col-12 border-blue">
+                                                <div #grid1 class="p-grid  div-main">
+                                                    <div #field40 class="p-field p-col-12 p-md-12 p-lg-2">
+                                                        <span>
+                                                            <label style="font-size: 12px;" for="_bankname">வங்கியின்
+                                                                பெயர்<span class="form-mandatory-field">*</span></label>
+                                                            <input type="text" name="_bankname" pInputText
+                                                                [(ngModel)]="obj.bankName" placeholder="Bank Name"
+                                                                required>
+
+                                                        </span>
+                                                    </div>
+                                                    <div #field41 class="p-field p-col-12 p-md-12 p-lg-2">
+                                                        <span>
+                                                            <label style="font-size: 12px;" for="_bankaccno">வங்கி
+                                                                கணக்கு எண்<span
+                                                                    class="form-mandatory-field">*</span></label>
+                                                            <input type="text" name="_bankaccno" pInputText
+                                                                [(ngModel)]="obj.bankAccNo" appInputFormat="digitOnly"
+                                                                placeholder="Bank Account No." required>
+                                                        </span>
+                                                    </div>
+                                                    <div #field42 class="p-field p-col-12 p-md-12 p-lg-2">
+                                                        <span>
+                                                            <label style="font-size: 12px;" for="_ifsccode">IFSC
+                                                                எண்<span class="form-mandatory-field">*</span></label>
+                                                            <input type="text" name="_ifsccode" pInputText
+                                                                [(ngModel)]="obj.ifscCode" placeholder="IFSC Code"
+                                                                required>
+                                                        </span>
+                                                    </div>
+                                                    <div #field43 class="p-field p-col-12 p-md-12 p-lg-2">
+                                                        <span>
+                                                            <label style="font-size: 12px;" for="_branchname">கிளையின்
+                                                                பெயர்</label>
+                                                            <input type="text" name="_branchname" pInputText
+                                                                [(ngModel)]="obj.branchName" placeholder="Branch Name">
+                                                        </span>
+                                                    </div>
+                                                    <div #field44 class="p-field p-col-12 p-md-12 p-lg-2">
+                                                        <span>
+                                                            <label style="font-size: 12px;" for="_micrno">MICR
+                                                                எண்</label>
+                                                            <input type="text" name="_micrno" pInputText
+                                                                [(ngModel)]="obj.micrNo" appInputFormat="digitOnly"
+                                                                placeholder="MICR No">
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </p-tabPanel>
+                                <p-tabPanel header="பெற்றோர் விவரங்கள்/Parent's Info">
+                                    <div class="p-col-12 p-md-12 p-lg-12 card border-blue">
+                                        <div #main1 class="p-grid">
+                                            <div class="p-col-1"></div>
+                                            <div class="p-col-12 p-md-12 p-lg-10">
+                                                <div class="div-header" style="font-weight: 500;">தந்தையின்
+                                                    விவரங்கள்/Father Details </div>
+                                                <div #row1 class="p-col-12 border-blue">
+                                                    <div #grid1 class="p-grid div-main">
+                                                        <div #field45 class="p-field p-col-12 p-md-12 p-lg-1">
+                                                            <span class="p-input-icon-right">
+                                                                <label style="font-size: 12px;"
+                                                                    for="_ftitle">தலைப்பு</label>
+                                                                <p-dropdown name="_ftitle" [options]="titleOptions"
+                                                                    (onClick)="onSelect('TO', 0)" [showClear]="true"
+                                                                    [(ngModel)]="obj.fnTitleCode" placeholder="Title">
+                                                                </p-dropdown>
+
+                                                            </span>
+                                                        </div>
+                                                        <div #field46 class="p-field p-col-12 p-md-12 p-lg-2">
+                                                            <span>
+                                                                <label style="font-size: 12px;"
+                                                                    for="_fathername">தந்தையின் பெயர்</label>
+                                                                <input type="text" name="_fathername" id="fname"
+                                                                    pInputText [(ngModel)]="obj.fatherName"
+                                                                    placeholder="Father Name">
+                                                            </span>
+                                                        </div>
+                                                        <div #field47 class="p-field p-col-12 p-md-12 p-lg-2">
+                                                            <span>
+                                                                <label style="font-size: 12px;"
+                                                                    for="_fatheroccupation">தொழில்</label>
+                                                                <input type="text" name="_fatheroccupation" pInputText
+                                                                    [(ngModel)]="obj.fatherOccupation"
+                                                                    placeholder="Occupation">
+                                                            </span>
+                                                        </div>
+                                                        <div #field48 class="p-field p-col-12 p-md-12 p-lg-2">
+                                                            <span>
+                                                                <label style="font-size: 12px;"
+                                                                    for="_fathereducation">கல்வி தகுதி</label>
+                                                                <input type="text" name="_fathereducation" pInputText
+                                                                    [(ngModel)]="obj.fatherQualification"
+                                                                    placeholder="qualification">
+                                                            </span>
+                                                        </div>
+                                                        <div #field49 class="p-field p-col-12 p-md-12 p-lg-2">
+                                                            <span>
+                                                                <label style="font-size: 12px;"
+                                                                    for="_fathermobno">கைபேசி எண்</label>
+                                                                <input type="text" name="_fathermobno" pInputText
+                                                                    pattern="^[6789]\d{9,9}$"
+                                                                    title="Phone number starts with 6-9 and remaing 9 digit with 0-9"
+                                                                    [(ngModel)]="obj.fatherMoileNo"
+                                                                    appInputFormat="digitOnly" maxlength="10"
+                                                                    minlength="10" placeholder="Mobile No.">
+                                                            </span>
+                                                        </div>
+                                                        <!-- <div #field49 class="p-field p-col-12 p-md-12 p-lg-2">
+                                                            <span class="p-float-label">
+                                                                <input type="text" name="_fatherincome" pInputText
+                                                                    [(ngModel)]="obj.fatherYIncome"
+                                                                    appInputFormat="digitOnly" required>
+                                                                <label style="font-size: 12px;" for="_fatherincome">Yearly Income<span
+                                                                        class="form-mandatory-field">*</span></label>
+                                                            </span>
+                                                        </div> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div #main2 class="p-grid">
+                                            <div class="p-col-1"></div>
+                                            <div class="p-col-12 p-md-12 p-lg-10">
+                                                <div class="div-header" style="font-weight: 500;">தாயின்
+                                                    விவரங்கள்/Mother Details </div>
+                                                <div #row1 class="p-col-12 border-blue">
+                                                    <div #grid1 class="p-grid div-main">
+                                                        <div #field50 class="p-field p-col-12 p-md-12 p-lg-1">
+                                                            <span class="p-input-icon-right">
+                                                                <label style="font-size: 12px;"
+                                                                    for="_mtitle">தலைப்பு</label>
+                                                                <p-dropdown name="_mtitle" [options]="titleOptions"
+                                                                    (onClick)="onSelect('TO', 0)" [showClear]="true"
+                                                                    [(ngModel)]="obj.mnTitleCode" placeholder="Title">
+                                                                </p-dropdown>
+                                                            </span>
+                                                        </div>
+                                                        <div #field51 class="p-field p-col-12 p-md-12 p-lg-2">
+                                                            <span>
+                                                                <label style="font-size: 12px;" for="_mothername">தாயின்
+                                                                    பெயர்</label>
+                                                                <input type="text" name="_mothername" id="fname"
+                                                                    pInputText [(ngModel)]="obj.motherName"
+                                                                    placeholder="Mother's Name">
+                                                            </span>
+                                                        </div>
+                                                        <div #field52 class="p-field p-col-12 p-md-12 p-lg-2">
+                                                            <span>
+                                                                <label style="font-size: 12px;"
+                                                                    for="_motheroccupation">தொழில்</label>
+                                                                <input type="text" name="_motheroccupation" id="fname"
+                                                                    pInputText [(ngModel)]="obj.motherOccupation"
+                                                                    placeholder="Ocuupation">
+                                                            </span>
+                                                        </div>
+                                                        <div #field52 class="p-field p-col-12 p-md-12 p-lg-2">
+                                                            <span>
+                                                                <label style="font-size: 12px;"
+                                                                    for="_mothereducation">கல்வி தகுதி</label>
+                                                                <input type="text" name="_mothereducation" id="fname"
+                                                                    pInputText [(ngModel)]="obj.motherQualification"
+                                                                    placeholder="Qualification">
+                                                            </span>
+                                                        </div>
+                                                        <div #field53 class="p-field p-col-12 p-md-12 p-lg-2">
+                                                            <span>
+                                                                <label style="font-size: 12px;"
+                                                                    for="_mothermobno">கைபேசி எண்</label>
+                                                                <input type="text" name="_mothermobno" id="fname"
+                                                                    pInputText [(ngModel)]="obj.motherMoileNo"
+                                                                    minlength="10" maxlength="10"
+                                                                    pattern="^[6789]\d{9,9}$"
+                                                                    title="Phone number starts with 6-9 and remaing 9 digit with 0-9"
+                                                                    appInputFormat="digitOnly" placeholder="Mobile No">
+                                                            </span>
+                                                        </div>
+                                                        <!-- <div #field54 class="p-field p-col-12 p-md-12 p-lg-2">
+                                                            <span class="p-float-label">
+                                                                <input type="text" name="_motherincome" pInputText
+                                                                    [(ngModel)]="obj.motherYIncome"
+                                                                    appInputFormat="digitOnly" required>
+                                                                <label style="font-size: 12px;" for="_motherincome">Yearly Income<span
+                                                                        class="form-mandatory-field">*</span></label>
+                                                            </span>
+                                                        </div> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div #main3 class="p-grid">
+                                            <div class="p-col-1"></div>
+                                            <div class="p-col-12 p-md-12 p-lg-10">
+                                                <div class="div-header" style="font-weight: 500;">பாதுகாவலரின்
+                                                    விவரங்கள்/Guardian Details
+                                                </div>
+                                                <div #row1 class="p-col-12 border-blue">
+                                                    <div #grid1 class="p-grid div-main">
+                                                        <div #field54 class="p-field p-col-12 p-md-12 p-lg-1">
+                                                            <span class="p-input-icon-right">
+                                                                <label style="font-size: 12px;"
+                                                                    for="_gtitle">தலைப்பு</label>
+                                                                <p-dropdown name="_gtitle" [options]="titleOptions"
+                                                                    (onClick)="onSelect('TO', 0)" [showClear]="true"
+                                                                    [(ngModel)]="obj.gnTitleCode" placeholder="Title">
+                                                                </p-dropdown>
+                                                            </span>
+                                                        </div>
+                                                        <div #field55 class="p-field p-col-12 p-md-12 p-lg-2">
+                                                            <span>
+                                                                <label style="font-size: 12px;"
+                                                                    for="_guardianname">பாதுகாவலர் பெயர்</label>
+                                                                <input type="text" name="_guardianname" id="fname"
+                                                                    pInputText [(ngModel)]="obj.guardianName"
+                                                                    placeholder="Guardian Name">
+                                                            </span>
+                                                        </div>
+                                                        <div #field56 class="p-field p-col-12 p-md-12 p-lg-2">
+                                                            <span>
+                                                                <label style="font-size: 12px;"
+                                                                    for="_guardianoccupation">தொழில்</label>
+                                                                <input type="text" name="_guardianoccupation" id="fname"
+                                                                    pInputText [(ngModel)]="obj.guardianOccupation"
+                                                                    placeholder="Occupation">
+                                                            </span>
+                                                        </div>
+                                                        <div #field57 class="p-field p-col-12 p-md-12 p-lg-2">
+                                                            <span>
+                                                                <label style="font-size: 12px;"
+                                                                    for="_guardianeducation">கல்வி தகுதி</label>
+                                                                <input type="text" name="_guardianeducation" id="fname"
+                                                                    pInputText [(ngModel)]="obj.guardianQualification"
+                                                                    placeholder="Qualification">
+                                                            </span>
+                                                        </div>
+                                                        <div #field58 class="p-field p-col-12 p-md-12 p-lg-2">
+                                                            <span>
+                                                                <label style="font-size: 12px;"
+                                                                    for="_guardianmobno">கைபேசி எண்</label>
+                                                                <input type="text" name="_guardianmobno" id="fname"
+                                                                    pInputText [(ngModel)]="obj.guardianMobileNo"
+                                                                    pattern="^[6789]\d{9,9}$"
+                                                                    title="Phone number starts with 6-9 and remaing 9 digit with 0-9"
+                                                                    appInputFormat="digitOnly" maxlength="10"
+                                                                    minlength="10" placeholder="Mobile No">
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </p-tabPanel>
+                                <p-tabPanel header="சான்றிதழ் பதிவேற்றம்/Document Upload">
+                                    <div class="p-col-12 p-md-12 p-lg-12 card border-blue">
+                                        <div #main1 class="p-grid">
+                                            <div class="p-col-1"></div>
+                                            <div class="p-col-12 p-md-12 p-lg-10">
+                                                <div class="div-header" style="font-weight: 500;">சான்றுகள் மற்றும்
+                                                    சான்றிதழ்கள்/Proofs and
+                                                    Certificates</div>
+                                                <div #row1 class="p-col-12 border-blue">
+                                                    <div #grid1 class="p-grid">
+                                                        <div #field59 class="p-field p-col-12 p-md-12 p-lg-4">
+                                                            <label style="font-size: 12px;"
+                                                                for="_incomecertificate">வருமான சான்றிதழ்/Income
+                                                                Certificate</label>
+                                                            <input #incomeCertificate class="p-col-12"
+                                                                name="_incomecertificate" type="file" pInputText
+                                                                (change)="onFileUpload($event, 2)"
+                                                                accept=".pdf,.png,.jpg,.jpeg" />
+                                                        </div>
+                                                        <div #field60 class="p-field p-col-12 p-md-12 p-lg-4">
+                                                            <label style="font-size: 12px;"
+                                                                for="_transfercertificate">மாற்று/உறுதி சான்றிதழ்
+                                                                /TC/Bonafide</label>
+                                                            <input #transferCertificate class="p-col-12"
+                                                                name="_transfercertificate" type="file" pInputText
+                                                                (change)="onFileUpload($event, 3)"
+                                                                accept=".pdf,.png,.jpg,.jpeg" />
+                                                        </div>
+                                                    </div>
+                                                    <div #grid2 class="p-grid">
+                                                        <div #field61 class="p-field p-col-12 p-md-12 p-lg-4">
+                                                            <label style="font-size: 12px;" for="_bankpassbook">வங்கி
+                                                                கணக்கு புத்தகம்/Bank
+                                                                Passbook</label>
+                                                            <input #bankPassBook class="p-col-12" name="_bankpassbook"
+                                                                type="file" pInputText
+                                                                (change)="onFileUpload($event, 4)"
+                                                                accept=".pdf,.png,.jpg,.jpeg" />
+                                                        </div>
+                                                        <div #field62 class="p-field p-col-12 p-md-12 p-lg-4">
+                                                            <label style="font-size: 12px;"
+                                                                for="_communityCertificate">சாதி சான்றிதழ்/Community
+                                                                Certificate</label>
+                                                            <input #declarationForm class="p-col-12"
+                                                                name="_communityCertificate" type="file" pInputText
+                                                                (change)="onFileUpload($event, 5)"
+                                                                accept=".pdf,.png,.jpg,.jpeg" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </p-tabPanel>
+                                <div class="p-col-12 txt-center">
+                                    <button pButton type="button" label="Submit" icon="pi pi-send"
+                                        (click)="checkAadhar()" [disabled]="(!f.valid || !f.dirty)"></button>&nbsp;
+                                    <button pButton type="button" label="View" icon="pi pi-eye"
+                                        (click)="onView()"></button>&nbsp;
+                                    <button pButton type="button" label="Clear" icon="pi pi-trash"
+                                        (click)="clearForm()"></button>
+                                </div>
+                            </p-tabView>
+                        </div>
+                    </form>
+                </p-card>
+            </p-panel>
+            <p-dialog #dialog header="Registered Student List" [(visible)]="showDialog" [modal]="showDialog"
+                [maximizable]="true" [style]="{width: '90vw', height: '90vw'}" (onHide)="onClosingView()">
+                <div class="p-grid div-main">
+                    <div class="p-col-12 p-md-12 p-lg-12">
+                        <p-toast position="top-center" key="d-msg"></p-toast>
+                        <p-table #dt styleClass="p-datatable-gridlines" [columns]="registeredCols"
+                            [value]="registeredDetails" [paginator]="true" [rows]="10" [loading]="loading"
+                            [filterDelay]="0" [globalFilterFields]="['studentName', 'aadharNo']"
+                            responsiveLayout="scroll">
+                            <ng-template pTemplate="caption">
+                                <div class="table-header">
+                                    <div class="p-grid">
+                                        <div class="p-col-6 p-md-6 p-lg-10 txt-end">
+                                            <span>Search by Student name / Aadhaar No.</span>
+                                        </div>
+                                        <div class="p-col-4 p-md-4 p-lg-2">
+                                            <span class="p-input-icon-left">
+                                                <i class="pi pi-search"></i>
+                                                <input pInputText type="text" size="30"
+                                                    (input)="dt.filterGlobal($event.target.value, 'contains')"
+                                                    placeholder="Global Search" />
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="header" let-columns>
+                                <tr>
+                                    <th style="width: 100px">S.No</th>
+                                    <th *ngFor="let col of columns">
+                                        {{col.header}}
+                                    </th>
+                                    <th style="width: 120px">Download</th>
+                                    <!-- <th style="width: 120px">Delete</th> -->
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowIndex="rowIndex" let-rowData let-columns="columns">
+                                <tr class="tr-border">
+                                    <td class="td-border">
+                                        <span class="p-column-title">
+                                            S.No :
+                                        </span>
+                                        <span style="text-align: end;">
+                                            {{rowIndex+1}}
+                                        </span>
+                                    </td>
+                                    <td *ngFor="let col of columns" [style.text-align]="col.align" class="td-border">
+                                        <span class="p-column-title">
+                                            {{col.header}} :
+                                        </span>
+                                        <span style="text-align: end;"> {{rowData[col.field]}}
+                                        </span>
+                                    </td>
+                                    <td style="width: 120px">
+                                        <span class="p-column-title">
+                                            Download :
+                                        </span>
+                                        <span>
+                                            <i class="pi pi-file-pdf" (click)="pdfDialog = true"
+                                                style="color: #e32727; font-size: 1.3rem;"></i></span>
+                                    </td>
+                                    <!-- <td style="width: 120px" (click)="onDelete(rowData, rowIndex)">
+                                    <button style="height: 1.8rem;" icon="pi pi-trash" pButton type="button">
+                                    </button>
+                                </td> -->
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+            </p-dialog>
+        </div>
+        <div class="p-col-1"></div>
+        <p-dialog #dialog *ngIf="pdfDialog" header="Download PDF" [(visible)]="pdfDialog" [modal]="pdfDialog"
+            [maximizable]="true" [style]="{width: '90vw', height: '90vw'}" (onShow)="onDialogShow()">
+            <div id="embedDiv" class="fgh txt-center">
+                <embed id="embedPDF" type="application/pdf" width="800" height="500">
+            </div>
+        </p-dialog>
+    </div>
+</block-ui>

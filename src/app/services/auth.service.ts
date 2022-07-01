@@ -27,7 +27,11 @@ export class AuthService {
     if (user.username !== '' && user.token !== '' ) { 
       localStorage.setItem('UserInfo', JSON.stringify(user));
       this.loggedIn.next(true);
-      this._router.navigate(['/dashboard']);
+      if(user.isDefaultPwd) {
+        this._router.navigate(['/changepassword']);
+      } else {
+        this._router.navigate(['/dashboard']);
+      }
     }
   }
 
@@ -53,8 +57,9 @@ export class AuthService {
 
   public logout() {
     localStorage.removeItem('UserInfo');
-    this.loggedIn.next(false);
     this._router.navigate(['/home']);
+    window.location.reload();
+    this.loggedIn.next(false);
   }
   
 }

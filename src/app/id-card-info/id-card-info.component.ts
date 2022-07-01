@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { SelectItem } from 'primeng/api';
 import { PathConstants } from '../Common-Modules/PathConstants';
+import { User } from '../interfaces/user';
+import { AuthService } from '../services/auth.service';
 import { MasterService } from '../services/master-data.service';
 import { RestAPIService } from '../services/restAPI.service';
 
@@ -36,12 +38,15 @@ export class IdCardInfoComponent implements OnInit {
   Show: boolean;
   studentDetails: any = [];
   emisNo: any;
+  logged_user: User;
+  guardianMobileNo: any;
 
-  constructor(private restApiService: RestAPIService, private masterService: MasterService) { }
+  constructor(private restApiService: RestAPIService, private masterService: MasterService, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.districts = this.masterService.getMaster('DT');
     this.taluks = this.masterService.getMaster('TK');
+    this.logged_user = this.authService.UserInfo;
   }
   loadStudents() {
     this.students = [];
@@ -94,11 +99,16 @@ export class IdCardInfoComponent implements OnInit {
   }
   // hstl based on district 
   selectDistrict() {
+    this.hostelName = null;
+    this.hostelOptions = [];
     let hostelSelection = [];
+    if(this.district !== undefined && this.district !== null && this.taluk !== undefined && this.taluk !== null){
     const params = {
       'Type': 1,
-      'Value': this.district
-
+      'DCode': this.district,
+      'TCode': this.taluk,
+      'HostelId': (this.logged_user.hostelId !== undefined && this.logged_user.hostelId !== null) ?
+        this.logged_user.hostelId : 0,
     }
     if (this.district !== null && this.district !== undefined) {
       this.restApiService.getByParameters(PathConstants.Hostel_Get, params).subscribe(res => {
@@ -113,6 +123,7 @@ export class IdCardInfoComponent implements OnInit {
       })
     }
   }
+  }
 
   fillDetails() {
     this.Show = true;
@@ -120,14 +131,15 @@ export class IdCardInfoComponent implements OnInit {
       this.studentDetails.length !== 0) {
         this.studentDetails.forEach(s => {
           if((s.studentId * 1) === this.studentName) {
-            this.userImage = (s.studentFilename.trim() !== '') ? s.studentFilename : '';
+            this.userImage = (s.studentFilename.trim() !== '' && s.studentFilename !== null && s.studentFilename !== undefined) ? s.studentFilename : 'assets/layout/' + s.hostelId + '/' + 'Documents' + '/' + s.studentFilename ;
             this.emisNo = s.emisno;
             this.name = s.studentName;
             this.class = s.class;
             this.dob = s.dob;
             this.bloodGroup = s.bloodgroupName;
-            this.medium = s.medium;
-            this.contactNo = s.mobileNo;
+            this.medium = s.mediumName;
+            this.contactNo = s.fatherMoileNo;
+            this.guardianMobileNo = (s.guardianMobileNo !== null) ? s.guardianMobileNo : '-';
             this.address = s.address1 + ',' + s.address2 +  ',' + s.landmark + ','+ s.Districtname +',' + s.Talukname + ',' +  s.pincode
           }
         })

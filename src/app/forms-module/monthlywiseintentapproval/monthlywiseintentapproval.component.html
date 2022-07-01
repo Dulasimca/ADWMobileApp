@@ -66,7 +66,7 @@
 
                 <p-table #dt [columns]="cols" [value]="filteredData" [paginator]="true" [rows]="10"
                         [rowsPerPageOptions]="[5,10,15,20]" totalRecords="totalRecords"
-                        exportFilename="MONTHLYINTENT_APPROVAL_REPORT" styleClass="p-datatable-gridlines">
+                        exportFilename="MONTHLYINTENT_APPROVAL_REPORT" styleClass="p-datatable-gridlines" responsiveLayout="scroll">
                          <ng-template pTemplate="caption">
                            <div class="p-d-flex">
                                <span class="p-input-icon-left p-ml-auto">

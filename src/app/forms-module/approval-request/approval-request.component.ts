@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild  } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MessageService, SelectItem } from 'primeng/api';
 import { PathConstants } from 'src/app/Common-Modules/PathConstants';
@@ -40,14 +40,14 @@ export class ApprovalRequestComponent implements OnInit {
 
   ngOnInit(): void {
     this.cols = [
-      { field: 'Districtname', header: 'District Name', width: '200px', align: 'left !important' },
-      { field: 'Talukname', header: 'Taluk Name', width: '200px', align: 'left !important' },
-      { field: 'HostelName', header: 'Hostel Name', width: '200px', align: 'left !important' },
-      { field: 'ApprovalName', header: 'Approval Type', width: '200px', align: 'left !important' },
-      { field: 'ApprovalTypeName', header: 'Request For', width: '200px', align: 'left !important' },
-      { field: 'Remarks', header: 'Remarks', width: '200px', align: 'left !important' },
-      { field: 'CreatedDate', header: 'Requested Date', width: '200px', align: 'center !important' },
-      { field: 'ApprovalStatusName', header: 'Approval Status', width: '200px', align: 'left !important' },
+      { field: 'Districtname', header: 'District Name', width: '200px', align: 'left !important'},
+      { field: 'Talukname', header: 'Taluk Name', width: '200px', align: 'left !important'},
+      { field: 'HostelName', header: 'Hostel Name', width: '200px', align: 'left !important'},
+      { field: 'ApprovalName', header: 'Approval Type', width: '200px', align: 'left !important'},
+      { field: 'ApprovalTypeName', header: 'Request For', width: '200px', align: 'left !important'},
+      { field: 'Remarks', header: 'Remarks', width: '200px', align: 'left !important'},
+      { field: 'CreatedDate', header: 'Requested Date', width: '200px', align: 'center !important'},
+      { field: 'ApprovalStatusName', header: 'Approval Status', width: '200px', align: 'left !important'},
     ];
     this.login_user = this._authService.UserInfo;
     this.districtName = this.login_user.districtName;
@@ -73,11 +73,11 @@ export class ApprovalRequestComponent implements OnInit {
       'Remarks': this.remarks,
       'Flag': 1
     };
-    this._restApiService.post(PathConstants.ApprovalDetails_Post, params).subscribe(res => {
+    this._restApiService.post(PathConstants.ApprovalDetails_Post,params).subscribe(res => {
       if (res !== undefined && res !== null) {
         if (res) {
-          this.blockUI.stop();
-          this.onClear();
+           this.blockUI.stop();
+           this.onClear();
           this._messageService.clear();
           this._messageService.add({
             key: 't-msg', severity: ResponseMessage.SEVERITY_SUCCESS,
@@ -100,7 +100,7 @@ export class ApprovalRequestComponent implements OnInit {
         });
       }
     }, (err: HttpErrorResponse) => {
-      this.blockUI.stop();
+       this.blockUI.stop();
       if (err.status === 0 || err.status === 400) {
         this._messageService.clear();
         this._messageService.add({
@@ -165,21 +165,24 @@ export class ApprovalRequestComponent implements OnInit {
   onView() {
     this.data = [];
     const params = {
-      'DCode': this.login_user.districtCode,
-      'TCode': this.login_user.talukId,
-      'HostelId': this.login_user.hostelId,
+   'DCode' : this.login_user.districtCode,
+   'TCode' : this.login_user.talukId,
+   'HostelId' : this.login_user.hostelId,
     }
-    this._restApiService.getByParameters(PathConstants.ApprovalDetails_Get, params).subscribe(res => {
+    this._restApiService.getByParameters(PathConstants.ApprovalDetails_Get,params).subscribe(res =>{
       if (res !== null && res !== undefined && res.length !== 0) {
+        res.Table.forEach(i => {
           this.data = res.Table;
-      } else {
-        this._messageService.clear();
-        this._messageService.add({
-          key: 't-msg', severity: ResponseMessage.SEVERITY_WARNING,
-          summary: ResponseMessage.SUMMARY_WARNING, detail: ResponseMessage.NoRecordMessage
-        })
-      }
-    });
+    })
+    
+  } else {
+    this._messageService.clear();
+    this._messageService.add({
+      key: 't-msg', severity: ResponseMessage.SEVERITY_WARNING,
+      summary: ResponseMessage.SUMMARY_WARNING, detail: ResponseMessage.NoRecordMessage
+    })
+  }
+});
   }
 
 }

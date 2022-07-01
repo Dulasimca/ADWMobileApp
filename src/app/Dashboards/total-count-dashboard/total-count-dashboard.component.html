@@ -1,0 +1,32 @@
+<div class="p-grid" style="background: #00293c;">
+    <div class="p-col-11 p-md-11 p-lg-11 dist-dsh-txt-clr dist-dsh-content card-material">
+        <div class="p-col-12 p-md-12 p-lg-12">
+            <div style="text-align: center; font-size: 15px;border-bottom: 1px solid white; font-weight: 600;">Overall
+                Hostel Details</div>
+        </div>
+        <div class="p-col-12 p-md-12 p-lg-12 card-material">
+            <div class="p-grid">
+                <div class="p-col-12 p-md-12 p-lg-4">
+                    <highcharts-chart [Highcharts]="highcharts" [options]="chartOptions" style="display: flex;">
+                    </highcharts-chart>
+                </div>
+                <div class="p-col-12 p-md-12 p-lg-4">
+                    <highcharts-chart [Highcharts]="highcharts" [options]="ugChartOptions" style="display: flex;">
+                    </highcharts-chart>
+                </div>
+                <div class="p-col-12 p-md-12 p-lg-4">
+                    <highcharts-chart [Highcharts]="highcharts" [options]="pgChartOptions" style="display: flex;">
+                    </highcharts-chart>
+                </div>
+            </div>
+        </div>
+        <div class="p-col-12"></div>
+        <div class="p-col-12"></div>
+        <div class="p-col-12"></div>
+        <div class="p-col-12 p-md-12 p-lg-12">
+            <highcharts-chart [Highcharts]="highcharts" [options]="barchartOptions"
+                style="height: 400px; display: block;">
+            </highcharts-chart>
+        </div>
+    </div>
+</div>

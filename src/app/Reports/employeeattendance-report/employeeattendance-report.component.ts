@@ -63,6 +63,7 @@ export class EmployeeattendanceReportComponent implements OnInit {
   attendanceDate: Date = new Date();
   fromdate: any;
   todate: any;
+  disableExcel: boolean = true;
   constructor(private http: HttpClient, private restApiService: RestAPIService,
     private masterService: MasterService, private _authService: AuthService,
     private _messageService: MessageService, private tableConstants: TableConstants,private _datepipe: DatePipe) { }
@@ -98,7 +99,9 @@ export class EmployeeattendanceReportComponent implements OnInit {
           break;
         case 'T':
           this.taluks.forEach(t => {
-            talukSelection.push({ label: t.name, value: t.code });
+            if (t.dcode === this.district) {
+              talukSelection.push({ label: t.name, value: t.code });
+            }
           })
           this.talukOptions = talukSelection;
           if ((this.login_user.roleId * 1) === 1 || (this.login_user.roleId * 1) === 2) {
@@ -164,9 +167,11 @@ export class EmployeeattendanceReportComponent implements OnInit {
             r.AttendanceDate = this._datepipe.transform(r.AttendanceDate, 'dd/MM/yyyy');
           })
           this.hostelData = res.Table;
+          this.disableExcel = false;
           this.loading = false;
         } else {
           this.loading = false;
+          this.disableExcel = true;
           this._messageService.clear();
           this._messageService.add({
             key: 't-msg', severity: ResponseMessage.SEVERITY_WARNING,

@@ -9,8 +9,6 @@ import { InputText } from 'primeng/inputtext';
 import { Alert } from 'selenium-webdriver';
 import { ResponseMessage } from 'src/app/Common-Modules/messages';
 import { PathConstants } from 'src/app/Common-Modules/PathConstants';
-import { User } from 'src/app/interfaces/user';
-import { AuthService } from 'src/app/services/auth.service';
 import { RestAPIService } from 'src/app/services/restAPI.service';
 
 
@@ -30,7 +28,6 @@ export class HomepageImageUploadComponent implements OnInit {
   showTable: boolean;
   showDialog: boolean;
   homeImage: string;
-  login_user: User;
   @BlockUI() blockUI: NgBlockUI;
   @ViewChild('f', { static: false }) homeImageUploadForm: NgForm;
   @ViewChild('cd', { static: false }) _alert: ConfirmDialog;
@@ -38,11 +35,10 @@ export class HomepageImageUploadComponent implements OnInit {
   file: string;
 
   constructor(private http: HttpClient, private restApiService: RestAPIService, private _datePipe: DatePipe, private messageService: MessageService,
-    private _confirmationService: ConfirmationService, private _authService: AuthService) { }
+    private _confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
     this.ImageId = 0;
-    this.login_user = this._authService.UserInfo;
   }
 
   public uploadFile = (files) => {
@@ -103,7 +99,7 @@ export class HomepageImageUploadComponent implements OnInit {
         if (res.length !== 0) {
           res.forEach(i => {
             i.UploadDate = this._datePipe.transform(i.UploadDate, 'yyyy-MM-dd');
-            i.url = this.login_user.domainUrl + 'assets/layout/' + 'Home' + '/Documents' + '/' + i.ImageFilename;
+            i.url = 'assets/layout/' + 'Home' + '/Documents' + '/' + i.ImageFilename;
             this.showTable = true;
             this.homeImageData = res;
           })
@@ -154,7 +150,7 @@ export class HomepageImageUploadComponent implements OnInit {
       accept: () => {
         this._alert.disableModality();
         this.blockUI.start();
-        this.restApiService.put(PathConstants.HomePageImageUpload_Put, { 'ImageId': rowData.ImageId }).subscribe(res => {
+        this.restApiService.post(PathConstants.UpdateHomePageImageUpload_Put, { 'ImageId': rowData.ImageId }).subscribe(res => {
           if (res !== null && res !== undefined) {
             this.onView();
             this.blockUI.stop;

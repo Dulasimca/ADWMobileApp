@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { MessageService, SelectItem } from 'primeng/api';
 import { HttpClient } from '@angular/common/http';
 import { PathConstants } from 'src/app/Common-Modules/PathConstants';
@@ -59,20 +59,17 @@ export class HostelReportComponent implements OnInit {
   hostelCols: any;
   hostelData: any = [];
   loading: boolean;
+  disableExcel: boolean = true;
   constructor(private http: HttpClient, private restApiService: RestAPIService,
     private masterService: MasterService, private _authService: AuthService,
     private _messageService: MessageService, private tableConstants: TableConstants) { }
 
   ngOnInit(): void {
-    this.hostelCols = this.tableConstants.hostelReportCols
+    this.hostelCols = this.tableConstants.hostelReportCols;
     this.Slno = 0;
     this.login_user = this._authService.UserInfo;
     this.districts = this.masterService.getMaster('DT');
     this.taluks = this.masterService.getMaster('TK');
-    //  this.districtname = this.login_user.districtName;
-    //  this.talukname = this.login_user.talukName;
-    //  this.hostelname=this.login_user.hostelName;
-    // this.role=this.login_user.roleId;
 
   }
 
@@ -94,7 +91,9 @@ export class HostelReportComponent implements OnInit {
           break;
         case 'T':
           this.taluks.forEach(t => {
-            talukSelection.push({ label: t.name, value: t.code });
+            if (t.dcode === this.district) {
+              talukSelection.push({ label: t.name, value: t.code });
+            }
           })
           this.talukOptions = talukSelection;
           if ((this.login_user.roleId * 1) === 1 || (this.login_user.roleId * 1) === 2) {
@@ -157,10 +156,17 @@ export class HostelReportComponent implements OnInit {
       this.restApiService.getByParameters(PathConstants.Hostel_Get, params).subscribe(res => {
         if (res.Table !== undefined && res.Table !== null) {
           if (res.Table.length !== 0) {
+            res.Table.forEach(r => {
+              r.HGenderType = (r.HGenderType === 1) ? 'Boys' : 'Girls'
+            console.log('i',r.HGenderType)
+
+            })
             this.hostelData = res.Table;
             this.loading = false;
+            this.disableExcel = false;
           } else {
             this.loading = false;
+            this.disableExcel = true;
             this._messageService.clear();
             this._messageService.add({
               key: 't-msg', severity: ResponseMessage.SEVERITY_WARNING,
@@ -169,6 +175,7 @@ export class HostelReportComponent implements OnInit {
           }
         } else {
           this.loading = false;
+          this.disableExcel = true;
           this._messageService.clear();
           this._messageService.add({
             key: 't-msg', severity: ResponseMessage.SEVERITY_WARNING,

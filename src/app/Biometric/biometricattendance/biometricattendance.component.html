@@ -46,12 +46,12 @@
                  
                       <button pButton type="button" icon="pi pi-file-excel" label="Export" style="text-align: right;"
                           style= "color: yellowgreen;"(click)="dt.exportCSV()"
-                          pTooltip="Excel-File download"></button>
+                          pTooltip="Excel-File download" [disabled]="disableExcel"></button>
                   
                 </div>
                 <p-table #dt [columns]="biometricattendancecountCols" [value]="biometricattendancecountData" [paginator]="true" [rows]="100"
                 [rowsPerPageOptions]="[5,10,15,20]" totalRecords="totalRecords" 
-                styleClass="p-datatable-gridlines">
+                styleClass="p-datatable-gridlines" exportFilename="Biometricattendancecount">
                 <ng-template pTemplate="header" let-columns>
                   <tr>
                     <th>S.No</th>
@@ -104,11 +104,11 @@
 
                <div style="text-align: right;">
                 <button pButton type="button" icon="pi pi-file-excel" label="Export"
-                    style="color: yellowgreen;" (click)="dt.exportCSV()"
+                    style="color: yellowgreen;" (click)="dt1.exportCSV()"
                     pTooltip="Excel-File download"></button>
             </div>
 
-               <p-table #dt [columns]="BMAttendanceReportCols" [value]="BMAttendanceData" [paginator]="true" [rows]="100"
+               <p-table #dt1 [columns]="BMAttendanceReportCols" [value]="BMAttendanceData" [paginator]="true" [rows]="100"
                [rowsPerPageOptions]="[10,30,50,100]" styleClass="p-datatable-gridlines" 
                exportFilename="BMAttendance">
                <ng-template pTemplate="header" let-columns>

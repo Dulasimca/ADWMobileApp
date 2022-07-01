@@ -35,7 +35,7 @@
                         <!-- table  -->
                         <div *ngIf="showTable">
                             <p-table [value]="AccHeadData" [columns]="AccHeadCols" styleClass="p-datatable-gridlines"
-                                [paginator]="true" [rows]="40" [rowsPerPageOptions]="[10,20,30,40]" [loading]="loading">
+                                [paginator]="true" [rows]="40" [rowsPerPageOptions]="[10,20,30,40]" [loading]="loading" responsiveLayout="scroll">
                                 <ng-template pTemplate="header" let-columns>
                                     <tr>
                                         <th style="width: 50px;">S.No</th>
@@ -129,7 +129,7 @@
                                                 </div>
                                                 <div class="p-col-12 p-md-12 p-lg-12 txt-center">
                                                     <button pButton type="button" label="Save" icon="pi pi-save"
-                                                        (click)="onSave()"></button>&nbsp;
+                                                        (click)="onSave()" [disabled]="(!f.valid)"></button>&nbsp;
                                                 </div>
                                             </div>
                                         </div>

@@ -41,7 +41,7 @@
                         <div *ngIf="showTable">
                             <p-table [value]="DistrictFundData" [columns]="DistrictFundCols"
                                 styleClass="p-datatable-gridlines" [paginator]="true" [rows]="40"
-                                [rowsPerPageOptions]="[10,20,30,40]">
+                                [rowsPerPageOptions]="[10,20,30,40]" responsiveLayout="scroll">
                                 <ng-template pTemplate="header" let-columns>
                                     <tr>
                                         <th style="width: 50px;">S.No</th>

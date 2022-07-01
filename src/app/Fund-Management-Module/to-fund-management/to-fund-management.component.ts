@@ -256,6 +256,8 @@ export class TOFundManagementComponent implements OnInit {
   }
 
   clearForm() {
+    this._toFundForm.form.markAsUntouched();
+    this._toFundForm.form.markAsPristine()
     // this._toFundForm.reset();
     this.talukOptions = [];
     this.totalTalukAmount = 0;

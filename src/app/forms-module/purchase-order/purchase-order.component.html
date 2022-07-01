@@ -104,7 +104,7 @@
                             </div>
                             <div #row3 *ngIf="showTable" class="p-col-12 p-md-12 p-lg-12">
                                 <p-table styleClass="p-datatable-gridlines" [columns]="purcahseOrderCols" [value]="purcahseOrderData" [paginator]="true"
-                                    [loading]="loading" [rows]="10">
+                                    [loading]="loading" [rows]="10" responsiveLayout="scroll" >
                                     <ng-template pTemplate="header" let-columns>
                                         <tr>
                                             <th style="width: 100px">S.No</th>
@@ -180,7 +180,7 @@
                     </div>
                     <div class="p-col-12 p-md-12 p-lg-12">
                         <p-table styleClass="p-datatable-gridlines" [columns]="purchaseBillCols"
-                            [value]="purchasedBillList" [paginator]="true" [rows]="10" [loading]="spinner">
+                            [value]="purchasedBillList" [paginator]="true" [rows]="10" [loading]="spinner" responsiveLayout="scroll">
                             <ng-template pTemplate="header" let-columns>
                                 <tr>
                                     <th style="width: 100px">S.No</th>

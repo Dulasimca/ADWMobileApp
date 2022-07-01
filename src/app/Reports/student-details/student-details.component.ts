@@ -1,4 +1,5 @@
 import { DatePipe } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { MessageService, SelectItem } from 'primeng/api';
@@ -37,8 +38,31 @@ export class StudentDetailsComponent implements OnInit {
   roleId: number;
   dApproval: any;
   tApproval: number;
+  wApproval: any;
   hostelName: string;
   @BlockUI() blockUI: NgBlockUI;
+  value: any;
+  disableExcel: boolean = true;
+  items: any;
+  tabIndex: number;
+  data: any[] = [];
+  totalRecords: number;
+  openDialog: boolean;
+  pdfDialog: boolean;
+  aadharNo: any;
+  mobileNo: any;
+  dob: any;
+  hostelId: any;
+  reason: any;
+  aReason: string;
+  wEnableTick: boolean;
+  tEnableTick: boolean;
+  tCrossTick: boolean;
+  dEnableTick: boolean;
+  dCrossTick: boolean;
+  academicYear: any;
+
+
   constructor(private _masterService: MasterService, private _restApiService: RestAPIService, private _tableConstants: TableConstants,
     private _messageService: MessageService, private _authService: AuthService, private _datePipe: DatePipe) { }
 
@@ -48,6 +72,10 @@ export class StudentDetailsComponent implements OnInit {
     this.taluks = this._masterService.getMaster('TK');
     this.logged_user = this._authService.UserInfo;
     this.roleId = (this.logged_user.roleId * 1);
+    // this.items = [
+    //   {'header': 'Approved'},
+    //   {'header': 'Disapproved'}
+    // ]
   }
 
   onSelect(type) {
@@ -127,37 +155,140 @@ export class StudentDetailsComponent implements OnInit {
       const params = {
         'DCode': this.district,
         'TCode': this.taluk,
-        'HCode': this.hostel
+        'HCode': this.hostel,
+        'Roleid': this.logged_user.roleId
       }
-      this._restApiService.getByParameters(PathConstants.Registration_Get, params).subscribe(res => {
+      this._restApiService.getByParameters(PathConstants.OnlineStudentRegistrationDetails_Get, params).subscribe(res => {
         if (res !== undefined && res !== null && res.length !== 0) {
           res.forEach(r => {
-            r.isDApproved = (r.districtApproval !== null && r.districtApproval !== 0 && (r.districtApproval)) ? 'true' : 'false';
+            this.aadharNo = r.aadharNo;
+            this.hostelId = r.hostelId;
+            this.studentId = r.studentId;
+            this.academicYear = r.AcademicYear;
+            r.dob = r.dob,
+              r.isDApproved = (r.districtApproval !== null && r.districtApproval !== 0 && (r.districtApproval)) ? 'true' : 'false';
             r.isTAprroved = (r.talukApproval !== null && r.talukApproval !== 0 && (r.talukApproval)) ? 'true' : 'false';
-            if (this.roleId === 1 || this.roleId === 4) {
-              if (r.districtApproval !== null && r.districtApproval !== 0 && (r.districtApproval)) {
-                r.dstatus = 'Approved !';
-              } else if (r.districtApproval === null || r.districtApproval !== 1 || (!r.districtApproval)) {
+            r.isWApproved = (r.wardenApproval !== null && r.wardenApproval !== 0 && (r.wardenApproval)) ? 'true' : 'false';
+            if (this.roleId === 1) {
+              if (r.districtApproval !== null && r.districtApproval !== undefined) {
+                if (r.districtApproval === 1) {
+                  r.dstatus = 'Selected !';
+                } else if (r.districtApproval === 2) {
+                  r.dstatus = 'Rejected';
+                } else {
+                  r.dstatus = 'Pending !';
+                }
+              } else {
                 r.dstatus = 'Pending !';
               }
-              if (r.talukApproval !== null && r.talukApproval !== 0 && (r.talukApproval)) {
-                r.tstatus = 'Approved !';
-              } else if (r.talukApproval !== null && r.talukApproval !== 1 && (!r.talukApproval)) {
+              if (r.talukApproval !== null && r.talukApproval !== undefined) {
+                if (r.talukApproval === 1) {
+                  r.tstatus = 'Selected !';
+                } else if (r.talukApproval === 2) {
+                  r.tstatus = 'Rejected';
+                } else {
+                  r.tstatus = 'Pending !';
+                }
+              } else {
                 r.tstatus = 'Pending !';
               }
+              if (r.wardenApproval !== null && r.wardenApproval !== undefined) {
+                if (r.wardenApproval === 1) {
+                  r.wstatus = 'Selected !';
+                  // this.wEnableTick = true;
+                } else if (r.wardenApproval === 2) {
+                  r.wstatus = 'Rejected';
+                } else {
+                  r.wstatus = 'Pending !';
+                }
+              } else {
+                r.wstatus = 'Pending !';
+              }
             } else if (this.roleId === 2) {
-              if (r.districtApproval !== null && r.districtApproval !== 0 && (r.districtApproval)) {
-                r.dstatus = 'Approved !';
+              ///district approval
+              if (r.districtApproval !== null && r.districtApproval !== undefined) {
+                if (r.districtApproval === 2) {
+                  // r.dAStatus = '-';
+                  r.enableApprove = true;
+                  r.enableDisapprove = false;
+                  this.dCrossTick = true;
+                  // r.dDAStatus = 'DisApproved !';
+                } else if (r.districtApproval === 1) {
+                  // r.dDAStatus = '-';
+                  r.enableApprove = false;
+                  r.enableDisapprove = true;
+                  this.dEnableTick = true;
+                  // r.dAStatus = 'Approved !';
+                } else {
+                  r.dstatus = 'Pending !';
+                  r.enableApprove = false;
+                  r.enableDisapprove = false;
+                  r.dEnableTick = false;
+                  r.dCrossTick = false;
+                }
+              } else {
+                r.dstatus = '-';
+                r.enableApprove = false;
+                r.enableDisapprove = false;
+                r.dEnableTick = false;
+                r.dCrossTick = false;
               }
             } else if (this.roleId === 3) {
-              if (r.talukApproval !== null && r.talukApproval !== 0 && (r.talukApproval)) {
-                r.tstatus = 'Approved !';
+              ///Taluk approval
+              if (r.talukApproval !== null && r.talukApproval !== undefined) {
+                if (r.talukApproval === 2) {
+                  // r.tAStatus = '-';
+                  r.enableApprove = true;
+                  r.enableDisapprove = false;
+                  this.tCrossTick = true;
+                  // r.tDAStatus = 'DisApproved !';
+                } else if (r.talukApproval === 1) {
+                  // r.tDAStatus = '-';
+                  r.enableApprove = false;
+                  r.enableDisapprove = true;
+                  this.tEnableTick = true;
+                  // r.tAStatus = 'Approved !';
+                } else {
+                  r.tstatus = 'Pending !';
+                  r.enableApprove = false;
+                  r.enableDisapprove = false;
+                }
+              } else {
+                r.tstatus = '-';
+                r.enableApprove = false;
+                r.enableDisapprove = false;
+              }
+            } else if (this.roleId === 4) {
+              ///warden approval
+              if (r.wardenApproval !== null && r.wardenApproval !== undefined) {
+                if (r.wardenApproval === 2) {
+                  r.wAStatus = '-';
+                  r.enableApprove = true;
+                  r.enableDisapprove = false;
+                  r.wDAStatus = 'Rejected !';
+                } else if (r.wardenApproval === 1) {
+                  // r.wDAStatus = '-';              
+                  r.enableApprove = false;
+                  r.enableDisapprove = true;
+                  this.wEnableTick = true;
+                  // r.wAStatus = 'Approved !';
+                } else {
+                  r.wstatus = 'Pending !';
+                  r.enableApprove = false;
+                  r.enableDisapprove = false;
+                }
+              } else {
+                r.wstatus = '-';
+                r.enableApprove = false;
+                r.enableDisapprove = false;
               }
             }
           })
           this.studentData = res;
           this.loading = false;
+          this.disableExcel = false;
         } else {
+          this.disableExcel = true;
           this.loading = false;
           this._messageService.clear();
           this._messageService.add({
@@ -169,9 +300,53 @@ export class StudentDetailsComponent implements OnInit {
     }
   }
 
+  checkEligibility(totalValue: number): boolean {
+    let isEligible = false;
+    if (totalValue !== 0) {
+      var approvedValue = this.studentData.filter(f => f.districtApproval === 1).length;
+      if (approvedValue < totalValue) {
+        isEligible = true;
+      } else {
+        isEligible = false;
+      }
+    } else {
+      isEligible = false;
+    }
+    return isEligible;
+  }
+
   selectForApproval(row) {
     if (row !== undefined && row !== null) {
-      this.showDialog = true;
+      const isAllowed = this.checkEligibility(row.totalStudent);
+      if (isAllowed) {
+        this.showDialog = true;
+        this.studentName = row.studentName;
+        this.hostelName = row.HostelName;
+        this.student = {
+          'hostelId': (row.hostelId !== undefined && row.hostelId !== null) ? row.hostelId : 0,
+          'emisno': (row.emisno !== undefined) ? row.emisno : null,
+          'academicYear': (row.AcademicYear !== undefined) ? row.AcademicYear : null,
+        }
+        this.studentId = (row.studentId !== undefined && row.studentId !== null) ? row.studentId : 0;
+        this.dApproval = (this.roleId === 2) ? 1 : ((row.districtApproval !== undefined && row.districtApproval !== null) ? row.districtApproval : null);
+        this.tApproval = (this.roleId === 3) ? 1 : ((row.talukApproval !== undefined && row.talukApproval !== null) ? row.talukApproval : null);
+        this.wApproval = (this.roleId === 4) ? 1 : ((row.wardenApproval !== undefined && row.wardenApproval !== null) ? row.wardenApproval : null);
+        this.reason = null;
+      } else {
+        this._messageService.clear();
+        this._messageService.add({
+          key: 't-msg', severity: ResponseMessage.SEVERITY_ERROR,
+          summary: ResponseMessage.SUMMARY_ERROR, detail: ResponseMessage.SanctionedEligibiltyErr
+        })
+      }
+    } else {
+      this.showDialog = false;
+    }
+  }
+
+  selectForDisApproval(row) {
+    if (row !== undefined && row !== null) {
+      this.openDialog = true;
       this.studentName = row.studentName;
       this.hostelName = row.HostelName;
       this.student = {
@@ -180,24 +355,34 @@ export class StudentDetailsComponent implements OnInit {
         'academicYear': (row.AcademicYear !== undefined) ? row.AcademicYear : null,
       }
       this.studentId = (row.studentId !== undefined && row.studentId !== null) ? row.studentId : 0;
-      this.dApproval = (row.districtApproval !== undefined && row.districtApproval !== null) ? ((row.districtApproval) ? 1 : 0) : null;
-      this.tApproval = (row.talukApproval !== undefined && row.talukApproval !== null) ? ((row.talukApproval) ? 1 : 0) : null;
+      this.dApproval = (this.roleId === 2) ? 2 : ((row.districtApproval !== undefined && row.districtApproval !== null) ? row.districtApproval : null);
+      this.tApproval = (this.roleId === 3) ? 2 : ((row.talukApproval !== undefined && row.talukApproval !== null) ? row.talukApproval : null);
+      this.wApproval = (this.roleId === 4) ? 1 : ((row.wardenApproval !== undefined && row.wardenApproval !== null) ? row.wardenApproval : null);
+      // this.wApproval = (row.wardenApproval !== undefined && row.wardenApproval !== null) ? ((row.wardenApproval) ? 2 : 0) : 0;
     } else {
-      this.showDialog = false;
+      this.openDialog = false;
     }
   }
 
   onApprove() {
     this.blockUI.start();
+    this.aReason = '-';
     const params = {
       'studentId': this.studentId,
       'districtApproval': (this.roleId === 2) ? 1 : this.dApproval,
-      'talukApproval': (this.roleId === 3) ? 1 : this.tApproval
+      'talukApproval': (this.roleId === 3) ? 1 : this.tApproval,
+      'wardenApproval': (this.roleId === 4) ? 1 : this.wApproval,
+      'ReasonForDisApprove': this.aReason
     }
-    this._restApiService.put(PathConstants.Registration_Put, params).subscribe(res => {
+    this._restApiService.post(PathConstants.OnlineStudentRegistrationDetails_Post, params).subscribe(res => {
       if (res) {
-        if(this.roleId === 2) {
+        if (this.roleId === 2) {
           this.insertStudentTransferDetails();
+          this.insertStudentApprovalFromOnlineReg();
+        }
+        if (this.roleId === 4) {
+          this.insertStudentFromOnlineReg();
+          this.insertStudentApprovalFromOnlineReg();
         }
         this.blockUI.stop();
         this.studentId = null;
@@ -215,6 +400,139 @@ export class StudentDetailsComponent implements OnInit {
           key: 't-msg', severity: ResponseMessage.SEVERITY_ERROR,
           summary: ResponseMessage.SUMMARY_ERROR, detail: ResponseMessage.ErrorMessage
         })
+      }
+    })
+  }
+
+  onDisApprove() {
+    this.blockUI.start();
+    const params = {
+      'studentId': this.studentId,
+      'districtApproval': (this.roleId === 2) ? 2 : this.dApproval,
+      'talukApproval': (this.roleId === 3) ? 2 : this.tApproval,
+      'wardenApproval': (this.roleId === 4) ? 2 : this.wApproval,
+      'ReasonForDisApprove': this.reason
+    }
+    this._restApiService.post(PathConstants.OnlineStudentRegistrationDetails_Post, params).subscribe(res => {
+      if (res) {
+        if (this.roleId === 2) {
+          this.insertStudentTransferDetails();
+        }
+        this.blockUI.stop();
+        this.reason = null;
+        this.studentId = null;
+        this.openDialog = false;
+        this.loadTable();
+        this._messageService.clear();
+        this._messageService.add({
+          key: 't-msg', severity: ResponseMessage.SEVERITY_INFO,
+          summary: ResponseMessage.SUMMARY_REJECTED, detail: ResponseMessage.DisApprovedSuccess
+        })
+      } else {
+        this.blockUI.stop();
+        this._messageService.clear();
+        this._messageService.add({
+          key: 't-msg', severity: ResponseMessage.SEVERITY_ERROR,
+          summary: ResponseMessage.SUMMARY_ERROR, detail: ResponseMessage.ErrorMessage
+        })
+      }
+    })
+  }
+
+  insertStudentFromOnlineReg() {
+    const params = {
+      'Id': this.studentId,
+      'wardenapproval': this.wApproval,
+      'Districtapproval': this.dApproval,
+    };
+    this._restApiService.post(PathConstants.StudentFromOnlineRegistration_Post, params).subscribe(res => {
+      if (res !== undefined && res !== null) {
+        if (res) {
+          // this.blockUI.stop();
+          this._messageService.clear();
+          this._messageService.add({
+            key: 't-msg', severity: ResponseMessage.SEVERITY_SUCCESS,
+            summary: ResponseMessage.SUMMARY_SUCCESS, detail: ResponseMessage.SuccessMessage
+          });
+
+        } else {
+          // this.blockUI.stop();
+          this._messageService.clear();
+          this._messageService.add({
+            key: 't-msg', severity: ResponseMessage.SEVERITY_ERROR,
+            summary: ResponseMessage.SUMMARY_ERROR, detail: ResponseMessage.ErrorMessage
+          });
+        }
+
+      } else {
+        this._messageService.clear();
+        this._messageService.add({
+          key: 't-msg', severity: ResponseMessage.SEVERITY_ERROR,
+          summary: ResponseMessage.SUMMARY_ERROR, detail: ResponseMessage.ErrorMessage
+        });
+      }
+    }, (err: HttpErrorResponse) => {
+      // this.blockUI.stop();
+      if (err.status === 0 || err.status === 400) {
+        this._messageService.clear();
+        this._messageService.add({
+          key: 't-msg', severity: ResponseMessage.SEVERITY_ERROR,
+          summary: ResponseMessage.SUMMARY_ERROR, detail: ResponseMessage.ErrorMessage
+        })
+
+      }
+    })
+
+  }
+
+  insertStudentApprovalFromOnlineReg() {
+    const params = {
+      'Slno': 0,
+      'DistrictId': this.district,
+      'TalukId': this.taluk,
+      'HostelId': this.hostel,
+      'StudentId': this.studentId,
+      'wardenapproval': this.wApproval,
+      'Districtapproval': this.dApproval,
+      'AccountingYear': this.academicYear,
+      'ReasonForDisapprove': this.aReason,
+      'Flag': 1
+    };
+    this._restApiService.post(PathConstants.StudentApprovalFromOnlineReg_Post, params).subscribe(res => {
+      if (res !== undefined && res !== null) {
+        if (res) {
+          // this.blockUI.stop();
+          // this._messageService.clear();
+          // this._messageService.add({
+          //   key: 't-msg', severity: ResponseMessage.SEVERITY_SUCCESS,
+          //   summary: ResponseMessage.SUMMARY_SUCCESS, detail: ResponseMessage.SuccessMessage
+          // });
+
+        } else {
+          // this.blockUI.stop();
+          this._messageService.clear();
+          this._messageService.add({
+            key: 't-msg', severity: ResponseMessage.SEVERITY_ERROR,
+            summary: ResponseMessage.SUMMARY_ERROR, detail: ResponseMessage.ErrorMessage
+          });
+        }
+
+      } else {
+        this._messageService.clear();
+        this._messageService.add({
+          key: 't-msg', severity: ResponseMessage.SEVERITY_ERROR,
+          summary: ResponseMessage.SUMMARY_ERROR, detail: ResponseMessage.ErrorMessage
+        });
+      }
+    }, (err: HttpErrorResponse) => {
+      // this.blockUI.stop();
+      if (err.status === 0 || err.status === 400) {
+        this._messageService.clear();
+        this._messageService.add({
+          key: 't-msg', severity: ResponseMessage.SEVERITY_ERROR,
+          summary: ResponseMessage.SUMMARY_ERROR, detail: ResponseMessage.ErrorMessage
+        })
+
       }
     })
   }
@@ -239,4 +557,48 @@ export class StudentDetailsComponent implements OnInit {
       }
     })
   }
+  pdfSelection() {
+    const params = {
+      'AadharNo': this.aadharNo,
+      'MobileNo': this.mobileNo,
+      'Dob': this._datePipe.transform(this.dob, 'MM/dd/yyyy')
+    }
+    this._restApiService.getByParameters(PathConstants.OnlineStudentRegistration_Get, params).subscribe(res => {
+      if (res !== undefined && res !== null && res.length !== 0) {
+        res.forEach(r => {
+          this.studentId = r.studentId;
+          this.hostelId = r.hostelId;
+          var len = r.aadharNo.toString().length;
+          if (len > 11) {
+            r.aadharNoMasked = '*'.repeat(len - 4) + r.aadharNo.substr(8, 4);
+          }
+        })
+        this.studentData = res.slice(0);
+        // this.showDialog = true;
+        // this.pdfDialog = true;
+        this.pdfDialog = true;
+        this.loading = false;
+      } else {
+        this.loading = false;
+        this._messageService.clear();
+        this._messageService.add({
+          key: 't-msg', severity: ResponseMessage.SEVERITY_WARNING,
+          summary: ResponseMessage.SUMMARY_ALERT, detail: 'Not yet registered! Please register'
+        })
+      }
+    })
+  }
+
+  onRowSelect(event, selectedRow) {
+    this.aadharNo = selectedRow.aadharNo;
+    this.dob = selectedRow.dob;
+    this.mobileNo = selectedRow.mobileNo;
+    this.pdfSelection();
+  }
+
+  onDialogShow() {
+    var src = this.logged_user.domainUrl + 'assets/layout/Reports/' + this.hostelId + '/' + this.aadharNo + '_' + this.studentId + '.pdf';
+    document.getElementById("embedPDF").setAttribute('src', src);
+  }
+
 }

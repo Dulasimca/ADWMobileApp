@@ -41,11 +41,11 @@
                     <div class="p-col-12 p-md-12 p-lg-12">
                         <div style="text-align: right;">
                             <button pButton type="button" icon="pi pi-file-excel" style="color: yellowgreen;"
-                                label="Export" pTooltip="Excel-File download" (click)="dt.exportCSV()"></button>
+                                label="Export" pTooltip="Excel-File download" (click)="dt.exportCSV()" [disabled]="disableExcel"></button>
                         </div>
                         <p-table #dt [value]="openingData" [columns]="openingCols" styleClass="p-datatable-gridlines"
                             [paginator]="true" [rows]="40" [rowsPerPageOptions]="[10,20,30,40]"
-                            totalRecords="totalRecords" [loading]="loading" exportFilename="PURCHASE_ORDER_REPORT">
+                            responsiveLayout="scroll" totalRecords="totalRecords" [loading]="loading" exportFilename="PURCHASE_ORDER_REPORT">
                             <ng-template pTemplate="header" let-columns>
                                 <tr>
                                     <th style="width: 60px;">S.No</th>

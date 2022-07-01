@@ -80,7 +80,7 @@
                                                 </div>
                                                 <div class="p-col-12 p-md-7 p-lg-1" [ngClass.xs]="'txt-center'" [ngClass.lt-sm]="'txt-center'" 
                                                 [ngClass.lt-md]="'txt-end'" style="margin-top: 1.5rem">
-                                                    <button pButton type="button" label="Enter" [disabled]="(!f.valid)"
+                                                    <button pButton type="button" label="Enter" [disabled]="(!f.valid || openingBalance==0)"
                                                         (click)="onEnter()"></button>
                                                 </div>
                                             </div>
@@ -94,7 +94,7 @@
                                 <div class="p-col-1"></div>
                                 <div #row2 class="p-col-12 p-md-12 p-lg-10">
                                     <p-table styleClass="p-datatable-gridlines" [columns]="consumptionCols"
-                                        [value]="consumptionData" [paginator]="true" [rows]="10">
+                                        [value]="consumptionData" [paginator]="true" [rows]="10" responsiveLayout="scroll">
                                         <ng-template pTemplate="header" let-columns>
                                             <tr>
                                                 <th style="width: 100px">S.No</th>
@@ -154,7 +154,7 @@
                     </div>
                     <div class="p-col-12 p-md-12 p-lg-12">
                         <p-table styleClass="p-datatable-gridlines" [columns]="consumptionCols" [value]="consumedList"
-                            [paginator]="true" [rows]="10" [loading]="loading">
+                            [paginator]="true" [rows]="10" [loading]="loading" responsiveLayout="scroll">
                             <ng-template pTemplate="header" let-columns>
                                 <tr>
                                     <th style="width: 100px">S.No</th>

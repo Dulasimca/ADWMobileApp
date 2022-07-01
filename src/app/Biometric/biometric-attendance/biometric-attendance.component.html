@@ -51,7 +51,7 @@
                         <div style="text-align: right;">
                             <button pButton type="button" icon="pi pi-file-excel" label="Export"
                                 style="color: yellowgreen;" (click)="dt.exportCSV()"
-                                pTooltip="Excel-File download"></button>
+                                pTooltip="Excel-File download" [disabled]="disableExcel"></button>
                         </div>
                         <p-table #dt [columns]="BMAttendanceReportCols" [value]="BMAttendanceData" [paginator]="true" [rows]="100"
                             [rowsPerPageOptions]="[10,30,50,100]" styleClass="p-datatable-gridlines" 

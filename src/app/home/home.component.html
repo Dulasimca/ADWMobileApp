@@ -1,8 +1,9 @@
+<block-ui>
 <div #home class="p-col-12 p-md-12 p-lg-12">
     <div class="p-grid">
         <div class="p-col-1 no-padding"></div>
         <div class="p-col-12 p-md-10 p-lg-10 txt-center">
-            <p-galleria [(value)]="images" [responsiveOptions]="responsiveOptions" [numVisible]="5" [autoPlay]="true"
+            <p-galleria [(value)]="images" [responsiveOptions]="responsiveOptions" [numVisible]="5" [autoPlay]="true" [circular]="true"
                 [transitionInterval]="2500" [showThumbnails]="false">
                 <ng-template pTemplate="item" let-item>
                     <img [src]="item.previewImageSrc" [ngClass.sm]="'home-img-sm'" [ngClass.xs]="'home-img-xs'" [ngClass.md]="'home-img-md'"
@@ -57,3 +58,4 @@
         <div class="p-col-1 no-padding"></div>
     </div>
 </div>
+</block-ui>

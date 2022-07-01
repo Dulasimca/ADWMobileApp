@@ -49,6 +49,7 @@ export class StudentTransferFormComponent implements OnInit {
   }
 
   loadStudentDetails() {
+    this.studentDetails = [];
     if (this.year !== undefined && this.year !== null) {
       this.loading = true;
       const params = {
@@ -165,12 +166,25 @@ export class StudentTransferFormComponent implements OnInit {
           'Flag': 1 // default(update)
         })
       })
+      console.log('unesele bfr', this.unSelectedStudentList)
       if (this.selectedStudentList.length !== 0) {
-        this.unSelectedStudentList = [];
+      console.log('unesele bfr 1', this.unSelectedStudentList)
+      this.unSelectedStudentList = [];
+      var data = [];
+      data = this.studentDetails.slice(0);
+      console.log('sele', this.selectedStudentList)
+      console.log('stulis', this.studentDetails)
         this.selectedStudentList.forEach(s => {
-          this.studentDetails.forEach(d => {
-            if (s.StudentId !== d.StudentId) {
-              this.unSelectedStudentList.push({
+          data.forEach((d, index) => {
+            if (s.StudentId === d.StudentId) {
+              data.splice(index, 1)
+              
+            }
+          })
+        })
+        console.log('data', data)
+        data.forEach(d => {
+        this.unSelectedStudentList.push({
                 'Id': d.TransferId,
                 'HostelId': d.HostelId,
                 'StudentId': d.StudentId,
@@ -180,11 +194,13 @@ export class StudentTransferFormComponent implements OnInit {
                 'AcademicStatus': 2, //discontinued 
                 'Flag': 1 // default(update)
               })
-            }
-          })
         })
+
       }
+      console.log('unesele aftr', this.unSelectedStudentList)
+
     }
+    console.log('unselected', this.unSelectedStudentList)
   }
 
   isStudentStatus(): [boolean, string] {
@@ -221,7 +237,7 @@ export class StudentTransferFormComponent implements OnInit {
         if (res) {
           console.log('student data is inserted successfully');
           this.blockUI.stop();
-          this.selectedStudentList = [];
+          this.selectedStudentList = []; 
           this._messageService.clear();
           this._messageService.add({
             key: 't-msg', severity: ResponseMessage.SEVERITY_SUCCESS,
@@ -239,7 +255,7 @@ export class StudentTransferFormComponent implements OnInit {
       })
       if (this.unSelectedStudentList.length !== 0) {
         this.blockUI.start();
-        this._restApiService.put(PathConstants.StudentTransferDetails_Put, this.unSelectedStudentList).subscribe(res => {
+        this._restApiService.post(PathConstants.UpdateStudentTransferDetails_Put, this.unSelectedStudentList).subscribe(res => {
           if (res) {
             this.blockUI.stop();
             this.studentDetails = [];
@@ -254,6 +270,7 @@ export class StudentTransferFormComponent implements OnInit {
           }
         })
       } else {
+        this.blockUI.stop();
         this.studentDetails = [];
       }
     } else {

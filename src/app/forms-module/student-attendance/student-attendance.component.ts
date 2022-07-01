@@ -93,7 +93,7 @@ export class StudentAttendanceComponent implements OnInit {
                   }
                   i.isPresent = (i.AttendanceStatus) ? 'true' : 'false'; //to show if student is present or absent
                   if(i.StudentFilename !== null && i.StudentFilename !== undefined && i.StudentFilename.trim() !== ''){
-                  i.url = this.logged_user.domainUrl + 'assets/layout/' + i.HostelID + '/Documents/' + i.StudentFilename;
+                  i.url = this.logged_user.domainUrl + 'assets/layout/' + i.HostelID + '/' + 'Documents' + '/' + i.StudentFilename;
                   } else if(i.Gender === 1) {
                     i.url = this.logged_user.domainUrl + 'assets/layout/images/maleicon.jpg';
                   }

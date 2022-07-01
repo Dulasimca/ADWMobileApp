@@ -1,6 +1,6 @@
     <div class="p-col-12 p-md-12 p-lg-12">
         <!-- <p-toast position="top-center" key="t-msg"></p-toast> -->
-        <p-panel header="FeedingChargesType Report">
+        <p-panel header="Feeding Charges Type Report">
             <p-card>
                 <div class="p-col-12 no-pad-top">
                     <div class="p-grid">
@@ -16,10 +16,10 @@
                     <div style="text-align: right;">
                         <button pButton type="button" icon="pi pi-file-excel" label="Export"
                             style="color: yellowgreen;" (click)="dt.exportCSV()"
-                            pTooltip="Excel-File download"></button>
+                            pTooltip="Excel-File download" [disabled]="disableExcel"></button>
                     </div>
                     <p-table #dt [columns]="Cols" [value]="data" [paginator]="true" [rows]="100"
-                        [rowsPerPageOptions]="[10,30,50,100]" styleClass="p-datatable-gridlines" 
+                        [rowsPerPageOptions]="[10,30,50,100]" responsiveLayout="scroll" styleClass="p-datatable-gridlines" 
                         exportFilename="FEEDINGCHARGETYPE_REPORT">
                         <ng-template pTemplate="header" let-columns>
                             <tr>
@@ -50,6 +50,7 @@
                         </ng-template>
                     </p-table>
                 </div>
+            
             </p-card>
         </p-panel>
     </div>

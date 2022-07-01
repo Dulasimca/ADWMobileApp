@@ -55,7 +55,7 @@ export class PurchaseOrderComponent implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
   @ViewChild('f', { static: false }) _purchaseForm: NgForm;
   @ViewChild('cd', { static: false }) _alert: ConfirmDialog;
-  @ViewChild('dialog', { static: false }) _dialogTable: Dialog;
+  @ViewChild('dialog', { static: false }) _dialogBox: Dialog;
 
   constructor(private _datepipe: DatePipe, private _tableConstants: TableConstants,
     private _masterService: MasterService, private _messageService: MessageService,
@@ -331,7 +331,7 @@ export class PurchaseOrderComponent implements OnInit {
           'PurchaseId': id
         }
         var msg_key = (type === 1) ? 't-msg' : 't-dialog-msg';
-        this._restApiService.put(PathConstants.PurchaseOrder_Delete, params).subscribe(res => {
+        this._restApiService.post(PathConstants.UpdatePurchaseOrder_Delete, params).subscribe(res => {
           if (res !== undefined && res !== null) {
             if (res) {
               this.blockUI.stop();
@@ -451,7 +451,7 @@ export class PurchaseOrderComponent implements OnInit {
 
   onView() {
     this.showDialog = true;
-    this._dialogTable.maximized = true;
+    this._dialogBox.maximized = true;
     this.purchasedBillList = [];
     this.fromDate = null;
     this.toDate = null;

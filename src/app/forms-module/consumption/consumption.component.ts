@@ -350,7 +350,7 @@ export class ConsumptionComponent implements OnInit {
           accept: () => {
             this._alert.disableModality();
             this.blockUI.start();
-            this._restApiService.put(PathConstants.Consumption_Delete, { 'Id': data.Id }).subscribe(res => {
+            this._restApiService.post(PathConstants.Consumption_Delete, { 'Id': data.Id }).subscribe(res => {
               if (res !== undefined && res !== null) {
                 if (res) {
                   this.blockUI.stop();

@@ -301,7 +301,7 @@ loadTable() {
       }
     }
     console.log(params)
-    this._restApiService.put(PathConstants.MonthlywiseIntent_put, params).subscribe(res => {
+    this._restApiService.post(PathConstants.UpdateMonthlywiseIntent_put, params).subscribe(res => {
       var message = (id === 1) ? 'Approved Successfully' : 'Disapproved Successfully';
       if (res !== undefined && res !== null) {
         if (res) {

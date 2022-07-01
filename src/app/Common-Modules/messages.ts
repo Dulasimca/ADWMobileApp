@@ -31,7 +31,7 @@ export class ResponseMessage {
     public static readonly MeetingSuccess = 'Meeting created successfully!';
     public static readonly DeleteSuccessMsg = 'Deleted successfully !';
     public static readonly DeleteFailMsg = 'Record is not deleted !';
-    public static readonly EmailAlreadyExists = 'User email already exists !';
+    public static readonly EmailAlreadyExists = 'User email already exists ! Please try a different email address.';
     public static readonly PasswordChangeSuccess = 'Password has been changed successfully !';
     public static readonly MenuDataError = 'Error occurred in loading menu !';
     public static readonly ApprovalSuccess = 'Approved !';
@@ -50,5 +50,8 @@ export class ResponseMessage {
     public static readonly ExistingdataMessage = 'OB Data Available. Use Edit Option';
     public static readonly Biometricvalidate = 'Biometric Device Available. Pemission Denied';
     public static readonly NoImageMsg = 'No Images found!';
-    
-}
+    public static readonly DisApprovedSuccess = 'Disapproved';
+    public static readonly NoInstituteFound = 'No institutes found !';
+    public static readonly SanctionedEligibiltyErr = 'Cannot select student more than sanctioned strength !';
+ 
+} 

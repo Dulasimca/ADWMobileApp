@@ -23,10 +23,10 @@
                         <div class="p-col-12 p-md-6 p-lg-12">
                             <div style="text-align: right;">
                               <button pButton type="button" icon="pi pi-file-excel" style="color: yellowgreen;" label="Export"
-                                (click)="dt.exportCSV()" pTooltip="Excel-File download"></button>
+                                (click)="dt.exportCSV()" pTooltip="Excel-File download" [disabled]="disableExcel"></button>
                             </div>
                             <p-table #dt [columns]="cols" [value]="data" [paginator]="true" [rows]="10"
-                              [rowsPerPageOptions]="[5,10,15,20]"  exportFilename="FoodEntitlement_REPORT" totalRecords="totalRecords" styleClass="p-datatable-gridlines">
+                              [rowsPerPageOptions]="[5,10,15,20]" responsiveLayout="scroll"  exportFilename="FoodEntitlement_REPORT" totalRecords="totalRecords" styleClass="p-datatable-gridlines">
                               <ng-template pTemplate="header" let-columns>
                                 <tr>
                                   <th>S.No</th>

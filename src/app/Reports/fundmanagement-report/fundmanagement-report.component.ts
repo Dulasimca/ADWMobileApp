@@ -189,61 +189,63 @@ export class FundmanagementReportComponent implements OnInit {
       ///creating a treenode and adding parent and child to it
       var treeNode = [];
       // pushing children based on each row in parent data
-      let a_sno = 0;
+      var treeChild = [];
+      var districtChild = [];
+      var talukChild = [];
+      var hostelChild = [];
+       let a_sno = 0;
       for (let a = 0; a < accHead.length; a++) {
         a_sno = a_sno + 1;
         accHead[a].slno = a_sno;
-        var districtChild = [];
-        var talukChild = [];
-        var hostelChild = [];
-        let h_sno = 0;
-        for (let h = 0; h < hostel.length; h++) {
-          if (hostel[h].talukFundId === hostel[h].talukFundId) {
-            h_sno = h_sno + 1;
-            hostel[h].slno = h_sno;
-            hostelChild.push({
-              "data": hostel[h] //children (treenode-4)
-            })
-          } else {
-            continue;
-          }
-        }
+        let d_sno = 0;
+        districtChild = [];
+        for (let d = 0; d < district.length; d++) {
+          talukChild = [];
         let t_sno = 0;
         for (let t = 0; t < taluk.length; t++) {
-          if (taluk[t].districtFundId === accHead[a].districtFundId) {
-            t_sno = t_sno + 1;
-            taluk[t].slno = t_sno;
-            talukChild.push({
-              "data": taluk[t], //children to district(parent)/parent to hostel(children) (treenode-3)
-              "children": hostelChild //inner children to taluk
-            })
-          } else {
-            continue;
+          hostelChild = [];
+          let h_sno = 0;
+        for (let h = 0; h < hostel.length; h++) {
+              if (taluk[t].talukFundId === hostel[h].talukFundId && taluk[t].districtFundId === hostel[h].districtFundId) {
+                h_sno = h_sno + 1;
+                hostel[h].slno = h_sno;
+                hostelChild.push({
+                  "data": hostel[h] //children (treenode-4)
+                })
+              }
+            }
+            if (district[d].districtFundId === taluk[t].districtFundId) {
+              t_sno = t_sno + 1;
+              taluk[t].slno = t_sno;
+              talukChild.push({
+                "data": taluk[t], //children to district(parent)/parent to hostel(children) (treenode-3)
+                "children": hostelChild //inner children to taluk
+              })
+            }
           }
+          console.log('tc+hc', hostelChild, talukChild)
+          if(accHead[a].accHeadId === district[d].accHeadId) {
+          d_sno = d_sno + 1;
+          district[d].slno = d_sno;
+          districtChild.push({
+            "data": district[d], //children to district(parent)/parent to hostel(children) (treenode-3)
+            "children": talukChild //inner children to taluk
+          })
         }
-        let d_sno = 0;
-        for (let d = 0; d < district.length; d++) {
-          if (district[d].accHeadId === accHead[a].accHeadId) {
-            d_sno = d_sno + 1;
-            district[d].slno = d_sno;
-            districtChild.push({
-              "data": district[d], //children to account head(parent)/parent to taluk(children) (treenode-2)
-              "children": talukChild //inner children to district
-            })
-          } else {
-            continue;
-          }
+          console.log('dc', districtChild)
         }
         treeNode.push({
           "data": accHead[a], //parent (treenode-1)
           "children": districtChild //children with inner children
         })
       }
+
       this.treeData = treeNode; //assigning treenode to tree table data
       this.loading = false;
     } else {
       this.loading = false;
     }
+    console.log('data', accHead, district, taluk, hostel)
   }
 
   public getColor(name: string): string {

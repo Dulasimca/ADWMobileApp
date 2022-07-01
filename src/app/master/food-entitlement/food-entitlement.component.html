@@ -53,7 +53,7 @@
                             (click)="dt.exportCSV()" pTooltip="Excel-File download"></button>
                         </div>
                         <p-table #dt [columns]="cols" [value]="data" [paginator]="true" [rows]="10"
-                          [rowsPerPageOptions]="[5,10,15,20]"  exportFilename="FoodEntitlement_REPORT" totalRecords="totalRecords" styleClass="p-datatable-gridlines">
+                          [rowsPerPageOptions]="[5,10,15,20]" responsiveLayout="scroll"  exportFilename="FoodEntitlement_REPORT" totalRecords="totalRecords" styleClass="p-datatable-gridlines">
                           <ng-template pTemplate="header" let-columns>
                             <tr>
                               <th>S.No</th>

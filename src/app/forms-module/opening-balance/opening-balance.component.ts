@@ -68,9 +68,14 @@ export class OpeningBalanceComponent implements OnInit {
         this.unitOptions.unshift({ label: '-select', value: null });
         break;
       case 'Y':
-        this.years.forEach(y => {
+        var filtered_data = [];
+        filtered_data = this.years.filter(y => {
+          return y.type === 2;
+        })
+      filtered_data.forEach(y => {
           yearSelection.push({ label: y.name, value: y.code });
         })
+        console.log('t',this.years)
         this.yearOptions = yearSelection;
         this.yearOptions.unshift({ label: '-select', value: null });
         break;

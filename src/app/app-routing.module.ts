@@ -70,6 +70,27 @@ import { HostelGalleryComponent } from './hostel-gallery/hostel-gallery.componen
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { EmployeeStrengthComponent } from './forms-module/employee-strength/employee-strength.component';
 import { StudentcountReportComponent } from './Reports/studentcount-report/studentcount-report.component';
+import { HostelCommitteeComponent } from './master/hostel-committee/hostel-committee.component';
+import { OnlineRegistrationComponent } from './forms-module/online-registration/online-registration.component';
+import { DistrictWiseDashboardComponent } from './Dashboards/district-wise-dashboard/district-wise-dashboard.component';
+import { OnlineRegistrationCheckComponent } from './forms-module/online-registration-check/online-registration-check.component';
+import { TalukWiseDashboardComponent } from './Dashboards/taluk-wise-dashboard/taluk-wise-dashboard.component';
+import { HostelWiseDashboardComponent } from './Dashboards/hostel-wise-dashboard/hostel-wise-dashboard.component';
+import { HostelDashboardComponent } from './Dashboards/hostel-dashboard/hostel-dashboard.component';
+import { TotalCountDashboardComponent } from './Dashboards/total-count-dashboard/total-count-dashboard.component';
+import { ApplicationStatusComponent } from './application-status/application-status.component';
+import { HostelClosingdateEntryComponent } from './hostel-closingdate-entry/hostel-closingdate-entry.component';
+import { StudentReportComponent } from './Reports/student-report/student-report.component';
+import { EmployeeConfirmationComponent } from './employee-confirmation/employee-confirmation.component';
+import { HostelFunctioningTypeMasterComponent } from './master/hostel-functioning-type-master/hostel-functioning-type-master.component';
+import { HostelwisedataReportComponent } from './Reports/hostelwisedata-report/hostelwisedata-report.component';
+import { SchoolWiseStudentDetailsReportComponent } from './school-wise-student-details-report/school-wise-student-details-report.component';
+import { CoursemasterEntryComponent } from './Master-Entry/coursemaster-entry/coursemaster-entry.component';
+import { CommoditygroupEntryComponent } from './Master-Entry/commoditygroup-entry/commoditygroup-entry.component';
+import { UnitMasterEntryComponent } from './Master-Entry/unit-master-entry/unit-master-entry.component';
+import { SubcasteEntryComponent } from './Master-Entry/subcaste-entry/subcaste-entry.component';
+import { StudentCertificateDownloadComponent } from './Reports/student-certificate-download/student-certificate-download.component';
+
 
 const routes: Routes = [
   { path: '',   redirectTo: '/home', pathMatch: 'full' },
@@ -86,7 +107,7 @@ const routes: Routes = [
   { path: 'user-master', component:UsermasterComponent, canActivate: [AuthGuard]},
   { path: 'idcard-info', component:IdCardInfoComponent, canActivate: [AuthGuard]},
   { path: 'warden-report', component:WardenReportComponent, canActivate: [AuthGuard]},
-  { path: 'dailyconsumption-report', component:DailyconsumptionReportComponent, canActivate: [AuthGuard]},
+  { path: 'dailyconsumption-report', component:StudentCertificateDownloadComponent, canActivate: [AuthGuard]},
   { path: 'purchaseorder-report', component:PurchaseorderReportComponent, canActivate: [AuthGuard]},
   { path: 'student-report', component:StudentDetailsComponent, canActivate: [AuthGuard]},
   { path: 'openingblnc-report', component:OpeningbalanceReportComponent, canActivate: [AuthGuard]},
@@ -149,8 +170,31 @@ const routes: Routes = [
   { path: 'privacy-policy', component:PrivacyPolicyComponent, canActivate: [AuthGuard]},
   { path: 'employee-strength', component:EmployeeStrengthComponent, canActivate: [AuthGuard]},
   { path: 'student-count', component:StudentcountReportComponent, canActivate: [AuthGuard]},
-  
+  { path: 'Hostel-Committee', component:HostelCommitteeComponent, canActivate: [AuthGuard]},
+  { path: 'total-count-dashboard', component:TotalCountDashboardComponent,  canActivate: [AuthGuard]},
+  { path: 'district-wise-dashboard', component:DistrictWiseDashboardComponent, canActivate: [AuthGuard]},
+  { path: 'taluk-wise-dashboard', component:TalukWiseDashboardComponent, canActivate: [AuthGuard] },
+  { path: 'hostel-wise-dashboard', component:HostelWiseDashboardComponent, canActivate: [AuthGuard] },
+  { path: 'hostel-dashboard', component:HostelDashboardComponent, canActivate: [AuthGuard] },
+  { path: 'online-registration', component:OnlineRegistrationComponent},
+  { path: 'online-check', component:OnlineRegistrationCheckComponent},
 
+
+  { path: 'application-status', component:ApplicationStatusComponent},
+  { path: 'closingdate-entry', component:HostelClosingdateEntryComponent,canActivate: [AuthGuard] },
+  // { path: 'student-report', component:StudentReportComponent,canActivate: [AuthGuard] }, 
+    { path: 'studentreport', component:StudentReportComponent,canActivate: [AuthGuard] }, 
+  { path: 'employee-confirmation', component:EmployeeConfirmationComponent,canActivate: [AuthGuard]},
+  { path: 'hostel-functioningtype', component:HostelFunctioningTypeMasterComponent,canActivate: [AuthGuard] }, 
+  { path: 'hostelwisedatareport', component:HostelwisedataReportComponent},
+  { path: 'Schoolwisestudentdetailsreport', component:SchoolWiseStudentDetailsReportComponent},
+  //master entry,
+  { path: 'commoditygroup-entry', component:CommoditygroupEntryComponent,canActivate: [AuthGuard]},
+  { path: 'unit-master-entry', component:UnitMasterEntryComponent,canActivate: [AuthGuard]},
+  { path: 'subcaste-entry', component:SubcasteEntryComponent,canActivate: [AuthGuard]},
+  { path: 'coursemaster-entry', component:  CoursemasterEntryComponent  ,canActivate: [AuthGuard]},
+  { path: 'hostel-functioningtype', component:HostelFunctioningTypeMasterComponent,canActivate: [AuthGuard] },
+  { path: 'student-certificate-download', component:StudentCertificateDownloadComponent,canActivate: [AuthGuard] },
 ];
 
 

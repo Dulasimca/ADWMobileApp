@@ -24,7 +24,7 @@
                                 </div>
                                 <div class="p-col-12 p-md-6 p-lg-2">
                                     <div><label for="_date"> Attendance Date</label></div>
-                                     <p-calendar [readonlyInput]="true" [showOtherMonths]="false" [(ngModel)]="attendanceDate" dateFormat="dd/mm/yy"
+                                    <p-calendar [showOtherMonths]="false" [(ngModel)]="attendanceDate"
                                         name="_date" [showIcon]="true" [maxDate]="maxDate" (onSelect)="GetAttendanceInfo()" required>
                                     </p-calendar>
                                 </div>
@@ -33,7 +33,7 @@
                                 <label for="_noofstud">Number of Student<span
                                     class="form-mandatory-field">*</span></label>
                                 <input type="text" name="_noofstud" [(ngModel)]="noOfStudent" pInputText
-                                   [readonly]="disableFields" required />
+                                   [readonly]="disableFields" (input)="checkStudentCount(noOfStudent)" (click)="Displaymessage()" required />
                                 </div>
                                 <div class="p-col-12 p-md-6 p-lg-2">
                                     <label for="_Remarks">Remarks</label>

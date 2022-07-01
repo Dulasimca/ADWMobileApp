@@ -63,6 +63,7 @@ export class StudentfacilityReportComponent implements OnInit {
   FacilityType: any;
   facilityOptions: SelectItem[];
   facilitytypes?: any = [];
+  disableExcel: boolean = true;
 
   constructor(private http: HttpClient, private restApiService: RestAPIService,
     private masterService: MasterService, private _authService: AuthService,
@@ -176,9 +177,11 @@ export class StudentfacilityReportComponent implements OnInit {
         if (res.Table !== undefined && res.Table !== null) {
           if (res.Table.length !== 0) {
             this.hostelData = res.Table;
+            this.disableExcel = false;
             this.loading = false;
           } else {
             this.loading = false;
+            this.disableExcel = true;
             this._messageService.clear();
             this._messageService.add({
               key: 't-msg', severity: ResponseMessage.SEVERITY_WARNING,
@@ -187,6 +190,7 @@ export class StudentfacilityReportComponent implements OnInit {
           }
         } else {
           this.loading = false;
+          this.disableExcel = true;
           this._messageService.clear();
           this._messageService.add({
             key: 't-msg', severity: ResponseMessage.SEVERITY_WARNING,

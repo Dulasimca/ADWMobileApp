@@ -224,6 +224,7 @@ export class DOFundManagementComponent implements OnInit {
   //dialog data
   onAdd(rowData) {
     // this.showTable = false;
+    this.clearForm();
     this.showDialog = true;
     this.accYear = rowData.ShortYear;
     this.groupType = rowData.GroupName;
@@ -235,10 +236,13 @@ export class DOFundManagementComponent implements OnInit {
 //    this.loading = false;
 //  }
   clearForm() {
+    this._doFundForm.form.markAsUntouched();
+    this._doFundForm.form.markAsPristine();
     this.districtOptions = [];
     this.districtAmount = 0;
     this.totalDistrictAmt = 0;
     this.blncAmount = 0;
+    this.district = '';
   }
 }
 

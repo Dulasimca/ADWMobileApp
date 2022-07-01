@@ -33,6 +33,7 @@ export class PurchaseorderReportComponent implements OnInit {
   loading: boolean;
   logged_user: User;
   totalRecords: number;
+  disableExcel: boolean = true;
 
   constructor(private masterService: MasterService, private restApiService: RestAPIService, private _tableConstants: TableConstants,
     private _messageService: MessageService, private _authService: AuthService, private _datePipe: DatePipe) { }
@@ -63,14 +64,16 @@ export class PurchaseorderReportComponent implements OnInit {
           this.districtOptions.unshift({ label: '-select-', value: null });
           break;
         case 'T':
-            this.taluks.forEach(t => {
-                talukSelection.push({ label: t.name, value: t.code });
-            })
-            this.talukOptions = talukSelection;
-            if ((this.logged_user.roleId * 1) === 1 || (this.logged_user.roleId * 1) === 2) {
-              this.talukOptions.unshift({ label: 'All', value: 0 });
+          this.taluks.forEach(t => {
+            if (t.dcode === this.district) {
+              talukSelection.push({ label: t.name, value: t.code });
             }
-            this.talukOptions.unshift({ label: '-select-', value: null });
+          })
+          this.talukOptions = talukSelection;
+          if ((this.logged_user.roleId * 1) === 1 || (this.logged_user.roleId * 1) === 2) {
+            this.talukOptions.unshift({ label: 'All', value: 0 });
+          }
+          this.talukOptions.unshift({ label: '-select-', value: null });
           break;
       }
     }
@@ -78,42 +81,42 @@ export class PurchaseorderReportComponent implements OnInit {
   changeDistrict() {
     let hostelSelection = [];
     const params = {
-      'Type' : 0,
+      'Type': 0,
       'DCode': this.district,
       'TCode': this.taluk,
       'HostelId': ((this.logged_user.roleId * 1) === 4) ? this.logged_user.hostelId : 0
     }
     if (this.district !== null && this.district !== undefined && this.district !== 'All' &&
-    this.taluk !== null && this.taluk !== undefined) {
+      this.taluk !== null && this.taluk !== undefined) {
       this.restApiService.getByParameters(PathConstants.Hostel_Get, params).subscribe(res => {
         if (res !== null && res !== undefined && res.length !== 0) {
           this.hostels = res.Table;
-            this.hostels.forEach(h => {
-              hostelSelection.push({ label: h.HostelName, value: h.Slno });
-            })
+          this.hostels.forEach(h => {
+            hostelSelection.push({ label: h.HostelName, value: h.Slno });
+          })
         }
       })
     }
-      this.hostelOptions = hostelSelection;
-      if((this.logged_user.roleId * 1) !== 4) {
+    this.hostelOptions = hostelSelection;
+    if ((this.logged_user.roleId * 1) !== 4) {
       this.hostelOptions.unshift({ label: 'All', value: 0 });
     }
-      this.hostelOptions.unshift({ label: '-select-', value: null });
+    this.hostelOptions.unshift({ label: '-select-', value: null });
+  }
+  refreshFields(value) {
+    if (value === 'D') {
+      this.taluk = null;
+      this.talukOptions = [];
     }
-    refreshFields(value) {
-      if(value === 'D') {
-        this.taluk = null;
-        this.talukOptions = [];
-      } 
-      this.changeDistrict();
-    }
-      
-    loadTable() {
-     // this.changeDistrict();
-      this.purchaseData = [];
-      if(this.district !== null && this.district !== undefined && this.taluk !==null && this.taluk !==undefined &&
-        this.hostelName !== null && this.hostelName !== undefined && this.fromDate !== null && this.hostelName !==undefined &&
-        this.toDate !==null && this.toDate !== undefined){
+    this.changeDistrict();
+  }
+
+  loadTable() {
+    // this.changeDistrict();
+    this.purchaseData = [];
+    if (this.district !== null && this.district !== undefined && this.taluk !== null && this.taluk !== undefined &&
+      this.hostelName !== null && this.hostelName !== undefined && this.fromDate !== null && this.hostelName !== undefined &&
+      this.toDate !== null && this.toDate !== undefined) {
       this.loading = true;
       const params = {
         'Districtcode': this.district,
@@ -129,8 +132,10 @@ export class PurchaseorderReportComponent implements OnInit {
           })
           this.purchaseData = res.Table;
           this.totalRecords = this.purchaseData.length;
+          this.disableExcel = false;
           this.loading = false;
         } else {
+          this.disableExcel = true;
           this.loading = false;
           this._messageService.clear();
           this._messageService.add({
@@ -138,7 +143,7 @@ export class PurchaseorderReportComponent implements OnInit {
             summary: ResponseMessage.SUMMARY_WARNING, detail: ResponseMessage.NoRecForCombination
           })
         }
-       })
-      }
+      })
     }
+  }
 }

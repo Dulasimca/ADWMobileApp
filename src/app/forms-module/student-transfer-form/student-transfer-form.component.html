@@ -33,7 +33,7 @@
                                 <div #row2 class="p-col-12 p-md-12 p-lg-12">
                                     <p-table #dt styleClass="p-datatable-gridlines" [columns]="studentDetailCols"
                                         [value]="studentDetails" [paginator]="true" dataKey="StudentId" [rows]="10"
-                                        (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)">
+                                        (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)" responsiveLayout="scroll">
                                         <ng-template pTemplate="header" let-columns let-rowData>
                                             <tr>
                                                 <th style="width: 3rem">

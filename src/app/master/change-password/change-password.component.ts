@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ResponseMessage } from 'src/app/Common-Modules/messages';
 import { PathConstants } from 'src/app/Common-Modules/PathConstants';
@@ -29,7 +30,7 @@ export class ChangePasswordComponent implements OnInit {
  
   @ViewChild ('f', { static: false }) changePwdForm: NgForm;
   constructor(private _restApiService: RestAPIService, private _authService: AuthService,
-    private _messageService: MessageService) { }
+    private _messageService: MessageService, private _router: Router) { }
 
   ngOnInit(): void {
     this.logged_user = this._authService.UserInfo;
@@ -43,9 +44,10 @@ export class ChangePasswordComponent implements OnInit {
       'OldEncryptedPwd': this.logged_user.token,
       'UserId': this.logged_user.userID
     }
-    this._restApiService.put(PathConstants.UserMaster_Put, params).subscribe(res => {
+    this._restApiService.post(PathConstants.UserMaster_Put, params).subscribe(res => {
       if (res.item1) {
         this.onClear();
+        this._router.navigate(['/login']);
         this._messageService.clear();
         this._messageService.add({
           key: 't-msg', severity: ResponseMessage.SEVERITY_SUCCESS,
@@ -96,7 +98,7 @@ export class ChangePasswordComponent implements OnInit {
     this.UpperCaseErrMsg = true;    
     this.pswdStrongMsg = false;    
     }    
-    if (NewPassword.length > 8) {    
+    if (NewPassword.length >= 8) {    
     this.LengthErrMsg = false;    
     } else {    
     this.LengthErrMsg = true;    

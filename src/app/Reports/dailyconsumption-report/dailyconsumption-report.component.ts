@@ -31,6 +31,7 @@ export class DailyconsumptionReportComponent implements OnInit {
   hostels?: any;
   loading: boolean;
   logged_user: User;
+  disableExcel: boolean = true;
 
   constructor(private masterService: MasterService, private restApiService: RestAPIService, private _tableConstants: TableConstants,
     private _messageService: MessageService, private _authService: AuthService, private _datePipe: DatePipe) { }
@@ -127,9 +128,11 @@ export class DailyconsumptionReportComponent implements OnInit {
             r.ConsumptionDate = this._datePipe.transform(r.ConsumptionDate, 'dd/MM/yyyy');
           })
           this.consumptionDetails = res.Table;
+          this.disableExcel = false;
           this.loading = false;
         } else {
           this.loading = false;
+          this.disableExcel = true;
           this._messageService.clear();
           this._messageService.add({
             key: 't-msg', severity: ResponseMessage.SEVERITY_WARNING,

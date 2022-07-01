@@ -32,8 +32,17 @@ import { MenubarModule } from 'primeng/menubar';
 import { ChartModule } from 'primeng/chart';
 import {GalleriaModule} from 'primeng/galleria';
 import {TreeTableModule} from 'primeng/treetable';
-import {ToggleButtonModule} from 'primeng/togglebutton';
+import { ToggleButtonModule } from 'primeng/togglebutton';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { PasswordModule } from "primeng/password";
+import { KeyFilterModule } from 'primeng/keyfilter';
+import { RippleModule } from 'primeng/ripple';
+import { CarouselModule } from 'primeng/carousel';
+import { HighchartsChartModule } from 'highcharts-angular';
+import { PaginatorModule } from 'primeng/paginator';
+import {MessagesModule} from 'primeng/messages';
+import {MessageModule} from 'primeng/message';
+
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -44,6 +53,7 @@ import { RegistrationComponent } from './forms-module/registration/registration.
 import { FoodmasterComponent } from './master/foodmaster/foodmaster.component';
 import { HostelmasterComponent } from './master/hostelmaster/hostelmaster.component';
 import { WardenDetailsComponent } from './forms-module/warden-details/warden-details.component';
+import { CameraComponent } from './Feature-module/camera/camera.component';
 import { CommodityMasterComponent } from './master/commodity-master/commodity-master.component';
 import { OpeningBalanceComponent } from './forms-module/opening-balance/opening-balance.component';
 
@@ -61,7 +71,6 @@ import { ConsumptionComponent } from './forms-module/consumption/consumption.com
 import { TableConstants } from './Common-Modules/table-constants';
 import { HostelGoComponent } from './master/hostel-go/hostel-go.component';
 import { ChangePasswordComponent } from './master/change-password/change-password.component';
-import { PasswordModule } from "primeng/password";
 import { IdCardInfoComponent } from './id-card-info/id-card-info.component';
 
 import { LocationService } from './services/location.service';
@@ -78,48 +87,77 @@ import { StudentDetailsComponent } from './Reports/student-details/student-detai
 import { PurchaseUploadComponent } from './forms-module/purchase-upload/purchase-upload.component';
 import { OpeningbalanceReportComponent } from './Reports/openingbalance-report/openingbalance-report.component';
 import { InputFormatDirective } from './directives/input-format.directive';
-import { AuditComponent } from './forms-module/audit/audit.component';
-import { CameraCaptureComponent } from './camera-capture/camera-capture.component';
-import { ApprovalComponent } from './forms-module/approval/approval.component';
-import { ApprovalRequestComponent } from './forms-module/approval-request/approval-request.component';
-import { StudentfacilityMasterComponent } from './master/studentfacility-master/studentfacility-master.component';
-import { StudentfacilityReportComponent } from './Reports/studentfacility-report/studentfacility-report.component';
-import { EmployeeReportComponent } from './Reports/employee-report/employee-report.component';
-import { StudentTransferFormComponent } from './forms-module/student-transfer-form/student-transfer-form.component';
-import { HostelinfrastructureReportComponent } from './Reports/hostelinfrastructure-report/hostelinfrastructure-report.component';
-import { FeedingchargestypeReportComponent } from './Reports/feedingchargestype-report/feedingchargestype-report.component';
-import { HostelinfrastructureComponent } from './master/hostelinfrastructure/hostelinfrastructure.component';
-import { EmployeeMasterComponent } from './master/employee-master/employee-master.component';
-import { MonthlywiseintentComponent } from './forms-module/monthlywiseintent/monthlywiseintent.component';
-import { MonthlywiseintentapprovalComponent } from './forms-module/monthlywiseintentapproval/monthlywiseintentapproval.component';
 import { FeedingchargestypeComponent } from './master/feedingchargestype/feedingchargestype.component';
-import { FoodentitlementReportComponent } from './Reports/foodentitlement-report/foodentitlement-report.component';
-import { EmployeeattendanceReportComponent } from './Reports/employeeattendance-report/employeeattendance-report.component';
-import { FundmanagementReportComponent } from './Reports/fundmanagement-report/fundmanagement-report.component';
-import { MonthlywiseintentReportComponent } from './Reports/monthlywiseintent-report/monthlywiseintent-report.component';
-import { StudentAttendanceComponent } from './forms-module/student-attendance/student-attendance.component';
-import { EmployeeattendanceDetailsComponent } from './forms-module/employeeattendance-details/employeeattendance-details.component';
+import { HostelinfrastructureComponent } from './master/hostelinfrastructure/hostelinfrastructure.component';
+import { MonthlywiseintentComponent } from './forms-module/monthlywiseintent/monthlywiseintent.component';
 import { DOFundManagementComponent } from './Fund-Management-Module/do-fund-management/do-fund-management.component';
-import { HOFundmanagementComponent } from './Fund-Management-Module/ho-fundmanagement/ho-fundmanagement.component';
+import { HOFundmanagementComponent } from './Fund-Management-Module/ho-fundmanagement/ho-fundmanagement.component'; 
 import { TOFundManagementComponent } from './Fund-Management-Module/to-fund-management/to-fund-management.component';
 import { HostelFundManagementComponent } from './Fund-Management-Module/hostel-fund-management/hostel-fund-management.component';
+import { MonthlywiseintentReportComponent } from './Reports/monthlywiseintent-report/monthlywiseintent-report.component';
+import { AuditComponent } from './forms-module/audit/audit.component';
+import { StudentfacilityMasterComponent } from './master/studentfacility-master/studentfacility-master.component';
+import { StudentfacilityReportComponent } from './Reports/studentfacility-report/studentfacility-report.component';
+import { HostelinfrastructureReportComponent } from './Reports/hostelinfrastructure-report/hostelinfrastructure-report.component';
+import { ApprovalRequestComponent } from './forms-module/approval-request/approval-request.component';
+import { ApprovalComponent } from './forms-module/approval/approval.component';
+import { MonthlywiseintentapprovalComponent } from './forms-module/monthlywiseintentapproval/monthlywiseintentapproval.component';
+
+import { EmployeeMasterComponent } from './master/employee-master/employee-master.component';
+import { EmployeeReportComponent } from './Reports/employee-report/employee-report.component';
+import { FundmanagementReportComponent } from './Reports/fundmanagement-report/fundmanagement-report.component';
+
+import { FeedingchargestypeReportComponent } from './Reports/feedingchargestype-report/feedingchargestype-report.component';
+
+import { StudentTransferFormComponent } from './forms-module/student-transfer-form/student-transfer-form.component';
+
+
+import { EmployeeattendanceDetailsComponent } from './forms-module/employeeattendance-details/employeeattendance-details.component';
+import { StudentAttendanceComponent } from './forms-module/student-attendance/student-attendance.component';
+import { EmployeeattendanceReportComponent } from './Reports/employeeattendance-report/employeeattendance-report.component';
 import { BiometricDevicemappingComponent } from './Biometric/biometric-devicemapping/biometric-devicemapping.component';
+import { FoodEntitlementComponent } from './master/food-entitlement/food-entitlement.component';
+
 import { BiometricattendanceComponent } from './Biometric/biometricattendance/biometricattendance.component';
+import { FoodentitlementReportComponent } from './Reports/foodentitlement-report/foodentitlement-report.component';
 import { BiometricAttendanceComponent } from './Biometric/biometric-attendance/biometric-attendance.component';
 import { BiometricattendancecountComponent } from './Biometric/biometricattendancecount/biometricattendancecount.component';
 import { PurchasedetailsReportComponent } from './Reports/purchasedetails-report/purchasedetails-report.component';
-import { FoodEntitlementComponent } from './master/food-entitlement/food-entitlement.component';
-import { StudentFeedbackRegistrationComponent } from './Student/student-feedback-registration/student-feedback-registration.component';
+import { DevicemappingReportComponent } from './Reports/devicemapping-report/devicemapping-report.component';
 import { FeedbackComponent } from './Student/feedback/feedback.component';
+import { StudentFeedbackRegistrationComponent } from './Student/student-feedback-registration/student-feedback-registration.component';
 import { StudentFeedbackComponent } from './Student/student-feedback/student-feedback.component';
+import { HomepageImageUploadComponent } from './forms-module/homepage-image-upload/homepage-image-upload.component';
 import { HostelGalleryComponent } from './hostel-gallery/hostel-gallery.component';
 import { HostelgalleryuploadComponent } from './forms-module/hostelgalleryupload/hostelgalleryupload.component';
-import { HomepageImageUploadComponent } from './forms-module/homepage-image-upload/homepage-image-upload.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { EmployeeStrengthComponent } from './forms-module/employee-strength/employee-strength.component';
-import { DevicemappingReportComponent } from './Reports/devicemapping-report/devicemapping-report.component';
 import { StudentcountReportComponent } from './Reports/studentcount-report/studentcount-report.component';
-import {KeyFilterModule} from 'primeng/keyfilter';
+import { HostelCommitteeComponent } from './master/hostel-committee/hostel-committee.component';
+import { OnlineRegistrationComponent } from './forms-module/online-registration/online-registration.component';
+import { DistrictWiseDashboardComponent } from './Dashboards/district-wise-dashboard/district-wise-dashboard.component';
+import { TalukWiseDashboardComponent } from './Dashboards/taluk-wise-dashboard/taluk-wise-dashboard.component';
+import { HostelWiseDashboardComponent } from './Dashboards/hostel-wise-dashboard/hostel-wise-dashboard.component';
+import { TotalCountDashboardComponent } from './Dashboards/total-count-dashboard/total-count-dashboard.component';
+import { OnlineRegistrationCheckComponent } from './forms-module/online-registration-check/online-registration-check.component';
+import { HostelDashboardComponent } from './Dashboards/hostel-dashboard/hostel-dashboard.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { ApplicationStatusComponent } from './application-status/application-status.component';
+import { HostelClosingdateEntryComponent } from './hostel-closingdate-entry/hostel-closingdate-entry.component';
+import { StudentReportComponent } from './Reports/student-report/student-report.component';
+import { EmployeeConfirmationComponent } from './employee-confirmation/employee-confirmation.component';
+import { HostelFunctioningTypeMasterComponent } from './master/hostel-functioning-type-master/hostel-functioning-type-master.component';
+
+import { HostelwisedataReportComponent } from './Reports/hostelwisedata-report/hostelwisedata-report.component';
+import { SchoolWiseStudentDetailsReportComponent } from './school-wise-student-details-report/school-wise-student-details-report.component';
+
+import { CoursemasterEntryComponent } from './Master-Entry/coursemaster-entry/coursemaster-entry.component';
+import { CommoditygroupEntryComponent } from './Master-Entry/commoditygroup-entry/commoditygroup-entry.component';
+import { UnitMasterEntryComponent } from './Master-Entry/unit-master-entry/unit-master-entry.component';
+import { SubcasteEntryComponent } from './Master-Entry/subcaste-entry/subcaste-entry.component';
+import { StudentCertificateDownloadComponent } from './Reports/student-certificate-download/student-certificate-download.component';
+import { SchoolwiseDocumentUploadComponent } from './schoolwise-document-upload/schoolwise-document-upload.component';
+
 
 @NgModule({
   declarations: [
@@ -132,6 +170,7 @@ import {KeyFilterModule} from 'primeng/keyfilter';
     HostelmasterComponent,
     RegistrationComponent,
     WardenDetailsComponent,
+    CameraComponent,
     UsermasterComponent,
     CommodityMasterComponent,
     OpeningBalanceComponent,
@@ -156,47 +195,71 @@ import {KeyFilterModule} from 'primeng/keyfilter';
     OpeningbalanceReportComponent,
     PurchaseUploadComponent,
     InputFormatDirective,
-    AuditComponent,
-    CameraCaptureComponent,
-    ApprovalRequestComponent,
-    ApprovalComponent,
-    StudentfacilityMasterComponent,
-    StudentfacilityReportComponent,
-    EmployeeReportComponent,
-    StudentTransferFormComponent,
-    FeedingchargestypeReportComponent,
-    HostelinfrastructureReportComponent,
-    HostelinfrastructureComponent,
-    EmployeeMasterComponent,
-    MonthlywiseintentComponent,
-    MonthlywiseintentapprovalComponent,
     FeedingchargestypeComponent,
-    FoodentitlementReportComponent,
-    EmployeeattendanceReportComponent,
-    FundmanagementReportComponent,
-    MonthlywiseintentReportComponent,
-    StudentAttendanceComponent,
-    EmployeeattendanceDetailsComponent,
+    HostelinfrastructureComponent,
+    MonthlywiseintentComponent,
     DOFundManagementComponent,
     HOFundmanagementComponent,
     TOFundManagementComponent,
     HostelFundManagementComponent,
+    MonthlywiseintentReportComponent,
+    AuditComponent,
+    StudentfacilityMasterComponent,
+    StudentfacilityReportComponent,
+    HostelinfrastructureReportComponent,
+    ApprovalRequestComponent,
+    ApprovalComponent,
+    MonthlywiseintentapprovalComponent,
+    EmployeeMasterComponent,
+    EmployeeReportComponent,
+    FundmanagementReportComponent,
+    StudentTransferFormComponent,
+    FeedingchargestypeReportComponent,
+    EmployeeattendanceDetailsComponent,
+    StudentAttendanceComponent,
+    EmployeeattendanceReportComponent,
     BiometricDevicemappingComponent,
+    FoodEntitlementComponent,
+   
     BiometricattendanceComponent,
+    FoodentitlementReportComponent,
     BiometricAttendanceComponent,
     BiometricattendancecountComponent,
     PurchasedetailsReportComponent,
-    FoodEntitlementComponent,
+    DevicemappingReportComponent,
     FeedbackComponent,
     StudentFeedbackRegistrationComponent,
     StudentFeedbackComponent,
+    HomepageImageUploadComponent,
     HostelGalleryComponent,
     HostelgalleryuploadComponent,
-    HomepageImageUploadComponent,
     PrivacyPolicyComponent,
     EmployeeStrengthComponent,
-    DevicemappingReportComponent,
     StudentcountReportComponent,
+    HostelCommitteeComponent,
+    OnlineRegistrationComponent,
+    DistrictWiseDashboardComponent,
+    TalukWiseDashboardComponent,
+    HostelWiseDashboardComponent,
+    TotalCountDashboardComponent,
+    OnlineRegistrationCheckComponent,
+    HostelDashboardComponent,
+    ApplicationStatusComponent,
+    HostelClosingdateEntryComponent,
+    StudentReportComponent,
+    CommoditygroupEntryComponent,
+    UnitMasterEntryComponent,
+    EmployeeConfirmationComponent,
+    HostelFunctioningTypeMasterComponent,
+
+    HostelwisedataReportComponent,
+    SchoolWiseStudentDetailsReportComponent,
+
+    SubcasteEntryComponent,
+    CoursemasterEntryComponent,
+    StudentCertificateDownloadComponent,
+    SchoolwiseDocumentUploadComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -235,6 +298,13 @@ import {KeyFilterModule} from 'primeng/keyfilter';
     ToggleButtonModule,
     OverlayPanelModule,
     KeyFilterModule,
+    RippleModule,
+    CarouselModule,
+    HighchartsChartModule,
+    PaginatorModule,
+    PdfViewerModule,
+    MessagesModule,
+    MessageModule,
     BlockUIModule.forRoot(),
   ],
 

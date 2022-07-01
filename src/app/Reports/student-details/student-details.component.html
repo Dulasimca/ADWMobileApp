@@ -2,131 +2,315 @@
     <div class="p-grid">
         <div class="p-col-12 p-md-12 p-lg-12">
             <p-toast position="top-center" key="t-msg"></p-toast>
-        <p-panel header="Student Details Report">
-            <p-card>
-                <div class="p-col-12 no-pad-top">
-                    <div class="p-grid">
-                        <div class="p-col-2"></div>
-                        <div class="p-col-12 p-md-12 p-lg-10 no-pad-top">
-                            <div class="p-grid">
-                                <div #row1 class="p-col-6 p-md-6 p-lg-2">
-                                    <div><label for="_district">District</label>
+            <p-panel header="Approval Status">
+                <p-card>
+                    <div class="p-col-12 no-pad-top">
+                        <div class="p-grid">
+                            <div class="p-col-2"></div>
+                            <div class="p-col-12 p-md-12 p-lg-10 no-pad-top">
+                                <div class="p-grid">
+                                    <div #row1 class="p-col-6 p-md-6 p-lg-2">
+                                        <div><label for="_district">District</label>
+                                        </div>
+                                        <p-dropdown name="_district" [options]="districtOptions" [(ngModel)]="district"
+                                            (onClick)="onSelect('D')" (onChange)="reloadFields('D')" required>
+                                        </p-dropdown>
                                     </div>
-                                    <p-dropdown name="_district" [options]="districtOptions" [(ngModel)]="district"
-                                        (onClick)="onSelect('D')" (onChange)="reloadFields('D')" required>
-                                    </p-dropdown>
-                                </div>
-                                <div #row1 class="p-col-6 p-md-6 p-lg-2">
-                                    <div><label for="_taluk">Taluk</label>
+                                    <div #row1 class="p-col-6 p-md-6 p-lg-2">
+                                        <div><label for="_taluk">Taluk</label>
+                                        </div>
+                                        <p-dropdown name="_taluk" [options]="talukOptions" [(ngModel)]="taluk"
+                                            (onClick)="onSelect('T')" (onChange)="reloadFields('T')" required>
+                                        </p-dropdown>
                                     </div>
-                                    <p-dropdown name="_taluk" [options]="talukOptions" [(ngModel)]="taluk"
-                                        (onClick)="onSelect('T')" (onChange)="reloadFields('T')" required>
-                                    </p-dropdown>
-                                </div>
-                                <div class="p-col-12 p-md-6 p-lg-3">
-                                    <div><label for="_hostel">Hostel Name</label>
+                                    <div class="p-col-12 p-md-6 p-lg-3">
+                                        <div><label for="_hostel">Hostel Name</label>
+                                        </div>
+                                        <p-dropdown name="_hostel" [options]="hostelOptions" [(ngModel)]="hostel"
+                                            (onClick)="onSelect('HN')" (onChange)="loadTable()" required>
+                                        </p-dropdown>
                                     </div>
-                                    <p-dropdown name="_hostel" [options]="hostelOptions" [(ngModel)]="hostel"
-                                        (onClick)="onSelect('HN')" (onChange)="loadTable()" required>
-                                    </p-dropdown>
                                 </div>
                             </div>
-                        </div>
-                        <div class="p-col-12 p-md-12 p-lg-12">
-                            <div style="text-align: right;">
-                                <button pButton type="button" icon="pi pi-file-excel" label="Export"
-                                    style="color: yellowgreen;" (click)="dt.exportCSV()"
-                                    pTooltip="Excel-File download"></button>
-                            </div>
-                            <p-table #dt [value]="studentData" [columns]="studentCols"
-                                styleClass="p-datatable-gridlines" [paginator]="true" [rows]="40"
-                                [rowsPerPageOptions]="[10,20,30,40]" [loading]="loading"
-                                exportFilename="STUDENT_DETAILS_REPORT">
-                                <ng-template pTemplate="header" let-columns>
-                                    <tr>
-                                        <th>S.No</th>
-                                        <th *ngFor="let col of columns">
-                                            {{col.header}}
-                                        </th>
-                                        <th *ngIf="(roleId==2 || roleId==3)">Approval Status</th>
-                                        <th *ngIf="(roleId==1 || roleId==4)">Taluk Approval Status</th>
-                                        <th *ngIf="(roleId==1 || roleId==4)">District Approval Status</th>
-                                    </tr>
-                                </ng-template>
-                                <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex" let-columns="columns">
-                                    <tr class="tr-border">
-                                        <td class="td-border">
-                                            <span class="p-column-title">
-                                                S.No :
-                                            </span>
-                                            <span style="text-align: end;">
-                                                {{rowIndex+1}}
-                                            </span>
-                                        </td>
-                                        <td *ngFor="let col of columns" [style.text-align]="col.align" class="td-border">
-                                            <span class="p-column-title">
-                                                {{col.header}} :
-                                            </span>
-                                            <span style="text-align: end;"> {{rowData[col.field]}}
-                                            </span>
-                                        </td>
-                                        <td *ngIf="(roleId==2 && !(rowData.districtApproval))"
-                                            (click)="selectForApproval(rowData)">
+                            <div class="p-col-12 p-md-12 p-lg-12">
+                                <!-- <p-tabView #tabview (onChange)="onTabChange($event)">
+                                <p-tabPanel [header]="item.header" *ngFor="let item of items; let i = index" [selected]="i == 0"> -->
+                                <div style="text-align: right;">
+                                    <button pButton type="button" icon="pi pi-file-excel" label="Export"
+                                        style="color: yellowgreen;" (click)="dt.exportCSV()"
+                                        pTooltip="Excel-File download" [disabled]="disableExcel"></button>
+                                </div>
+                                <p-table #dt [value]="studentData" [columns]="studentCols"
+                                    styleClass="p-datatable-gridlines" [paginator]="true" [rows]="40"
+                                    [rowsPerPageOptions]="[10,20,30,40]"  responsiveLayout="scroll"
+                                    totalRecords="totalRecords" [loading]="loading" responsiveLayout="scroll"
+                                    exportFilename="STUDENT_DETAILS_REPORT">
+                                    <ng-template pTemplate="header" let-columns>
+                                        <tr>
+                                            <th>S.No</th>
+                                            <th *ngFor="let col of columns">
+                                                {{col.header}}
+                                            </th>
+                                            <th *ngIf="(roleId==2 || roleId==3 || roleId==4)">Approval Status</th>
+                                            <th *ngIf="(roleId==2 || roleId==3)">DisApproval Status</th>
+                                            <th *ngIf="(roleId==2)">Download PDF</th>
+                                            <th *ngIf="(roleId==1)">Warden Approval Status</th>
+                                            <th *ngIf="(roleId==1)">District Approval Status</th>
+                                            <th *ngIf="(roleId==1)">Taluk Approval Status</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex"
+                                        let-columns="columns">
+                                        <tr [pSelectableRow]="rowData" (dblclick)="onRowSelect($event, rowData)"></tr>
+                                        <tr class="tr-border">
+                                            <td class="td-border">
+                                                <span class="p-column-title">
+                                                    S.No :
+                                                </span>
+                                                <span style="text-align: end;">
+                                                    {{rowIndex+1}}
+                                                </span>
+                                            </td>
+                                            <td *ngFor="let col of columns" [style.text-align]="col.align"
+                                                class="td-border">
+                                                <span class="p-column-title">
+                                                    {{col.header}} :
+                                                </span>
+                                                <span style="text-align: end;"> {{rowData[col.field]}}
+                                                </span>
+                                            </td>
+                                            <td *ngIf="(roleId==4 && !(rowData.wardenApproval))"
+                                                (click)="selectForApproval(rowData)">
+                                                <span class="p-column-title">
+                                                    Approval Status :
+                                                </span>
+                                                <button label="Accept" pButton type="button">
+                                                </button>
+                                            </td>
+
+                                            <td *ngIf="(roleId==3 && !(rowData.talukApproval))"
+                                                (click)="selectForApproval(rowData)">
+                                                <span class="p-column-title">
+                                                    Approval Status :
+                                                </span>
+                                                <button label="Select" pButton type="button">
+                                                </button>
+                                            </td>
+                                            <td *ngIf="(roleId==2 && !(rowData.districtApproval))"
+                                                (click)="selectForApproval(rowData)">
+                                                <span class="p-column-title">
+                                                    Approval Status :
+                                                </span>
+                                                <button label="Select" pButton type="button">
+                                                </button>
+                                            </td>
+                                            <!-- disapprove -->
+                                            <!-- <td *ngIf="(roleId==4 && !(rowData.wardenApproval))"
+                                                (click)="selectForDisApproval(rowData)">
+                                                <span class="p-column-title">
+                                                    DisApproval Status :
+                                                </span>
+                                                <button label="DisApprove" pButton type="button">
+                                                </button>
+                                            </td> -->
+
+                                            <td *ngIf="(roleId==3 && !(rowData.talukApproval))"
+                                                (click)="selectForDisApproval(rowData)">
+                                                <span class="p-column-title">
+                                                    DisApproval Status :
+                                                </span>
+                                                <button label="Reject" pButton type="button">
+                                                </button>
+                                            </td>
+                                            <td *ngIf="(roleId==2 && !(rowData.districtApproval))"
+                                                (click)="selectForDisApproval(rowData)">
+                                                <span class="p-column-title">
+                                                    DisApproval Status :
+                                                </span>
+                                                <button label="Reject" pButton type="button">
+                                                </button>
+                                            </td>
+                                            <!-- role id = 1 -> district, taluk & warden status only -->
+                                            <td style="text-align: left;" *ngIf="roleId==1">
+                                                <span class="p-column-title">
+                                                    Warden Approval Status :
+                                                </span>
+                                                <span style="text-align: end;">
+                                                    {{rowData.wstatus}}
+                                                </span>
+                                            </td>
+                                            <td style="text-align: left;" *ngIf="roleId==1">
+                                                <span class="p-column-title">
+                                                    Taluk Approval Status :
+                                                </span>
+                                                <span style="text-align: end;">
+                                                    {{rowData.tstatus}}
+                                                </span>
+                                            </td>
+                                            <td style="text-align: left;" *ngIf="roleId==1">
+                                                <span class="p-column-title">
+                                                    District Approval Status :
+                                                </span>
+                                                <span style="text-align: end;">
+                                                    {{rowData.dstatus}}
+                                                </span>
+                                            </td>
+
+                                            <td style="text-align: left;"
+                                                *ngIf="(roleId==4 && ((rowData.wardenApproval)!=0))">
+                                                <span class="p-column-title">
+                                                    Approval Status :
+                                                </span>
+                                                <span style="text-align: end;" *ngIf="(rowData.enableApprove)">
+                                                    <button pButton type="button" label="Accept" (click)="selectForApproval(rowData)"></button>                                                    
+                                                </span>
+                                                <span>
+                                                    {{rowData.wAStatus}}
+                                                </span>
+                                                <span *ngIf="wEnableTick">
+                                                    <i class="status-icon-green pi pi-check"></i></span>
+                                            </td>
+                                            
+                                            <!-- district approval for role id = 2 (both approval & disapproval status only) -->
+                                           
+                                            <!-- taluk approval for role id = 3 (both approval & disapproval status only) -->
+                                            <td style="text-align: left;"
+                                                *ngIf="(roleId==3 && ((rowData.talukApproval)!=0))">
+                                                <span class="p-column-title">
+                                                    Approval Status :
+                                                </span>
+                                                <span style="text-align: end;" *ngIf="(rowData.enableApprove)">
+                                                    <button pButton type="button" label="Select" (click)="selectForApproval(rowData)"></button>                                                    
+                                                </span>
+                                                <span>
+                                                    {{rowData.tAStatus}}
+                                                </span>
+                                                <span *ngIf="tEnableTick">
+                                                    <i class="status-icon-green pi pi-check"></i></span>
+                                            </td>
+                                            <td style="text-align: left;"
+                                                *ngIf="(roleId==3 && ((rowData.talukApproval)!=0))">
+                                                <span class="p-column-title">
+                                                    Disapproval Status :
+                                                </span>
+                                                <span style="text-align: end;" *ngIf = "(rowData.enableDisapprove)">
+                                                    <button pButton type="button" label="Reject" (click)="selectForDisApproval(rowData)"></button>
+                                                </span>
+                                                <span>
+                                                    {{rowData.tDAStatus}}
+                                                </span>
+                                                <span *ngIf="tCrossTick">
+                                                 <i class="status-icon-red pi pi-times"></i></span>
+                                            </td>
+                                            <!-- warden approval for role id = 4 (both approval & disapproval status only) -->
+                                            <td style="text-align: left;"
+                                            *ngIf="(roleId==2 && ((rowData.districtApproval)!=0))">
                                             <span class="p-column-title">
                                                 Approval Status :
                                             </span>
-                                            <button label="Approve" pButton
-                                                type="button">
-                                            </button></td>
-                                        <td *ngIf="(roleId==3 && !(rowData.talukApproval))"
-                                            (click)="selectForApproval(rowData)">
-                                            <span class="p-column-title">
-                                                Approval Status :
+                                            <span style="text-align: end;" *ngIf="(rowData.enableApprove)">
+                                                <button pButton type="button" label="Select" (click)="selectForApproval(rowData)"></button>                                                    
                                             </span>
-                                            <button label="Approve" pButton
-                                                type="button">
-                                            </button></td>
-                                        <td style="text-align: left;" *ngIf="((roleId==1 || roleId==4) || (roleId==2 && (rowData.districtApproval)))">
-                                            <span class="p-column-title">
-                                                Taluk Approval Status :
-                                            </span>
-                                            <span style="text-align: end;">
-                                                {{rowData.dstatus}}
-                                            </span>
+                                            <span>
+                                            {{rowData.dAStatus}}
+                                        </span>
+                                        <span *ngIf="dEnableTick">
+                                            <i class="status-icon-green pi pi-check"></i></span>
                                         </td>
-                                        <td style="text-align: left;" *ngIf="((roleId==1 || roleId==4) || (roleId==3 && (rowData.talukApproval)))">
+                                        <td style="text-align: left;"
+                                            *ngIf="(roleId==2 && ((rowData.districtApproval)!=0))">
                                             <span class="p-column-title">
-                                                District Approval Status :
+                                                Disapproval Status :
                                             </span>
-                                            <span style="text-align: end;">
-                                                {{rowData.tstatus}}
-                                            </span> 
+                                            <span style="text-align: end;" *ngIf = "(rowData.enableDisapprove)">
+                                                <button pButton type="button" label="Reject" (click)="selectForDisApproval(rowData)"></button>
+                                            </span>
+                                            <span>
+                                            {{rowData.dDAStatus}}
+                                        </span>
+                                        <span *ngIf="dCrossTick">
+                                            <i class="status-icon-red pi pi-times"></i></span>
                                         </td>
-                                    </tr>
-                                </ng-template>
-                            </p-table>
+                                            <td style="width: 120px" *ngIf="(roleId==2 &&((rowData.Download)!=0))" 
+                                             >
+                                                <span class="p-column-title">
+                                                    Download :
+                                                </span>
+                                                <span>
+                                                    <i class="pi pi-file-pdf"  (click)="onRowSelect($event, rowData)" style="color: #e32727; font-size: 1.3rem;">
+                                                    </i></span>
+                                            </td>
+                                            <!-- <td style="text-align: left;"
+                                                *ngIf="(roleId==4 && ((rowData.wardenApproval)!=0))">
+                                                <span class="p-column-title">
+                                                    Disapproval Status :
+                                                </span>
+                                                <span style="text-align: end;" *ngIf = "(rowData.enableDisapprove)">
+                                                    <button pButton type="button" label="DisApprove" (click)="selectForDisApproval(rowData)"></button>
+                                                </span>
+                                                <span>
+                                                    {{rowData.wDAStatus}}
+                                                </span>
+                                            </td> -->
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                                <!-- </p-tabPanel>
+                            </p-tabView> -->
+                            </div>
                         </div>
                     </div>
+                </p-card>
+            </p-panel>
+            <p-dialog #dialog header="Student Approval" [(visible)]="showDialog" [modal]="showDialog"
+                [maximizable]="true" [style]="{width: '50vw', height: '40vw'}">
+                <div class="p-grid div-main">
+                    <div class="p-col-12 p-md-12 p-lg-5">
+                        <label for="_studentname">Student Name</label>
+                        <input type="text" name="_studentname" pInputText [(ngModel)]="studentName" readonly="true"
+                            required>
+                    </div>
+                    <div class="p-col-12 p-md-12 p-lg-7">
+                        <label for="_hostelname">Hostel Name</label>
+                        <input type="text" name="_hostelname" pInputText [(ngModel)]="hostelName" readonly="true"
+                            required>
+                    </div>
+                    <div class="p-col-12 p-md-12 p-lg-12 txt-center">
+                        <button pButton type="button" label="Select" (click)="onApprove()"></button>
+                    </div>
                 </div>
-            </p-card>
-        </p-panel>
-        <p-dialog #dialog header="Student Approval" [(visible)]="showDialog" [modal]="showDialog"
-        [maximizable]="true" [style]="{width: '50vw', height: '40vw'}">
-            <div class="p-grid div-main">
-                <div class="p-col-12 p-md-12 p-lg-5">
-                    <label for="_studentname">Student Name</label>
-                    <input type="text" name="_studentname" pInputText [(ngModel)]="studentName" readonly="true"
-                        required>
+            </p-dialog>
+            <p-dialog #dialog header="Student DisApproval" [(visible)]="openDialog" [modal]="openDialog"
+                [maximizable]="true" [style]="{width: '50vw', height: '40vw'}">
+                <div class="p-grid div-main">
+                    <div class="p-col-12 p-md-12 p-lg-5">
+                        <label for="_studentname">Student Name</label>
+                        <input type="text" name="_studentname" pInputText [(ngModel)]="studentName" readonly="true"
+                            required>
+                    </div>
+                    <div class="p-col-12 p-md-12 p-lg-7">
+                        <label for="_hostelname">Hostel Name</label>
+                        <input type="text" name="_hostelname" pInputText [(ngModel)]="hostelName" readonly="true"
+                            required>
+                    </div>
+                    <div class="p-col-12 p-md-12 p-lg-7">
+                        <label for="_reas">Reason for Disapprove<span
+                            class="formandam-tory-field">*</span></label>
+                        <input type="text" name="_reas" pInputText [(ngModel)]="reason" 
+                            required>
+                    </div>
+                    <div class="p-col-12 p-md-12 p-lg-12 txt-center">
+                        <button pButton type="button" label="Reject" (click)="onDisApprove()"></button>
+                    </div>
                 </div>
-                <div class="p-col-12 p-md-12 p-lg-7">
-                    <label for="_hostelname">Hostel Name</label>
-                    <input type="text" name="_hostelname" pInputText [(ngModel)]="hostelName" readonly="true" required>
-                </div>
-                <div class="p-col-12 p-md-12 p-lg-12 txt-center">
-                    <button pButton type="button" label="Approve" (click)="onApprove()"></button>
-                </div>
+            </p-dialog>
+        </div>
+        <div class="p-col-1"></div>
+        <p-dialog #dialog *ngIf="pdfDialog" header="Download PDF" [(visible)]="pdfDialog" [modal]="pdfDialog"
+            [maximizable]="true" [style]="{width: '90vw', height: '90vw'}" (onShow)="onDialogShow()" >
+            <div id="embedDiv" class="fgh txt-center">
+                <embed id="embedPDF" type="application/pdf" width="800" height="500">
             </div>
         </p-dialog>
-    </div>
     </div>
 </block-ui>

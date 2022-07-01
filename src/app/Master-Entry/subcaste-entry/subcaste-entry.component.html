@@ -1,0 +1,108 @@
+<div class="p-grid">
+    <div class="p-col-12 p-md-12 p-lg-12">
+        <p-toast position="top-center" key="t-msg"></p-toast>
+        <p-panel header="Subcaste Master Entry">
+            <form #f="ngForm" name="subCaste">
+                <p-card>
+                    <div class="p-col-2"></div>
+                    <div class="p-col-12 no-pad-top">
+                        <div class="p-grid">
+                            <div class="p-col-2"></div>
+                            <div #row1 class="p-col-12 p-md-12 p-lg-8">
+                                <div class="p-grid">
+                                    <div class="p-col-12 p-md-12 p-lg-3 no-pad-left">
+                                        <label for="_caste">Caste<span class="form-mandatory-field">*</span></label>
+                                        <p-dropdown name="_caste" [options]="casteOptions" (onClick)="onSelect()"
+                                            [(ngModel)]="caste" required>
+                                        </p-dropdown>
+                                    </div>
+                                    <div class="p-col-12 p-md-12 p-lg-3">
+                                        <div><label for="_subcaste">Subcaste Name<span
+                                                    class="form-mandatory-field">*</span></label></div>
+                                        <input type="text" name="_subcaste" pInputText [(ngModel)]="subcasteName"
+                                            style="text-transform: capitalize;" required />
+                                    </div>
+
+                                    <div class="p-col-12 p-md-12 p-lg-3" style="margin-top: 23px;">
+                                        <p-radioButton name="Flag" label="ACTIVE" value=1 [(ngModel)]="selectedType"
+                                            required>
+                                        </p-radioButton>
+                                        <p-radioButton name="Flag" label="INACTIVE" value=0 [(ngModel)]="selectedType"
+                                            required>
+                                        </p-radioButton>
+                                    </div>
+                                    <div class="p-col-12 p-md-12 p-lg-12 txt-center">
+                                        <button pButton type="button" label="Save" icon="pi pi-save" (click)="onSave()"
+                                            [disabled]="(!f.valid || !f.dirty)"></button>&nbsp;
+                                        <button pButton type="button" label="View" icon="pi pi-eye"
+                                            (click)="onView()"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- viewtable  -->
+                    <p-table [value]="data" styleClass="p-datatable-gridlines" [paginator]="true" [rows]="40"
+                        [rowsPerPageOptions]="[10,20,30,40]" responsiveLayout="scroll">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="width: 50px;">S.No</th>
+                                <th>Caste Name</th>
+                                <th>Subcaste Name</th>
+                                <th>Status</th>
+                                <th>Edit/Update</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+                            <tr class="tr-border">
+                                <td class="td-border">
+                                    <span class="p-column-title">
+                                        S.No :
+                                    </span>
+                                    <span style="text-align: end;">
+                                        {{rowIndex+1}}
+                                    </span>
+                                </td>
+                                <td class="td-border">
+                                    <span class="p-column-title">
+                                        Caste Name :
+                                    </span>
+                                    <span style="text-align: end;">
+                                        {{rowData.CasteName}}
+                                    </span>
+                                </td>
+                                <td class="td-border">
+                                    <span class="p-column-title">
+                                        Subcaste Name :
+                                    </span>
+                                    <span style="text-align: end;">
+                                        {{rowData.Name}}
+                                    </span>
+                                </td>
+
+                                <td class="td-border">
+                                    <span class="p-column-title">
+                                        Status :
+                                    </span>
+                                    <span style="text-align: end;">
+                                        {{rowData.status}}
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="p-column-title">
+                                        Edit/Update :
+                                    </span><span><button icon="pi pi-pencil" pButton type="button"
+                                            pTooltip="Tap to edit" (click)="onEdit(rowData)">
+                                        </button></span>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </p-card>
+            </form>
+        </p-panel>
+    </div>
+</div>

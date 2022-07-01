@@ -1,0 +1,45 @@
+<div class="p-grid">
+    <div class="p-col-11 p-md-11 p-lg-11 dist-dsh-txt-clr dist-dsh-content card-material">
+        <div class="p-col-12 p-md-12 p-lg-12">
+            <div style="text-align: center; font-size: 15px;border-bottom: 1px solid white; font-weight: 600;">Hostel Details</div>
+        </div>
+        <p-toast position="top-center" key="t-msg"></p-toast>
+            <div class="p-grid" style="padding: 5px 15px 5px 15px; justify-content: center;">
+                <div class="p-col-12 p-md-12 p-lg-6 hst-gridbox no-padding" *ngFor="let h of data">
+                    <div class="p-col-12 p-md-12 p-lg-12 hstl-div-hdr" (click)="gotoHostel(h.Id, h.hname)"
+                    style="text-shadow: 2px 2px #6a6666;">
+                        {{h.hname}} <span style="float: right;"><i class="pi pi-arrow-circle-right"
+                                style="font-size: 1.5rem;"></i></span>
+                    </div>
+                    <div style="padding: 10px;">
+                        <div class="hst-sub-gridbox" #div>
+                            <div class="p-grid" style="margin: auto;">
+                                <div class="p-col-12 p-md-4 p-lg-4 hstl-dsh-box hstl-dsh-box1">
+                                    <div>
+                                        Type
+                                        <div>
+                                            {{h.type}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-col-12 p-md-4 p-lg-4 hstl-dsh-box hstl-dsh-box2">
+                                    Sanctioned Count
+                                    <div>
+                                        {{h.sanctionedCount}}
+                                    </div>
+                                </div>
+                                <div class="p-col-12 p-md-4 p-lg-4 hstl-dsh-box hstl-dsh-box3">
+                                    <div>
+                                        Student Count
+                                    </div>
+                                    <div>
+                                        {{h.studentCount}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>

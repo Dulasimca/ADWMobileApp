@@ -15,6 +15,8 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./taluk.component.css']
 })
 export class TalukComponent implements OnInit {
+
+
   data: any;
   taluk: any
   selectedCategory: any = null;
@@ -32,16 +34,23 @@ export class TalukComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
     this.classes = this.masterService.getMaster('DT');
+
     this.cols = [
+
       { field: 'Districtcode', header: 'ID', width: '72px' },
       { field: 'Districtname', header: 'District' },
       { field: 'Talukname', header: 'Taluk Name' },
       { field: 'Flag', header: 'Status' },
+
+
     ];
+
   }
 
   onSelect() {
+
     this.classes = this.masterService.getMaster('DT');
     let districtSelection = [];
     this.classes.forEach(d => {
@@ -50,6 +59,8 @@ export class TalukComponent implements OnInit {
     this.districtOptions = districtSelection;
     this.districtOptions.unshift({ label: '-select', value: null });
   }
+
+
 
   onSubmit() {
     this.blockUI.start();
@@ -64,7 +75,7 @@ export class TalukComponent implements OnInit {
       if (res !== undefined && res !== null) {
         if (res) {
           this.blockUI.stop();
-          this.onView();
+          this.onview();
           this.onClear();
           this.messageService.clear();
           this.messageService.add({
@@ -99,7 +110,7 @@ export class TalukComponent implements OnInit {
     })
   }
 
-  onView() {
+  onview() {
     this.restApiService.get(PathConstants.TalukMaster_Get).subscribe(res => {
       if (res !== null && res !== undefined && res.length !== 0) {
         this.data = res.Table;
@@ -113,6 +124,7 @@ export class TalukComponent implements OnInit {
   onRowSelect(event, selectedRow) {
     this.Talukid = selectedRow.Talukid;
     this.classes = this.masterService.getMaster('DT');
+
     this.taluk = selectedRow.Talukname;
     let districtSelection = [];
     this.classes.forEach(d => {
@@ -121,10 +133,11 @@ export class TalukComponent implements OnInit {
       }
     });
     this.districtOptions = districtSelection;
+
     this.selectdistrict = districtSelection[0];
+
     this.selectedType = selectedRow.Flag;
   }
-
   onClear() {
     this.talukForm.reset();
     this.talukForm.form.markAsUntouched();

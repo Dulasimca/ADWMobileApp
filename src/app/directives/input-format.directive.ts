@@ -23,6 +23,8 @@ export class InputFormatDirective {
           this.faxFormat(event);
       } else if(this.appInputFormat === 'allowDecimal') {
           this.allowDecimal(event);
+      } else if(this.appInputFormat === 'englishOnly') {
+        this.englishOnly(event);
       }
   }
 
@@ -114,6 +116,17 @@ export class InputFormatDirective {
       e.preventDefault();
   }
 
+    englishOnly(event) {
+        const e = <KeyboardEvent>event;
+        if (e.key === 'Tab' || e.key === 'TAB') {
+            return;
+        }
+        var key = event.which || event.keyCode;
+        if (key > 128)  {
+            e.preventDefault();
+        }
+    }
+
   @HostListener('paste', ['$event']) onPaste(event) {
       let regex;
       if (this.appInputFormat === 'digitOnly') {
@@ -122,6 +135,8 @@ export class InputFormatDirective {
           regex = /[a-zA-Z0-9\u0600-\u06FF]/g;
       } else if(this.appInputFormat === 'faxFormat') {
         regex =  /[\+? *[1-9]+]?[0-9 ]+/g;
+      } else if(this.appInputFormat === 'englishOnly') {
+        regex = /[a-zA-Z0-9\u0B80-\u0BFF]/g;
       }
       const e = <ClipboardEvent>event;
       const pasteData = e.clipboardData.getData('text/plain');

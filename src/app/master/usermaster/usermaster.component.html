@@ -19,7 +19,7 @@
                                     <div class="p-col-12 p-md-6 p-lg-2">
                                         <div><label for="_username">User Name<span
                                                     class="form-mandatory-field">*</span></label></div>
-                                        <input type="text" [pKeyFilter]="blockSpace" name="_username" class="p-col-12" pInputText
+                                        <input type="text" name="_username" [pKeyFilter]="blockSpace" class="p-col-12" pInputText
                                             [(ngModel)]="userName" style="text-transform: capitalize;" required />
                                     </div>
                                     <div class="p-col-12 p-md-6 p-lg-2">
@@ -27,7 +27,7 @@
                                                     class="form-mandatory-field">*</span></label></div>
                                         <span class="p-input-icon-right">
                                             <i *ngIf="checkEmail" class="pi pi-spin pi-spinner"></i>
-                                            <input type="email" [pKeyFilter]="blockSpace" name="_email" class="p-col-12" pInputText
+                                            <input type="email" name="_email" [pKeyFilter]="blockSpace" class="p-col-12" pInputText
                                                 [(ngModel)]="emailId" (input)="checkIfEmailExists()" required />
                                         </span>
                                     </div>
@@ -77,8 +77,25 @@
             
     <!-- showtable -->
     <div>
-        <p-table [value]="data" styleClass="p-datatable-gridlines" [paginator]="true" [rows]="40"
-            [rowsPerPageOptions]="[10,20,30,40]">
+        <p-table #usermaster [value]="data" styleClass="p-datatable-gridlines" [paginator]="true" [rows]="40"
+            [rowsPerPageOptions]="[10,20,30,40]" responsiveLayout="scroll" [filterDelay]="0" [globalFilterFields]="['UserName', 'Role']">
+            <ng-template pTemplate="caption">
+                <div class="table-header">
+                    <div class="p-grid">
+                        <div class="p-col-6 p-md-6 p-lg-10 txt-end">
+                            <span>Search by Username / Role.</span>
+                        </div>
+                        <div class="p-col-4 p-md-4 p-lg-2">
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text" size="30"
+                                    (input)="usermaster.filterGlobal($event.target.value, 'contains')"
+                                    placeholder="Global Search" />
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
             <ng-template pTemplate="header">
                 <tr>
                     <th style="width: 2cm;">S.No</th>
@@ -86,7 +103,7 @@
                     <th>Username</th>
                     <th>Email Id</th>
                     <th>Password</th>
-                    <th>District</th>
+                    <th pSortableColumn="Districtname">District <p-sortIcon field="Districtname"></p-sortIcon></th>
                     <th>Taluk</th>
                     <th>Hostel Name</th>
                     <th>Status</th>

@@ -57,6 +57,7 @@ export class HOFundmanagementComponent implements OnInit {
     });
     this.totalAccHeadAmount = 0;
     this.accFundId = 0;
+    // this.hoFundId = 0;
     this.AccountHeadCols = this.tableConstants.AccountHeadTable;
   }
 
@@ -89,9 +90,9 @@ export class HOFundmanagementComponent implements OnInit {
   }
 
   onSave() {
-    if (this.accountHead === null && this.accountHead === undefined) {
+    // if (this.accountHead !== null && this.accountHead !== undefined) {
       const parameter = {
-        'Id': this.accFundId,
+        // 'Id': this.accFundId,
         'HoFundId': this.hoFundId,
         'AccYear': this.year,
         'GoNumber': this.goNumber,
@@ -101,12 +102,12 @@ export class HOFundmanagementComponent implements OnInit {
       }
       this.restApiService.post(PathConstants.HOFundAllotment_Post, parameter).subscribe(res => {
         if (res) {
-          var message = (this.hoFundId === 0) ? ResponseMessage.SuccessMessage : ResponseMessage.UpdateMsg;
+          // var message = (this.hoFundId === 0) ? ResponseMessage.SuccessMessage : ResponseMessage.UpdateMsg;
           this.refresh();
           this.messageService.clear();
           this.messageService.add({
             key: 't-msg', severity: ResponseMessage.SEVERITY_SUCCESS,
-            summary: ResponseMessage.SUMMARY_SUCCESS, detail: message
+            summary: ResponseMessage.SUMMARY_SUCCESS, detail: ResponseMessage.SuccessMessage
           });
         } else {
           this.messageService.clear();
@@ -116,7 +117,7 @@ export class HOFundmanagementComponent implements OnInit {
           });
         }
       })
-    }
+    // }
     if (this.accountHead !== null && this.accountHead !== undefined) {
       const params = {
         'Id': this.accFundId,
@@ -270,12 +271,16 @@ export class HOFundmanagementComponent implements OnInit {
   }
   // to refresh first row fields on loading data where data is empty
   refresh() {
-    this.goNumber = null;
-    this.Date = null;
-    this.budjetAmount = null;
+    this._hoFundForm.form.markAsUntouched();
+    this._hoFundForm.form.markAsPristine();
+    this.goNumber = '';
+    this.Date = '';
+    this.budjetAmount = '';
   }
   // to refresh second row fields after save 
   refreshFields() {
+    this._hoFundForm.form.markAsUntouched();
+    this._hoFundForm.form.markAsPristine();
     this.groupTypeOptions = [];
     this.accHeadOptions = [];
     this.blncAmount = 0;

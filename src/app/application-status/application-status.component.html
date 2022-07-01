@@ -1,0 +1,60 @@
+<div class="p-col-12 p-md-12 p-lg-12">
+    <div class="p-grid">
+        <div class="p-col-12 p-md-12 p-lg-12">
+            <p-toast position="top-center" key="t-msg"></p-toast>
+            <p-panel header="Application Status">
+                <form #f="ngForm" name="applicationStatus">
+                    <p-card>
+                        <div class="p-col-12 no-pad-top">
+                            <div class="p-grid">
+                                <div class="p-col-2"></div>
+                                <div #row1 class="p-col-12 p-md-12 p-lg-10">
+                                    <div class="p-grid">
+                                        <div class="p-col-12 p-md-6 p-lg-2">
+                                            <div><label for="_aadharno">Aadhar Number<span
+                                                        class="form-mandatory-field">*</span></label>
+                                            </div>
+                                            <input type="text" class="p-col-12" name="_aadharno" pInputText
+                                                [(ngModel)]="aadharNo" minlength="12" (ngModelChange)="onAadharChange()"
+                                                (input)="onSearch()" appInputFormat="digitOnly" maxlength="12" />
+                                        </div>
+                                        <div class="p-col-12 p-md-6 p-lg-2">
+                                            <div><label for="_mobNo">Mobile Number<span
+                                                        class="form-mandatory-field">*</span></label>
+                                            </div>
+                                            <input type="text" class="p-col-12" name="_mobNo" pInputText
+                                                [(ngModel)]="mobNo" minlength="10" (input)="onSearch()"
+                                                appInputFormat="digitOnly" maxlength="10" />
+                                        </div>
+                                        <div class="p-col-12 p-md-6 p-lg-2">
+                                            <div> <label for="_dob">D.O.B<span class="form-mandatory-field">*</span>
+                                                </label></div>
+                                            <p-calendar dateFormat="dd/mm/yy" [showOtherMonths]="false"
+                                                [(ngModel)]="dob" name="_dob" [monthNavigator]="true"
+                                                [readonlyInput]="true" [yearNavigator]="true" yearRange="{{yearRange}}"
+                                                inputId="dateofbirth" [showIcon]="true" required>
+                                            </p-calendar>
+                                        </div>
+                                        <div class="p-col-12 p-md-6 p-lg-2">
+                                            <button pButton type="button" label="Check status" (click)="checkStatus()"
+                                             icon="pi pi-check-circle" [disabled]="(!f.valid || !f.dirty)" style="margin-top: 21px;
+                                margin-left: 8px;"></button>
+                                        </div>
+                                    </div>
+                                    <div class="p-col-12 p-md-6 p-lg-7">
+                                        <p-messages [(value)]="msgs"></p-messages>
+                                    </div>
+                                    <div class="p-col-12 p-md-6 p-lg-2">
+                                    <div id="embedDiv" class="fgh txt-center">
+                                        <embed id="embedPDF" type="application/pdf" width="800" height="500">
+                                    </div>   
+                                </div>                             
+                                </div>
+                            </div>
+                        </div>
+                    </p-card>
+                </form>
+            </p-panel>
+        </div>
+    </div>
+</div>

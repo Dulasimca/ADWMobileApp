@@ -4,7 +4,9 @@ import { HttpClient } from '@angular/common/http';
 import { PathConstants } from 'src/app/Common-Modules/PathConstants';
 import { RestAPIService } from 'src/app/services/restAPI.service';
 import { MasterService } from 'src/app/services/master-data.service';
+import { NgForm } from '@angular/forms';
 import { ResponseMessage } from 'src/app/Common-Modules/messages';
+import { HttpErrorResponse } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { User } from 'src/app/Interfaces/user';
 import { AuthService } from 'src/app/services/auth.service';
@@ -37,6 +39,7 @@ export class AttendanceReportComponent implements OnInit {
   showDialog: boolean;
   showDialogLargeImg: boolean;
   ImageUrl: string;
+  disableExcel: boolean = true;
 
   constructor(private http: HttpClient, private restApiService: RestAPIService,
     private masterService: MasterService, private messageService: MessageService, private datepipe: DatePipe, private authService: AuthService) { }
@@ -144,8 +147,9 @@ export class AttendanceReportComponent implements OnInit {
             r.AttendanceDate = this.datepipe.transform(r.AttendanceDate, 'dd/MM/yyyy');
           })
           this.data = res.Table;
+          this.disableExcel = false;
         } else {
-          console.log('j')
+          this.disableExcel = true;
           this.messageService.clear();
           this.messageService.add({
             key: 't-msg', severity: ResponseMessage.SEVERITY_WARNING,
@@ -153,6 +157,7 @@ export class AttendanceReportComponent implements OnInit {
           })
         }
       } else {
+        this.disableExcel = true;
         this.messageService.clear();
         this.messageService.add({
           key: 't-msg', severity: ResponseMessage.SEVERITY_WARNING,

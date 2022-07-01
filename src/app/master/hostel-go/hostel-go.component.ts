@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { MessageService, SelectItem } from 'primeng/api';
 import { ResponseMessage } from 'src/app/Common-Modules/messages';
@@ -9,6 +9,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { User } from 'src/app/interfaces/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { NgForm } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-hostel-go',
@@ -35,8 +36,16 @@ export class HostelGoComponent implements OnInit {
   cols: any;
   disableTaluk: boolean = true;
   @ViewChild('f', { static: false }) hostelgoForm: NgForm;
+  http: any;
+  docFile: any;
+  Filename: string;
+  public formData = new FormData();
+  @ViewChild('document', { static: false }) _document: ElementRef;
+
+
   constructor(private restApiService: RestAPIService, private messageService: MessageService,
-    private masterService: MasterService, private _datePipe: DatePipe, private authService: AuthService) { }
+    private masterService: MasterService, private _datePipe: DatePipe, private authService: AuthService,
+    private _d: DomSanitizer) { }
 
   ngOnInit(): void {
     this.districts = this.masterService.getMaster('DT');
@@ -96,6 +105,7 @@ export class HostelGoComponent implements OnInit {
       'GoDate': this._datePipe.transform(this.goDate, 'yyyy-MM-dd'),
       'Remarks': this.remarks,
       'TotalStudent': this.totalstudent,
+      'FileName': this.Filename,
       'Flag': true
     };
     this.restApiService.post(PathConstants.Hostelgo_post, params).subscribe(res => {
@@ -124,11 +134,57 @@ export class HostelGoComponent implements OnInit {
     })
   }
 
+  // public uploadFile = (files) => {
+  //   if (files.length === 0) {
+  //     return;
+  //   }
+  //   var formData = new FormData()
+  //   let fileToUpload: any = <File>files[0];
+  //   let Filename = '';
+  //   const folderName = this.logged_user.hostelId + '/' + 'Documents';
+  //   const filename = fileToUpload.name + '^' + folderName;
+  //   formData.append('file', fileToUpload, filename);
+  //   Filename = fileToUpload.name;
+  //   this.http.post(this.restApiService.BASEURL + PathConstants.FileUpload_Post, formData)
+  //     .subscribe((event: any) => {
+  //     }
+  //     );
+  //   return Filename;
+  // }
+
+  // onFileUpload($event) {
+  //   const selectedFile = $event.target.files[0];
+  //   var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+  //       const s_url = window.URL.createObjectURL(selectedFile);
+  //       this.docFile = this._d.bypassSecurityTrustUrl(s_url);
+  //       this.Filename = this.uploadFile($event.target.files);
+  // }
+
+  public uploadFile = (event) => {
+    const selectedFile = event.target.files[0];
+    // {
+    //   const url = window.URL.createObjectURL(selectedFile);
+    //   this.docFile = this._d.bypassSecurityTrustUrl(url);
+    // }
+    this.formData = new FormData()
+    let fileToUpload: any = <File>event.target.files[0];
+    const folderName = this.logged_user.hostelId + '/' + 'Documents';
+    const filename = fileToUpload.name + '^' + folderName;
+    this.formData.append('file', fileToUpload, filename);
+    this.Filename = fileToUpload.name;
+    this.http.post(this.restApiService.BASEURL + PathConstants.FileUpload_Post, this.formData)
+      .subscribe(event => {
+      }
+      );
+  }
+
   clearform() {
     this.hostelgoForm.reset();
     this.districtOptions = [];
     this.talukIdOptions = [];
     this.hostelOptions = [];
+    this.Filename = '';
+    this._document.nativeElement.value = null;
   }
 
   onView() {

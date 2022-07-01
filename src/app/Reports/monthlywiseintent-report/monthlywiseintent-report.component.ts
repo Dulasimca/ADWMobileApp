@@ -62,7 +62,7 @@ export class MonthlywiseintentReportComponent implements OnInit {
   loading: boolean;
   year?: any;
   date: 'MM';
-
+  disableExcel: boolean = true;
 
 
 
@@ -165,8 +165,10 @@ export class MonthlywiseintentReportComponent implements OnInit {
          
           if (res.length !== 0) {
             this.hostelData = res;
+            this.disableExcel = false;
             this.loading = false;
           } else {
+            this.disableExcel = true;
             this.loading = false;
             this._messageService.clear();
             this._messageService.add({
@@ -175,6 +177,7 @@ export class MonthlywiseintentReportComponent implements OnInit {
             })
           }
         } else {
+          this.disableExcel = true;
           this.loading = false;
           this._messageService.clear();
           this._messageService.add({

@@ -41,11 +41,11 @@
                     <div class="p-col-12 p-md-12 p-lg-12">
                         <div style="text-align: right;">
                             <button pButton type="button" icon="pi pi-file-excel" style="color: yellowgreen;"
-                                label="Export" (click)="dt.exportCSV()" pTooltip="Excel-File download"></button>
+                                label="Export" (click)="dt.exportCSV()" pTooltip="Excel-File download" [disabled]="disableExcel"></button>
                         </div>
                         <p-table #dt [value]="data" [columns]="cols" styleClass="p-datatable-gridlines"
                             [paginator]="true" [rows]="100" [rowsPerPageOptions]="[10,20,30,50,100]"
-                             exportFilename="ATTENDANCE_REPORT">
+                            responsiveLayout="scroll" exportFilename="ATTENDANCE_REPORT">
                             <ng-template pTemplate="header" let-columns>
                                 <tr>
                                     <th>S.No</th>
@@ -136,8 +136,7 @@
                 </ng-template>
             </p-table>
         </p-dialog>
-        <p-dialog header="Attendance Image" [(visible)]="showDialogLargeImg" [modal]="showDialogLargeImg"   
-        [style]="{width: '95vw', height: '95vw'}">
+        <p-dialog header="Attendance Image" [(visible)]="showDialogLargeImg" [modal]="showDialogLargeImg">
             <img alt="TN ADW Hostel image" [style]="{width: '50vw', height: '50vw'}" [src]="ImageUrl" style="vertical-align: middle" />
         </p-dialog>
     </div>

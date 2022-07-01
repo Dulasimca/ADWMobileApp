@@ -73,6 +73,7 @@ export class MenuHeaderComponent implements OnInit {
   ngOnInit(): void { }
 
   onLogout() {
+  //  this._op.toggle(event);
     this.onToggleSidenav();
     this._authService.logout();
   }

@@ -61,10 +61,11 @@ export class WardenDetailsComponent implements OnInit {
   wardenFileName: string;
   disableSave: boolean;
   isValidEmail: boolean;
-  public formData = new FormData();
-
-  @ViewChild('f', { static: false }) _wardenDetails: NgForm;
   loading: boolean;
+  dobYearRange: string;
+  public formData = new FormData();
+  @ViewChild('f', { static: false }) _wardenDetails: NgForm;
+
   constructor(private restApiService: RestAPIService, private messageService: MessageService, private masterService: MasterService, private _d: DomSanitizer, private _tableConstants: TableConstants,
     private _datePipe: DatePipe, private http: HttpClient, private authService: AuthService) { }
 
@@ -72,14 +73,17 @@ export class WardenDetailsComponent implements OnInit {
     this.cols = this._tableConstants.wardenTableColumns;
     this.logged_user = this.authService.UserInfo;
     const current_year = new Date().getFullYear();
-    const start_year_range = current_year - 70;
-    this.yearRange = start_year_range + ':' + current_year;
+    const dob_cyear = current_year - 5;
+    this.dobYearRange = 1950 + ':' + dob_cyear;
+    this.yearRange = 1950 + ':' + current_year;
+    this.isValidEmail = false;
     this.genders = this.masterService.getMaster('GD');
     this.districts = this.masterService.getDistrictAll();
     this.nativeDistricts = this.masterService.getDistrictAll();
     this.taluks = this.masterService.getTalukAll();
     // this.hostels = this.masterService.getMaster('HN');
-    this.courses = this.masterService.getMaster('CU');
+    // this.courses = this.masterService.getMaster('CU');
+    this.courses = this.masterService.getMaster('CL');
     this.disableTaluk = true;
     this.wardenId = 0;
     this.disableSave = ((this.logged_user.roleId * 1) === 4) ? true : false;
@@ -127,7 +131,12 @@ export class WardenDetailsComponent implements OnInit {
         this.talukOptions.unshift({ label: '-select-', value: null });
         break;
       case 'CU':
-        this.courses.forEach(q => {
+        var filtered_data = [];
+        filtered_data = this.courses.filter(f => {
+          return f.type === 2;
+        })
+        console.log('f',filtered_data)
+        filtered_data.forEach(q => {
           courseSelection.push({ label: q.name, value: q.code });
         })
         this.qualificationOptions = courseSelection;
@@ -192,13 +201,17 @@ export class WardenDetailsComponent implements OnInit {
     this.formData = new FormData()
     let fileToUpload: any = <File>event.target.files[0];
     const folderName = this.logged_user.hostelId + '/' + 'Documents';
-    const filename = fileToUpload.name + '^' + folderName;
+    var curr_datetime =  this._datePipe.transform(new Date(), 'ddMMyyyyhmmss') + new Date().getMilliseconds();
+    var etxn = (fileToUpload.name).toString().split('.');
+    var filenameWithExtn = curr_datetime + '.' + etxn[1];
+    const filename = fileToUpload.name + '^' + folderName + '^' + filenameWithExtn;
     this.formData.append('file', fileToUpload, filename);
-    this.wardenFileName = fileToUpload.name;
+    this.wardenFileName = filenameWithExtn;
     this.http.post(this.restApiService.BASEURL + PathConstants.FileUpload_Post, this.formData)
       .subscribe(event => {
       }
       );
+      return filenameWithExtn;
   }
 
   // onFileUpload($event) {
@@ -212,11 +225,11 @@ export class WardenDetailsComponent implements OnInit {
     const params = {
       'Name': this.wardenName,
       'GenderId': this.gender,
-      'DOB': this._datePipe.transform(this.dob, 'yyyy-MM-dd'),
+      'DOB': this._datePipe.transform(this.dob, 'MM-dd-yyyy'),
       'Qualification': this.qualification,
       'HostelId': this.hostelName,
-      'HostelJoinedDate': this._datePipe.transform(this.hostelJoin, 'yyyy-MM-dd'),
-      'ServiceJoinedDate': this._datePipe.transform(this.servicedoj, 'yyyy-MM-dd'),
+      'HostelJoinedDate': this._datePipe.transform(this.hostelJoin, 'MM-dd-yyyy'),
+      'ServiceJoinedDate': this._datePipe.transform(this.servicedoj, 'MM-dd-yyyy'),
       'Designation': this.designation,
       'EMail': this.email,
       'PhoneNo': this.mobNo,
@@ -309,7 +322,7 @@ export class WardenDetailsComponent implements OnInit {
       this.altMobNo = selectedRow.AlternateNo;
       this.pincode = selectedRow.Pincode;
       this.wardenFileName = selectedRow.WardenImage;
-      var filePath = this.logged_user.domainUrl + 'assets/layout/' + this.logged_user.hostelId + '/Documents/' + this.wardenFileName;
+      var filePath = this.logged_user.domainUrl + 'assets/layout/' + this.logged_user.hostelId + '/Documents' + '/' + this.wardenFileName;
       this.wardenImage = filePath;
     }
   }
@@ -328,5 +341,6 @@ export class WardenDetailsComponent implements OnInit {
     this.data = [];
     this.wardenImage = null;
     this.disableSave = ((this.logged_user.roleId * 1) === 4) ? true : false;
+    this.isValidEmail = false;
   }
 }

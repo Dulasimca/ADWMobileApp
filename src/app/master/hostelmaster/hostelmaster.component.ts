@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { MessageService, SelectItem } from 'primeng/api';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient  } from '@angular/common/http';
 import { PathConstants } from 'src/app/Common-Modules/PathConstants';
 import { RestAPIService } from 'src/app/services/restAPI.service';
 import { NgForm } from '@angular/forms';
@@ -53,42 +53,82 @@ export class HostelmasterComponent implements OnInit {
   hostelRowId: number;
   disableFields: boolean;
   showDialog: boolean;
-  hostelImage: string;
+  hostelImage : string;
   policeStationAddress: string;
   hostelOpeningDate: Date = new Date();
   nearestPhc: any;
+  SpecialDashildar: string;
+  MPOptions: SelectItem[];
+  MLAOptions: SelectItem[];
+  MLAId: string;
+  MPId: string;
+  selectedType: number;
   @ViewChild('f', { static: false }) _hostelmaster: NgForm;
   constructor(private _masterService: MasterService, private restApiService: RestAPIService,
-    private _datepipe: DatePipe, private messageService: MessageService, private _authService: AuthService) { }
+    private _datepipe: DatePipe, private messageService: MessageService,private _authService: AuthService) { }
 
   public ngOnInit(): void {
-    this.cols = [
-      { field: 'HostelName', header: 'HostelName', width: '100px' },
-      { field: 'HostelNameTamil', header: 'HostelNameTamil', width: '100px' },
-      { field: 'HostelOpeningDate', header: 'Hostel Opening Date', width: '100px' },
-      { field: 'FunctioningName', header: 'Functioning Type', width: '100px' },
-      { field: 'Name', header: 'HType', width: '100px' },
-      { field: 'Districtname', header: 'District', width: '100px' },
-      { field: 'Talukname', header: 'Taluk', width: '100px' },
-      //  { field: 'BuildingNo', header: 'BuildingNo', width: '100px'},
-      //{ field: 'Street', header: 'Street', width: '100px'},
-      //  { field: 'Landmark', header: 'Landmark', width: '100px'},
-      { field: 'Pincode', header: 'Pincode', width: '100px' },
-      { field: 'TotalStudent', header: 'TotalStudent', width: '100px' },
-      { field: 'Phone', header: 'Phone', width: '100px' },
-      { field: 'NearestPhc', header: 'Nearest PHC', width: '100px' },
-    ];
-    this.login_user = this._authService.UserInfo;
+   this.cols = [
+     { field: 'HostelName', header: 'HostelName', width: '100px'},
+     { field: 'HostelCode', header: 'Hostel Code', width: '100px'},
+     { field: 'HostelNameTamil', header: 'HostelNameTamil', width: '100px'},
+     { field: 'HostelOpeningDate', header: 'Hostel Opening Date', width: '100px'},
+     { field: 'FunctioningName', header: 'Functioning Type', width: '100px'},
+     { field: 'Name', header: 'HType', width: '100px'},
+     { field: 'Districtname', header: 'District', width: '100px'},
+     { field: 'Talukname', header: 'Taluk', width: '100px'},
+    //  { field: 'BuildingNo', header: 'BuildingNo', width: '100px'},
+     //{ field: 'Street', header: 'Street', width: '100px'},
+    //  { field: 'Landmark', header: 'Landmark', width: '100px'},
+     { field: 'Pincode', header: 'Pincode', width: '100px'},
+     { field: 'TotalStudent', header: 'TotalStudent', width: '100px'},
+     { field: 'Phone', header: 'Phone', width: '100px'},
+     { field: 'NearestPhc', header: 'Nearest PHC', width: '100px'},
+   ];
+   this.login_user = this._authService.UserInfo;
     this.Districtcodes = this._masterService.getDistrictAll();
     this.Hosteltypes = this._masterService.getMaster('HT');
     this.Hostelfunctions = this._masterService.getMaster('HF');
     this.TalukIds = this._masterService.getTalukAll();
-    if ((this.login_user.roleId * 1) === 4) {
-      this.disableFields = true;
+    if((this.login_user.roleId * 1) === 4) {
+        this.disableFields = true;
     } else {
       this.disableFields = false;
     }
     this.onView();
+    this.loadMPData() ;
+  }
+
+  loadMPData() {
+    let mpSelection = [];
+    this.restApiService.get(PathConstants.MPMaster_Get).subscribe((response: any) => {
+      if(response !== null && response !== undefined) {
+        if(response.length !== 0) {
+          response.forEach(m => {
+            mpSelection.push({ label: m.Name, value: m.MPId });
+          })
+          this.MPOptions = mpSelection;
+          this.MPOptions.unshift({ label: '-select-', value: null });
+        }
+      }
+    });
+  }
+
+  onChangeMP() {
+    let mlaSelection = [];
+    if(this.MPId !== undefined && this.MPId !== null) {
+    this.restApiService.getByParameters(PathConstants.MLAMaster_Get, {'MPId': this.MPId}).subscribe((response: any) => {
+      if(response !== null && response !== undefined) {
+        if(response.length !== 0) {
+          response.forEach(m => {
+            mlaSelection.push({ label: m.Name, value: m.MPId });
+          })
+          this.MLAOptions = mlaSelection;
+          this.MLAOptions.unshift({ label: '-select-', value: null });
+        }
+      }
+    });
+    }
   }
 
   onSelect(type) {
@@ -115,25 +155,25 @@ export class HostelmasterComponent implements OnInit {
           this.TalukIdOptions.unshift({ label: '-select-', value: null });
         }
         break;
-      case 'HT':
+        case 'HT':
         this.Hosteltypes.forEach(h => {
           hostelSelection.push({ label: h.name, value: h.code });
         })
         this.HosteltypeOptions = hostelSelection;
         this.HosteltypeOptions.unshift({ label: '-select-', value: null });
-        break;
-      case 'HF':
+          break;
+        case 'HF':
         this.Hostelfunctions.forEach(f => {
           hostelfunctionSelection.push({ label: f.name, value: f.code });
         })
         this.FunctioningtypeOptions = hostelfunctionSelection;
         this.FunctioningtypeOptions.unshift({ label: '-select-', value: null });
-        break;
+        break;       
     }
   }
 
   onSubmit() {
-    const params = {
+      const params = {
       'Slno': (this.hostelRowId != undefined && this.hostelRowId !== null) ? this.hostelRowId : 0,
       'HostelName': this.Hostelname,
       'HostelFunctioningType': this.Functioningtype,
@@ -149,55 +189,57 @@ export class HostelmasterComponent implements OnInit {
       'Phone': this.mobileNo,
       'PoliceStationAddress': this.policeStationAddress,
       'HostelOpeningDate': this._datepipe.transform(this.hostelOpeningDate, 'MM/dd/yyyy'),
-      'NearestPhc': this.nearestPhc
+      'NearestPhc': this.nearestPhc,
+      'MPId': this.MPId,
+      'MLAId': this.MLAId,
+      'SpecialDashildar': this.SpecialDashildar,
+      'Flag': (this.selectedType * 1)
     };
-    this.restApiService.post(PathConstants.Hostel_Post, params).subscribe(res => {
-      if (res) {
-        this.clear();
-        this.onView();
-        this.messageService.clear();
-        this.messageService.add({
-          key: 't-msg', severity: ResponseMessage.SEVERITY_SUCCESS,
-          summary: ResponseMessage.SUMMARY_SUCCESS, detail: ResponseMessage.SuccessMessage
-        });
-      } else {
-        this.messageService.clear();
-        this.messageService.add({
-          key: 't-msg', severity: ResponseMessage.SEVERITY_ERROR,
-          summary: ResponseMessage.SUMMARY_ERROR, detail: ResponseMessage.ErrorMessage
-        });
-      }
-    }, (err: HttpErrorResponse) => {
-      if (err.status === 0 || err.status === 400) {
-        this.messageService.clear();
-        this.messageService.add({
-          key: 't-msg', severity: ResponseMessage.SEVERITY_ERROR,
-          summary: ResponseMessage.SUMMARY_ERROR, detail: ResponseMessage.ErrorMessage
-        })
-      }
-    })
-  }
-
-
-
+      this.restApiService.post(PathConstants.Hostel_Post,params).subscribe(res => {
+        if (res) {
+          this.clear();
+          this.onView();
+          this.messageService.clear();
+          this.messageService.add({
+            key: 't-msg', severity: ResponseMessage.SEVERITY_SUCCESS,
+            summary: ResponseMessage.SUMMARY_SUCCESS, detail: ResponseMessage.SuccessMessage
+          });
+        } else {
+          this.messageService.clear();
+          this.messageService.add({
+            key: 't-msg', severity: ResponseMessage.SEVERITY_ERROR,
+            summary: ResponseMessage.SUMMARY_ERROR, detail: ResponseMessage.ErrorMessage
+          });
+        }
+      }, (err: HttpErrorResponse) => {
+        if (err.status === 0 || err.status === 400) {
+          this.messageService.clear();
+          this.messageService.add({
+            key: 't-msg', severity: ResponseMessage.SEVERITY_ERROR,
+            summary: ResponseMessage.SUMMARY_ERROR, detail: ResponseMessage.ErrorMessage
+          })
+        }
+      })
+    }
+  
   onView() {
     this.data = [];
     const params = {
-      'Type': '0',
-      'DCode': (this.login_user.districtCode !== undefined && this.login_user.districtCode !== null)
-        ? this.login_user.districtCode : 0,
+      'Type':'0',
+      'DCode': (this.login_user.districtCode !== undefined && this.login_user.districtCode !== null) 
+      ? this.login_user.districtCode : 0,
       'TCode': (this.login_user.talukId !== undefined && this.login_user.talukId !== null) ?
-        this.login_user.talukId : 0,
+       this.login_user.talukId : 0,
       'HostelId': (this.login_user.hostelId !== undefined && this.login_user.hostelId !== null) ? this.login_user.hostelId : 0,
     }
     this.restApiService.getByParameters(PathConstants.Hostel_Get, params).subscribe(res => {
       if (res !== null && res !== undefined && res.length !== 0) {
         res.Table.forEach(i => {
-          i.url = this.login_user.domainUrl + 'assets/layout/' + i.hostelId + '/' + i.HostelImage;
-
+          i.url = this.login_user.domainUrl + 'assets/layout/'+i.hostelId +'/' + i.HostelImage;
+          
         })
         this.data = res.Table;
-      } else {
+      }  else {
         this.messageService.clear();
         this.messageService.add({
           key: 't-msg', severity: ResponseMessage.SEVERITY_WARNING,
@@ -222,28 +264,34 @@ export class HostelmasterComponent implements OnInit {
     this.TalukIdOptions = [];
   }
   onRowSelect(event, selectedRow) {
-    if (selectedRow !== null && selectedRow !== undefined) {
-      this.hostelRowId = selectedRow.Slno;
-      this.Hosteltype = selectedRow.HTypeId;
-      this.HosteltypeOptions = [{ label: selectedRow.Name, value: selectedRow.HTypeId }];
-      this.Districtcode = selectedRow.Districtcode;
-      this.DistrictcodeOptions = [{ label: selectedRow.Districtname, value: selectedRow.Districtcode }];
-      this.TalukId = selectedRow.Talukid;
-      this.TalukIdOptions = [{ label: selectedRow.Talukname, value: selectedRow.Talukid }];
-      this.Functioningtype = selectedRow.HostelFunctioningType;
-      this.FunctioningtypeOptions = [{ label: selectedRow.FunctioningName, value: selectedRow.HostelFunctioningType }];
-      this.Hostelname = selectedRow.HostelName;
-      this.Hosteltamilname = selectedRow.HostelNameTamil;
-      this.Buildingno = selectedRow.BuildingNo;
-      this.Street = selectedRow.Street;
-      this.Landmark = selectedRow.Landmark;
-      this.pincode = selectedRow.Pincode;
-      this.Totalstudent = selectedRow.TotalStudent;
-      this.mobileNo = selectedRow.Phone;
-      this.policeStationAddress = selectedRow.PoliceStationAddress;
-      this.hostelOpeningDate = (selectedRow.HostelOpeningDate !== null) ? new Date(selectedRow.HostelOpeningDate) : null;
-      this.nearestPhc = selectedRow.NearestPhc;
-    }
+    if(selectedRow !== null && selectedRow !==undefined){
+    this.hostelRowId = selectedRow.Slno;
+    this.Hosteltype = selectedRow.HTypeId;
+    this.HosteltypeOptions = [{ label: selectedRow.Name, value: selectedRow.HTypeId }];
+    this.Districtcode = selectedRow.Districtcode;
+    this.DistrictcodeOptions = [{ label: selectedRow.Districtname, value: selectedRow.Districtcode}];
+    this.TalukId = selectedRow.Talukid;
+    this.TalukIdOptions = [{ label: selectedRow.Talukname, value: selectedRow.Talukid}];
+    this.Functioningtype = selectedRow.HostelFunctioningType;
+    this.FunctioningtypeOptions = [{ label: selectedRow.FunctioningName, value: selectedRow.HostelFunctioningType}];
+    this.Hostelname = selectedRow.HostelName;
+    this.Hosteltamilname = selectedRow.HostelNameTamil;
+    this.Buildingno = selectedRow.BuildingNo;
+    this.Street = selectedRow.Street; 
+    this.Landmark = selectedRow.Landmark;
+    this.pincode = selectedRow.Pincode;
+    this.Totalstudent = selectedRow.TotalStudent;
+    this.mobileNo = selectedRow.Phone;
+    this.policeStationAddress = selectedRow.PoliceStationAddress;
+    this.hostelOpeningDate = (selectedRow.HostelOpeningDate !== null) ? new Date(selectedRow.HostelOpeningDate) : null;
+    this.nearestPhc = selectedRow.NearestPhc;
+    this.selectedType =selectedRow.Flag;
+    this.MPId = selectedRow.MPId;
+    this.MPOptions = [{ label: selectedRow.MPName , value: selectedRow.MPId}];
+    this.MLAId = selectedRow.MLAId;
+    this.MLAOptions = [{ label: selectedRow.MLAName, value: selectedRow.MLAId}];
+    this.SpecialDashildar = selectedRow.SpecialDashildar;
+ }
   }
 
 }

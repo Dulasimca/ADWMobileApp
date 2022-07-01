@@ -1,0 +1,93 @@
+<block-ui>
+    <div class="p-grid">
+        <div class="p-col-12 p-md-12 p-lg-12 no-padding" style="background: #00293c;">
+            <p-toast position="top-center" key="t-msg"></p-toast>
+            <div class="p-col-11 p-md-11 p-lg-11 dist-dsh-txt-clr dist-dsh-content card-material">
+                <div class="p-col-12 p-md-12 p-lg-12">
+                    <div style="text-align: center; font-size: 15px;border-bottom: 1px solid white; font-weight: 600;">District-wise Hostel Details</div>
+                </div>
+                <div class="p-col-12 p-md-12 p-lg-12" *ngFor="let d of data">
+                    <div class="p-grid">
+                        <div class="p-col-12 p-md-2 p-lg-2 dist-dsh-box ripple"
+                            style="padding: 15px; align-self: center;" (click)="gotoTaluk(d.Id)">
+                            {{d.name}}
+                        </div>
+                        <div class="p-col-12 p-md-10 p-lg-10 no-pad-btm" style="text-align: center;">
+                            <div class="p-grid">
+                                <div class="p-col-6 p-md-3 p-lg-3 dist-dsh-count box1">
+                                    <div>Total Hostel Count</div>
+                                    <div class="circle-single circle1"> <span
+                                            class="dist-dsh-count-font">{{d.hcount}}</span></div>
+                                </div>
+                                <div class="p-col-6 p-md-3 p-lg-3 dist-dsh-count box2">
+                                    <div>Total Hostel Count</div>
+                                    <div style="justify-content: center;">
+                                        <div style="width: 50%; float: left;">
+                                            <div class="circle-double circle2">
+                                                <span style="font-size: 13px;">Boys</span>
+                                                <div class="dist-dsh-count-font">
+                                                    {{d.boysHostelCount}}</div>
+                                            </div>
+                                        </div>
+                                        <div style="width: 50%; float: right;">
+                                            <div class="circle-double circle2">
+                                                <span style="font-size: 13px;">Girls</span>
+                                                <div class="dist-dsh-count-font">
+                                                    {{d.girlsHostelCount}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-col-6 p-md-3 p-lg-3 dist-dsh-count box3">
+                                    <div>Sanctioned Strength</div>
+                                    <div style="justify-content: center;">
+                                        <div style="width: 50%; float: left;">
+                                            <div class="circle-double circle3">
+                                                <span style="font-size: 13px;">Boys</span>
+                                                <div class="dist-dsh-count-font">
+                                                    {{d.sanctionedBoysCount}}</div>
+                                            </div>
+                                        </div>
+                                        <div style="width: 50%; float: right;">
+                                            <div class="circle-double circle3">
+                                                <span style="font-size: 13px;">Girls</span>
+                                                <div class="dist-dsh-count-font">
+                                                    {{d.sanctionedGirlsCount}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-col-6 p-md-3 p-lg-3 dist-dsh-count box4">
+                                    <div>Total Students Count</div>
+                                    <div style="justify-content: center;">
+                                        <div style="width: 50%; float: left;">
+                                            <div class="circle-double circle4">
+                                                <span style="font-size: 13px;">Boys</span>
+                                                <div class="dist-dsh-count-font">
+                                                    {{d.boysCount}}</div>
+                                            </div>
+                                        </div>
+                                        <div style="width: 50%; float: right;">
+                                            <div class="circle-double circle4">
+                                                <span style="font-size: 13px;">Girls</span>
+                                                <div class="dist-dsh-count-font">
+                                                    {{d.girlsCount}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="arrow-container animated fadeInDown" (click)="scrollDown()" *ngIf="isScrollDown">
+                <div class="arrow-2">
+                    <i class="fa fa-angle-down"></i>
+                </div>
+                <div class="arrow-1 animated hinge infinite zoomIn"></div>
+            </div>
+            <div #scroller id="scroller"></div>
+        </div>
+    </div>
+</block-ui>

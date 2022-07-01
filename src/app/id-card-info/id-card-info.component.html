@@ -18,10 +18,10 @@
                                 <div><label for="_taluk">Taluk<span
                                             class="form-mandatory-field">*</span></label></div>
                                 <p-dropdown name="_taluk" [options]="talukOptions" [(ngModel)]="taluk"
-                                    (onClick)="onSelect('T')" required>
+                                    (onClick)="onSelect('T')" (onChange)="selectDistrict()" required>
                                 </p-dropdown>
                             </div>
-                            <div class="p-col-12 p-md-6 p-lg-2">
+                            <div class="p-col-12 p-md-6 p-lg-3">
                                 <div><label for="_hostel">Hostel Name<span
                                             class="form-mandatory-field">*</span></label></div>
                                 <p-dropdown name="_hostel" [options]="hostelOptions" [(ngModel)]="hostelName"
@@ -60,14 +60,12 @@
                                     <div class="p-col-6 p-md-6 p-lg-6">{{emisNo}}</div>
                                 </div>
                                 <hr>
-                                <div class="p-col-1"></div>
                                 <div class="p-grid">
                                     <div class="p-col-2"></div>
                                     <div class="p-col-4 p-md-4 p-lg-4"><b>Date of Birth: </b></div>
                                     <div class="p-col-6 p-md-6 p-lg-6">{{dob | date:'dd/MM/yyyy'}} </div>
                                 </div>
                                 <hr>
-                                <div class="p-col-1"></div>
                                 <div class="p-grid">
                                     <div class="p-col-2"></div>
                                     <div class="p-col-4 p-md-4 p-lg-4"><b>Blood Group: </b></div>
@@ -80,29 +78,24 @@
                                     <div class="p-col-6 p-md-6 p-lg-6">{{medium}}</div>
                                 </div>
                                 <hr>
-                                <div class="p-col-1"></div>
-                                <div class="p-col-1"></div>
                                 <div class="p-grid">
                                     <div class="p-col-2"></div>
                                     <div class="p-col-4 p-md-4 p-lg-4"><b>Mobile no: </b></div>
                                     <div class="p-col-6 p-md-6 p-lg-6">{{contactNo}}</div>
                                 </div>
                                 <hr>
-                                <div class="p-col-1"></div>
                                 <div class="p-grid">
                                     <div class="p-col-2"></div>
                                     <div class="p-col-4 p-md-4 p-lg-4"><b>Emergency Contact: </b></div>
-                                    <div class="p-col-6 p-md-6 p-lg-6">{{fatherContact}}</div>
+                                    <div class="p-col-6 p-md-6 p-lg-6">{{contactNo}}</div>
                                 </div>
                                 <hr>
-                                <div class="p-col-1"></div>
                                 <div class="p-grid">
                                     <div class="p-col-2"></div>
                                     <div class="p-col-4 p-md-4 p-lg-4"><b>Guardian(if any): </b></div>
-                                    <div class="p-col-6 p-md-6 p-lg-6">{{guardian}}</div>
+                                    <div class="p-col-6 p-md-6 p-lg-6">{{guardianMobileNo}}</div>
                                 </div>
                                 <hr>
-                                <div class="p-col-1"></div>
                                 <div class="p-grid">
                                     <div class="p-col-2"></div>
                                     <div class="p-col-4 p-md-4 p-lg-4"><b>Address: </b></div>

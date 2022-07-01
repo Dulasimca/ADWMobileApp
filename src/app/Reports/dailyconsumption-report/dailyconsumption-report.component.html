@@ -49,11 +49,11 @@
                     <div class="p-col-12 p-md-12 p-lg-12">
                         <div style="text-align: right;">
                             <button pButton type="button" icon="pi pi-file-excel" style="color: yellowgreen;"
-                                label="Export" (click)="dt.exportCSV()" pTooltip="Excel-File download"></button>
+                                label="Export" (click)="dt.exportCSV()" pTooltip="Excel-File download" [disabled]="disableExcel"></button>
                         </div>
                         <p-table #dt [value]="consumptionDetails" [columns]="consumptionCols"
                             styleClass="p-datatable-gridlines" [paginator]="true" [rows]="40"
-                            [rowsPerPageOptions]="[10,20,30,40]" [loading]="loading"
+                            [rowsPerPageOptions]="[10,20,30,40]" responsiveLayout="scroll" [loading]="loading"
                             exportFilename="DAILY_CONSUMPTION_REPORT">
                             <ng-template pTemplate="header" let-columns>
                                 <tr>

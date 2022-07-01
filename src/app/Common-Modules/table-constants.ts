@@ -27,11 +27,13 @@ export class TableConstants {
     biometricattendancecountColumns: any = [];
     purchasedetailsReportCols: any = [];
     studentCountReportCols: any = [];
-
-    
+    HstlClosingdateEntryCols: any = [];
+    onlineapplicationstatusCols:any = [];
+    schoolwisestudentdetailsCols:any = [];
     AccountHeadTable: any = [];
     HostelFundtable: any = [];
     DeviceMappingReportCols: any = [];
+    StudentDocumentColumns: any[] = [];
     constructor() {
         this.purcahseOrderColumns = [
             { field: 'Commodity', header: 'Commodity', align: 'left !important'},
@@ -106,23 +108,61 @@ export class TableConstants {
             { field: 'HostelName', header: 'Hostel Name', align: 'left !important'},
             { field: 'mobileNo', header: 'Mobile No.', align: 'right !important'},
             { field: 'instituteName', header: 'Institute Name', align: 'left !important'},
-            { field: 'courseTitle', header: 'Course', align: 'left !important'},
-            { field: 'aadharNoMasked', header: 'Aadhar No.', align: 'right !important'},
+            { field: 'Course', header: 'Course', align: 'left !important'},
+            // { field: 'aadharNoMasked', header: 'Aadhar No.', align: 'right !important'},
             { field: 'emisno', header: 'EMIS NO.', align: 'right !important'},
             { field: 'totalYIncome', header: 'Yearly Income', align: 'right !important'},
         ];
 
         this.studentDetailsColumns = [
-            { field: 'studentName', header: 'Name', align: 'left !important'},
-            { field: 'AttendanceId', header: 'Attendance Id', align: 'right !important'},
-            { field: 'hostelDName', header: 'District', align: 'left !important'},
-            { field: 'hostelTName', header: 'Taluk', align: 'left !important'},
-            { field: 'HostelName', header: 'Hostel Name', align: 'left !important'},
-            { field: 'age', header: 'Age', align: 'right !important'},
-            { field: 'genderName', header: 'Gender', align: 'left !important'},
-            { field: 'mobileNo', header: 'Mobile No.', align: 'right !important'},
-            { field: 'instituteName', header: 'Institute Name', align: 'left !important'},
-            { field: 'courseTitle', header: 'Course', align: 'left !important'},
+            { field: 'admissionNo', header: 'Admission No.', align: 'right !important', width: '100px'},
+            { field: 'studentName', header: 'Name', align: 'left !important' , width: '100px' },
+            // { field: 'AttendanceId', header: 'Attendance Id', align: 'right !important', width: '100px'},
+            { field: 'hostelDName', header: 'District', align: 'left !important', width: '100px'},
+            { field: 'hostelTName', header: 'Taluk', align: 'left !important', width: '100px'},
+            { field: 'HostelName', header: 'Hostel Name', align: 'left !important', width: '100px'},
+            // { field: 'dob', header: 'Date of birth', align: 'center !important', width: '100px'},
+            // { field: 'age', header: 'Age', align: 'right !important', width: '100px'},
+            // { field: 'genderName', header: 'Gender', align: 'left !important', width: '100px'},
+            // { field: 'bloodgroupName', header: 'Blood Group', align: 'left !important', width: '100px'},
+            // { field: 'mobileNo', header: 'Mobile No.', align: 'right !important', width: '100px'},
+            // { field: 'mothertongueName', header: 'Mother Tongue', align: 'left !important', width: '100px'},
+            // { field: 'religionName', header: 'Religion', align: 'left !important', width: '100px'},
+            // { field: 'casteName', header: 'Caste', align: 'left !important', width: '100px'},
+            // { field: 'subcasteName', header: 'Sub-Caste', align: 'left !important', width: '100px'},
+            { field: 'instituteName', header: 'Institute Name', align: 'left !important', width: '100px'},
+            { field: 'Course', header: 'Class', align: 'left !important', width: '100px'},
+            { field: 'mediumName', header: 'Medium', align: 'left !important', width: '100px'},
+            { field: 'courseYear', header: 'Year', align: 'left !important', width: '100px'},
+            // { field: 'disabilityType', header: 'Disability', align: 'left !important', width: '100px'},
+            { field: 'distanceFromHostelToHome', header: 'Distance from hostel to home', align: 'right !important', width: '100px'},
+            { field: 'distanceFromHostelToInstitute', header: 'Distance from hostel to institute', align: 'right !important', width: '100px'},
+            { field: 'emisno', header: 'EMIS No.', align: 'right !important', width: '100px'},
+            // { field: 'rationCardrNo', header: 'Ratio Card No.', align: 'right !important', width: '100px'},
+            // { field: 'bankAccNo', header: 'Bank Account No.', align: 'right !important', width: '100px'},
+            // { field: 'ifscCode', header: 'IFSC Code', align: 'right !important', width: '100px'},
+            // { field: 'bankName', header: 'Bank Name', align: 'left !important', width: '100px'},
+            // { field: 'branchName', header: 'Branch', align: 'left !important', width: '100px'},
+            // { field: 'micrNo', header: 'MICR No.', align: 'left !important', width: '100px'},
+            // { field: 'fatherName', header: 'Father Name', align: 'left !important', width: '100px'},
+            // { field: 'fatherMoileNo', header: 'Father Contact No.', align: 'right !important', width: '100px'},
+            // { field: 'fatherQualification', header: 'Qualification', align: 'left !important', width: '100px'},
+            // { field: 'fatherOccupation', header: 'Occupation', align: 'left !important', width: '100px'},
+            // { field: 'fatherYIncome', header: 'Total Income', align: 'left !important', width: '100px'},
+            // { field: 'motherName', header: 'Mother Name', align: 'left !important', width: '100px'},
+            // { field: 'motherOccupation', header: 'Occupation', align: 'left !important', width: '100px'},
+            // { field: 'motherQualification', header: 'Qualification', align: 'left !important', width: '100px'},
+            // { field: 'motherMoileNo', header: 'Mother Contact No.', align: 'right !important', width: '100px'},
+            // { field: 'guardianName', header: 'Guardian Name', align: 'left !important', width: '100px'},
+            // { field: 'guardianMobileNo', header: 'Guardian Contact No.', align: 'right !important', width: '100px'},
+            // { field: 'lastStudiedInstituteAddress', header: 'Last Studied Institute Address', align: 'left !important', width: '100px'},
+            // { field: 'lastStudiedInstituteName', header: 'Last Studied Institute Name', align: 'left !important', width: '100px'},
+            // { field: 'totalYIncome', header: 'Total Income', align: 'right !important', width: '100px'},
+            // { field: 'Address', header: 'Address', align: 'left !important', width: '100px'},
+            // { field: 'village', header: 'Village', align: 'left !important', width: '100px'},
+            // { field: 'Districtname', header: 'District', align: 'left !important', width: '100px'},
+            // { field: 'Talukname', header: 'Taluk', align: 'left !important', width: '100px'},
+            // { field: 'pincode', header: 'Pincode', align: 'right !important', width: '100px'},
         ];
 
         this.purchaseDetailsReportColumns = [
@@ -161,6 +201,8 @@ export class TableConstants {
 
         this.hostelReportCols = [
             { field: 'HostelCode', header: 'Hostel Code', align: 'left !important'},
+            { field: 'FunctioningName', header: 'Hostel Type', align: 'left !important'},
+            { field: 'HGenderType', header: 'Boys/Girls Hostel', align: 'left !important'},
             { field: 'HostelName', header: 'Hostel Name', align: 'left !important'},
             { field: 'HostelNameTamil', header: 'விடுதியின் பெயர்', align: 'left !important'},
             { field: 'HostelOpeningDate', header: 'Hostel Opening Date', width: '100px'},
@@ -193,18 +235,23 @@ export class TableConstants {
             { field: 'Remarks', header: 'Remarks', width: '100px', align: 'left !important' },
         ]
         this.employeeReportCols = [
-            { field: 'district1', header: 'District Name', width: '100px', align: 'left !important'},
+            { field: 'hostelDistrict', header: 'District Name', width: '100px', align: 'left !important'},
             { field: 'Talukname', header: 'Taluk Name', width: '100px', align: 'left !important'},
             { field: 'HostelName', header: 'Hostel Name', width: '100px', align: 'left !important'},
-            { field: 'WardenName', header: 'Warden Name', width: '100px', align: 'left !important'},
+            // { field: 'WardenName', header: 'Employee Name', width: '100px', align: 'left !important'},
             { field: 'DesignationName', header: 'Designation', width: '100px', align: 'left !important'},
             { field: 'FirstName', header: 'First Name', width: '100px', align: 'left !important'},
             { field: 'LastName', header: 'Last Name', width: '100px', align: 'left !important'},
-            { field: 'Doj', header: 'Doj', width: '100px', align: 'center !important'},
             { field: 'GenderName', header: 'Gender', width: '100px', align: 'left !important'},
+            { field: 'DOB', header: 'Date of Birth', width: '100px', align: 'center !important'},
+            { field: 'Doj', header: 'Service Joined Date', width: '100px', align: 'center !important'},
+            { field: 'EmployeeJoinedDate', header: 'Joined Date', width: '100px', align: 'center !important'},
             { field: 'Address', header: 'Address', width: '100px', align: 'left !important'},
+            { field: 'Pincode', header: 'Pincode', width: '100px', align: 'left !important'},
             { field: 'NativeDistrict', header: 'Native District', width: '100px', align: 'left !important'},
+            { field: 'NativeTaluk', header: 'Native Taluk', width: '100px', align: 'left !important'},
             { field: 'MobileNo', header: 'Mobile No', width: '100px', align: 'left !important'},
+            // { field: 'AltMobNo', header: 'Alt Mobile No', width: '100px', align: 'left !important'},
             { field: 'EndDate', header: 'End Date', width: '100px', align: 'centre !important'},
         ]
         this.DeviceMappingReportCols = [
@@ -348,5 +395,42 @@ export class TableConstants {
         { field: 'StudentCount', header: 'Student Count', width: '100px', align: 'left !important'},
         
     ]
+    this.HstlClosingdateEntryCols = [
+        { field: 'ShortYear', header: 'Academic Year', width: '100px', align: 'center !important'},
+        { field: 'AppOpendate', header: 'Application Open Date', width: '100px', align: 'center !important'},
+        { field: 'AppClosedate', header: 'Application Close Date', width: '100px', align: 'center !important'},
+        { field: 'AppExtendDate', header: 'Application Extend Date', width: '100px', align: 'center !important'},
+        { field: 'HstlOpenDate', header: 'Hostel Opening Date', width: '100px', align: 'center !important'},
+        { field: 'HstlCloseDate', header: 'Hostel Closing Date', width: '100px', align: 'center !important'},
+        
+    ]
+    this.onlineapplicationstatusCols =[
+        { field: 'Districtname',  header: 'District Name', width: '100px', align: 'left !important'},
+        { field: 'Talukname',  header: 'Taluk Name', width: '100px', align: 'left !important'},
+        { field: 'HostelName',  header: 'Hostel Name', width: '100px', align: 'left !important'},
+        { field: 'Name',  header: 'Caste', width: '100px', align: 'left !important'},
+        { field: 'TotalCount',  header: 'Total', width: '100px', align: 'left !important'},
+        { field: 'Pending',  header: 'Pending', width: '100px', align: 'left !important'},
+        { field: 'Selected',  header: 'Selected', width: '100px', align: 'left !important'},
+        { field: 'Rejected',  header: 'Rejected', width: '100px', align: 'left !important'},
+        { field: 'Remarks',  header: 'Remarks', width: '100px', align: 'left !important'},
+    ]
+    this.schoolwisestudentdetailsCols=[
+        { field: 'Districtname',  header: 'District Name', width: '100px', align: 'left !important'},
+        { field: 'Talukname',  header: 'Taluk Name', width: '100px', align: 'left !important'},
+        { field: 'HostelName',  header: 'Hostel Name', width: '100px', align: 'left !important'},
+        { field: 'InstituteName',  header: 'School/College', width: '100px', align: 'left !important'},
+        { field: 'Emisno',  header: 'EMIS No/Registeration No', width: '100px', align: 'left !important'},
+        { field: 'CourseTitle',  header: 'Standard/Course', width: '100px', align: 'left !important'},
+        { field: 'ClassName',  header: 'Subject', width: '100px', align: 'left !important'},
+        { field: 'TotalYearlyIncome',  header: 'Income', width: '100px', align: 'left !important'},
+        { field: 'Name',  header: 'Caste', width: '100px', align: 'left !important'},
+    ];
+
+    this.StudentDocumentColumns = [
+        { field: 'StudentName',  header: 'Student Name', width: '150px', align: 'left !important'},
+        { field: 'Dob',  header: 'D.O.B', width: '80px', align: 'left !important'},
+        { field: 'MobileNo',  header: 'MobileNo', width: '100px', align: 'right !important'},
+    ];
     }
 }

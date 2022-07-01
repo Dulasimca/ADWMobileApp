@@ -52,7 +52,7 @@
                     </div>
                     <div *ngIf="showTable">
                         <p-table [value]="studentAttendanceData" styleClass="p-datatable-gridlines" [paginator]="true"
-                            [rows]="100" [rowsPerPageOptions]="[10,20,40,60,100]" [loading]="loading">
+                            [rows]="100" [rowsPerPageOptions]="[10,20,40,60,100]" [loading]="loading" responsiveLayout="scroll">
                             <ng-template pTemplate="header" let-columns>
                                 <tr>
                                     <th style="width: 50px;">S.No</th>

@@ -65,7 +65,7 @@
                             </div>
                                 <p-table [columns]="cols" [value]="data" [paginator]="true" [rows]="10"
                                 [rowsPerPageOptions]="[5,10,15,20]" totalRecords="totalRecords"
-                                styleClass="p-datatable-gridlines">
+                                styleClass="p-datatable-gridlines" responsiveLayout="scroll">
                                 <ng-template pTemplate="header" let-columns>
                                     <tr>
                                         <th>S.No</th>

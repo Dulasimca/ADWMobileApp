@@ -63,7 +63,7 @@ export class BiometricAttendanceComponent implements OnInit {
   Adate: Date = new Date();
   maxDate: Date = new Date();
   MSerialNumber:any;
-  
+  disableExcel: boolean = true;
 
   constructor(private http: HttpClient, private restApiService: RestAPIService,
     private masterService: MasterService, private _authService: AuthService,
@@ -75,10 +75,7 @@ export class BiometricAttendanceComponent implements OnInit {
     this.login_user = this._authService.UserInfo;
     this.districts = this.masterService.getMaster('DT');
     this.taluks = this.masterService.getMaster('TK');
-    //  this.districtname = this.login_user.districtName;
-    //  this.talukname = this.login_user.talukName;
-    //  this.hostelname=this.login_user.hostelName;
-    // this.role=this.login_user.roleId;
+    this.TalukIds = this.masterService.getTalukAll();
 
   }
 
@@ -100,7 +97,9 @@ export class BiometricAttendanceComponent implements OnInit {
           break;
         case 'T':
           this.taluks.forEach(t => {
+            if (t.dcode === this.district) {
             talukSelection.push({ label: t.name, value: t.code });
+            }
           })
           this.talukOptions = talukSelection;
           if ((this.login_user.roleId * 1) === 1 || (this.login_user.roleId * 1) === 2) {
@@ -142,7 +141,7 @@ export class BiometricAttendanceComponent implements OnInit {
       })
     }
     this.hostelOptions = hostelSelection;
-    if((this.login_user.roleId * 1) !== 4) {
+    if((this.login_user.roleId * 1) !== 4 || (this.login_user.roleId * 1) === 2) {
       this.hostelOptions.unshift({ label: 'All', value: 0 });
     }
     this.hostelOptions.unshift({ label: '-select-', value: null });
@@ -152,19 +151,22 @@ export class BiometricAttendanceComponent implements OnInit {
     this.BMAttendanceData = [];
       this.loading = true;
       const params = {
+        'DCode': this.district,
+        'TCode': this.taluk,
         'Adate' : this.datepipe.transform(this.Adate, 'MM/dd/yyyy'),
-        'HostelId' :  (this.login_user.hostelId !== undefined && this.login_user.hostelId !== null) ? 
-        this.login_user.hostelId : 0,
+        'HostelId' : this.hostel
       }
      
       console.log(true);
-      this.restApiService.getByParameters(PathConstants.BioMetricAttendance_Get, params).subscribe(res => {
+      this.restApiService.getByParameters(PathConstants.AttendanceBMName_Get, params).subscribe(res => {
         if (res.Table !== undefined && res.Table !== null) {
           if (res.Table.length !== 0) {
             this.BMAttendanceData = res.Table;
+            this.disableExcel = false;
             this.loading = false;
           } else {
             this.loading = false;
+            this.disableExcel = true;
             this._messageService.clear();
             this._messageService.add({
               key: 't-msg', severity: ResponseMessage.SEVERITY_WARNING,
@@ -173,6 +175,7 @@ export class BiometricAttendanceComponent implements OnInit {
           }
         } else {
           this.loading = false;
+          this.disableExcel = true;
           this._messageService.clear();
           this._messageService.add({
             key: 't-msg', severity: ResponseMessage.SEVERITY_WARNING,

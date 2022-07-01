@@ -34,6 +34,7 @@ export class FeedingchargestypeReportComponent implements OnInit {
   feedchargeId=0;
 
   showTable: boolean;
+  disableExcel: boolean = true;
 
 
   constructor(private tableConstants: TableConstants,private restApiService: RestAPIService, 
@@ -51,7 +52,6 @@ export class FeedingchargestypeReportComponent implements OnInit {
 
     switch (type) {
       case 'AY':
-
         this.Accountingyears.forEach(y => {
           yearSelection.push({ label: y.name, value: y.code });
         })
@@ -73,8 +73,9 @@ export class FeedingchargestypeReportComponent implements OnInit {
         this.data.forEach(i => {
           i.Flag = (i.Flag) ? 'Active' : 'Inactive';
         })
-        
+        this.disableExcel = false;
       }else{
+        this.disableExcel = true;
       this._messageService.clear();
       this._messageService.add({
         key: 't-msg', severity: ResponseMessage.SEVERITY_WARNING,

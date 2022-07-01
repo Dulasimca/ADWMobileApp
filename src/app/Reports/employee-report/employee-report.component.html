@@ -1,3 +1,5 @@
+
+
 <div class="p-grid">
     <div class="p-col-12 p-md-12 p-lg-12">
         <p-toast position="top-center" key="t-msg"></p-toast>
@@ -37,10 +39,10 @@
                         <div style="text-align: right;">
                             <button pButton type="button" icon="pi pi-file-excel" label="Export"
                                 style="color: yellowgreen;" (click)="dt.exportCSV()"
-                                pTooltip="Excel-File download"></button>
+                                pTooltip="Excel-File download"  [disabled]="disableExcel"></button>
                         </div>
                         <p-table #dt [columns]="hostelCols" [value]="hostelData" [paginator]="true" [rows]="100"
-                            [rowsPerPageOptions]="[10,30,50,100]" styleClass="p-datatable-gridlines" 
+                            [rowsPerPageOptions]="[10,30,50,100]" responsiveLayout="scroll" styleClass="p-datatable-gridlines" 
                             exportFilename="HOSTELEMPLOYEE_REPORT">
                             <ng-template pTemplate="header" let-columns>
                                 <tr>
@@ -48,6 +50,8 @@
                                     <th *ngFor="let col of columns" [style.width]="col.width">
                                         {{col.header}}
                                     </th>
+                                    <th style="width: 50px;">Image</th>
+                                    <th>Approval status</th>
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex" let-columns="columns">
@@ -67,11 +71,34 @@
                                         <span style="text-align: end;"> {{rowData[col.field]}}
                                         </span>
                                     </td>
+                                    <td (click)="showImage(rowData.url)">
+                                        <span class="p-column-title">
+                                            Image :
+                                        </span>
+                                        <span>
+                                        <img alt="TN ADW Employee image" [src]="rowData.url" width="32"
+                                            style="vertical-align: middle" /></span>
+                                    </td>
+                                    <td>
+                                        <span class="p-column-title">
+                                          Approval status :
+                                        </span>
+                                        <span *ngIf="(rowData.status == 1)">Confirmed!
+                                        </span>
+                                        <span *ngIf="(rowData.status == 0)">Declined!
+                                        </span>
+                                        <span *ngIf="(rowData.status == 2)">Pending!
+                                        </span>
+                                    </td>
                                 </tr>
                             </ng-template>
                         </p-table>
                     </div>
                 </p-card>
             </p-panel>
+            <p-dialog #dialog header="Employee Image" [(visible)]="showDialog" [modal]="showDialog"
+            [maximizable]="true" [style]="{width: '90vw', height: '90vw'}">
+                <img alt="TN ADW Employee image" [src]="employeeImage" style="vertical-align: middle" />
+            </p-dialog>
         </div>
     </div>

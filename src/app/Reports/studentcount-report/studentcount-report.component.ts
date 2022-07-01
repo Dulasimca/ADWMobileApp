@@ -59,6 +59,7 @@ export class StudentcountReportComponent implements OnInit {
   studentcountCols: any;
   studentcountData: any = [];
   loading: boolean;
+  disableExcel: boolean = true;
 
   constructor(private http: HttpClient, private restApiService: RestAPIService,
     private masterService: MasterService, private _authService: AuthService,
@@ -153,9 +154,11 @@ export class StudentcountReportComponent implements OnInit {
       this.restApiService.getByParameters(PathConstants.HostelWiseStudentCount_Get,params).subscribe(res => {
         if (res !== undefined && res !== null && res.length !== 0) {
             this.studentcountData = res;
+            this.disableExcel = false;
             this.loading = false;
         } else {
           this.loading = false;
+          this.disableExcel = true;
           this._messageService.clear();
           this._messageService.add({
             key: 't-msg', severity: ResponseMessage.SEVERITY_WARNING,

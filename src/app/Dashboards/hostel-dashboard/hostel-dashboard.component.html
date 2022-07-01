@@ -1,0 +1,450 @@
+<div class="p-grid">
+    <div class="p-col-12 p-md-12 p-lg-12 no-padding">
+        <p-toast position="top-center" key="t-msg"></p-toast>
+        <!-- <p-panel header="{{hostelName}}" [ngClass]="'kb-row'"> -->
+        <div class="p-col-12 p-md-12 p-lg-12 hs-hdr">
+            <div style="text-align: center;">{{hostelName}}</div>
+        </div>
+        <div class="p-grid" style="padding: 2px; background: #00293c;">
+            <div #row1 class="p-col-12 p-md-12 p-lg-12" style="justify-content: center; display: flex;">
+                <div #h_img id="h_img">
+                    <span>
+                        <img alt="TN ADW Hostel image" src={{imgURL}} style="vertical-align: middle" />
+                    </span>
+                </div>
+            </div>
+            <div #row2 class="p-col-12 p-md-12 p-lg-12 no-pad-btm">
+                <div class="p-grid" style="justify-content: center;">
+                    <div class="p-col-8 p-md-4 p-lg-2 hs-main-div">
+                        <div class="hs-div hs-div-bg1">Sanctioned Count</div>
+                        <div class="hs-title hs-title1 hs-title-count">{{info.sanctionedCount}} </div>
+                    </div>
+                    <div class="p-col-8 p-md-4 p-lg-2 hs-main-div">
+                        <div class="hs-div hs-div-bg2">Registered Count</div>
+                        <div class="hs-title hs-title2 hs-title-count">{{info.registeredCount}}</div>
+                    </div>
+                    <div class="p-col-8 p-md-4 p-lg-2 hs-main-div">
+                        <div class="hs-div hs-div-bg3">Attendance Count</div>
+                        <div style="width: 50%; float:left;">
+                            <div class="hs-title hs-title3 hs-title-count no-padding">{{info.attendanceStrdyCount}}
+                            </div><br />
+                            <div class="hs-sub-title">Yesterday</div>
+                        </div>
+                        <div style="width: 50%; float:right;">
+                            <div class="hs-title hs-title3 hs-title-count no-padding"> {{info.attendanceTdyCount}}</div>
+                            <br />
+                            <div class="hs-sub-title">Today</div>
+                        </div>
+                    </div>
+                    <div class="p-col-8 p-md-4 p-lg-2 hs-main-div">
+                        <div class="hs-div hs-div-bg4">Hostel Type</div>
+                        <div class="hs-title hs-title4 hs-title-txt">{{info.hstlType}}</div>
+                    </div>
+                    <div class="p-col-8 p-md-4 p-lg-2 hs-main-div">
+                        <div class="hs-div hs-div-bg5">Building Type</div>
+                        <div class="hs-title hs-title5 hs-title-txt">{{info.buildingType}}</div>
+                    </div>
+                </div>
+            </div>
+            <div #row3 class="p-col-12 p-md-12 p-lg-12 hs-parent-div">
+                <div class="p-grid" style="justify-content: center;">
+                    <div #row3col1 class="p-col-12 p-md-6 p-lg-6 hs-child-div">
+                        <div class="hs-section-hdr">
+                            Food Images
+                        </div>
+                        <p-carousel [value]="data" styleClass="custom-carousel" [numVisible]="1" [numScroll]="1"
+                            [circular]="true" [autoplayInterval]="3000" [responsiveOptions]="responsiveOptions">
+                            <ng-template let-item pTemplate="item">
+                                <div class="product-item">
+                                    <div class="product-item-content">
+                                        <div class="mb-3">
+                                            <img src="{{item.image}}" [alt]="item.name" class="product-image"
+                                                style="width: 500px;" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </p-carousel>
+                    </div>
+                    <div #row3col2 class="p-col-12 p-md-6 p-lg-6 hs-child-div">
+                        <div class="hs-section-hdr">
+                            Food Menu
+                        </div>
+                        <div class="p-col-12 p-md-12 p-lg-12">
+                            <div class="p-grid" *ngFor="let i of menuItems">
+                                <div class="p-col-12 p-md-12 p-lg-12">
+                                    <div class="p-grid hs-menuitem-gap">
+                                        <div class="p-col-3 p-md-2 p-lg-2 hs-menu-name  hs-menuitems-colorchange">
+                                            {{i.iType}}</div>
+                                        <div class="p-col-9 p-md-10 p-lg-10 hs-menu-item">{{i.iName}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div #row4 class="p-col-12 p-md-12 p-lg-12 hs-parent-div">
+                <div class="p-grid" style="justify-content: center;">
+                    <div #row4col1 class="p-col-12 p-md-6 p-lg-6 hs-child-div">
+                        <div class="hs-section-hdr">
+                            Employee Information
+                        </div>
+                        <div *ngIf="isEIAvailable" class="p-grid hs-emplist-gap">
+                            <div class="p-col-12 p-md-6 p-lg-6 hs-emp-list" [style.border-left]="e.eBRClr"
+                                [style.background]="e.eBGColor" *ngFor="let e of employeeList">
+                                <div style="float: left; width: 20%">
+                                    <img src="{{e.eImage}}" style="border-radius: 100%; width: 50px;"
+                                        class="img-responsive" alt="#">
+                                </div>
+                                <div style="float: right; width: 80%">
+                                    <div class="hs-emp-name">{{e.eName}}</div>
+                                    <div class="hs-emp-subtxt">{{e.eDesignation}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="!isEIAvailable" class="hs-not-available-txt">
+                            NOT AVAILABLE
+                        </div>
+                    </div>
+                    <div #row4col2 class="p-col-12 p-md-6 p-lg-6 hs-child-div">
+                        <div class="hs-section-hdr">
+                            Hostel Gallery
+                        </div>
+                        <div *ngIf="isHGAvailable">
+                            <p-carousel [value]="galleryData" styleClass="custom-carousel" [numVisible]="1"
+                                [numScroll]="1" [circular]="isGCircular" [autoplayInterval]="3000"
+                                [responsiveOptions]="responsiveOptions">
+                                <ng-template let-item pTemplate="item">
+                                    <div class="product-item">
+                                        <div class="product-item-content">
+                                            <div class="mb-3">
+                                                <img src="{{item.image}}" [alt]="item.name" class="product-image"
+                                                    style="width: 500px;" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </p-carousel>
+                        </div>
+                        <div *ngIf="!isHGAvailable" class="hs-not-available-txt">
+                            NOT AVAILABLE
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div #row5 class="p-col-12 p-md-12 p-lg-12 hs-parent-div">
+                <div class="p-grid" style="justify-content: center;">
+                    <div #row5col1 class="p-col-12 p-md-6 p-lg-6 hs-child-div">
+                        <div class="hs-section-hdr">
+                            Hostel Infrastructure
+                        </div>
+                        <div class="p-col-12 p-md-12 p-lg-12 no-pad-btm"
+                            style="box-shadow: 0 3px 8px rgb(0 0 0 / 24%);">
+                            <div class="p-grid" style="justify-content: center;">
+                                <div #tarera class="p-col-3 p-md-4 p-lg-3 hs-infra-box"
+                                    [ngClass.xs]="'hs-infra-box-xs-mg'" [ngClass.md]="'hs-infra-box-lg-mg'"
+                                    [ngClass.lg]="'hs-infra-box-lg-mg'" style="background: #ff93c1;">
+                                    <div class="hs-infra-boxtitle">Total Area</div>
+                                    <div class="hs-infra-box-subtitle">{{totalArea}}</div>
+                                    <div class="p-col-12 p-md-12 p-lg-12" style="background: #ff0a91;"></div>
+                                </div>
+                                <div #nfloor class="p-col-3 p-md-4 p-lg-3 hs-infra-box"
+                                    [ngClass.xs]="'hs-infra-box-xs-mg'" [ngClass.md]="'hs-infra-box-lg-mg'"
+                                    [ngClass.lg]="'hs-infra-box-lg-mg'" style="background: #e3e55a;">
+                                    <div class="hs-infra-boxtitle">No of Floors</div>
+                                    <div class="hs-infra-box-subtitle">{{nFloors}}</div>
+                                    <div class="p-col-12 p-md-12 p-lg-12" style="background: #f1cc16;"></div>
+                                </div>
+                                <div #barea class="p-col-3 p-md-4 p-lg-3 hs-infra-box"
+                                    [ngClass.xs]="'hs-infra-box-xs-mg'" [ngClass.md]="'hs-infra-box-lg-mg'"
+                                    [ngClass.lg]="'hs-infra-box-lg-mg'" style="background: #73bbf5;">
+                                    <div class="hs-infra-boxtitle">Building Area</div>
+                                    <div class="hs-infra-box-subtitle">{{buildingArea}}</div>
+                                    <div class="p-col-12 p-md-12 p-lg-12" style="background: #2155ff;"></div>
+                                </div>
+                            </div>
+                            <div class="p-grid" style="justify-content: center;">
+                                <div #cpdwall class="p-col-3 p-md-4 p-lg-3 hs-infra-box"
+                                    [ngClass.xs]="'hs-infra-box-xs-mg'" [ngClass.md]="'hs-infra-box-lg-mg'"
+                                    [ngClass.lg]="'hs-infra-box-lg-mg'"
+                                    [ngStyle]="{'background': (cwValue == 1) ? '#7db77d' : '#f37e7e'}">
+                                    <div style="width: 20%; float: left; padding: 5px;"
+                                        [ngStyle]="{'background': (cwValue == 1) ? '#1b931f' : '#eb1111'}">
+                                        <i [ngClass]="(cwValue == 1) ? 'pi pi-check-circle' : 'pi pi-times-circle'"
+                                            style="color: white; font-size: 1.5rem; border-radius: 100% "></i>
+                                    </div>
+                                    <div style="width: 80%; float: right; padding: 5px; white-space: pre;">Compound Wall
+                                    </div>
+                                </div>
+                                <div #rmpfcl class="p-col-3 p-md-3 p-lg-3 hs-infra-box"
+                                    [ngClass.xs]="'hs-infra-box-xs-mg'" [ngClass.md]="'hs-infra-box-lg-mg'"
+                                    [ngClass.lg]="'hs-infra-box-lg-mg'"
+                                    [ngStyle]="{'background': (rfValue == 1) ? '#7db77d' : '#f37e7e'}">
+                                    <div style="width: 20%; float: left; padding: 5px;"
+                                        [ngStyle]="{'background': (rfValue == 1) ? '#1b931f' : '#eb1111'}">
+                                        <i [ngClass]="(rfValue == 1) ? 'pi pi-check-circle' : 'pi pi-times-circle'"
+                                            style="color: white; font-size: 1.5rem; border-radius: 100% "></i>
+                                    </div>
+                                    <div style="width: 80%; float: right; padding: 5px; white-space: pre;">Ramp Facility
+                                    </div>
+                                </div>
+                                <div #pgrnd class="p-col-3 p-md-3 p-lg-3 hs-infra-box"
+                                    [ngClass.xs]="'hs-infra-box-xs-mg'" [ngClass.md]="'hs-infra-box-lg-mg'"
+                                    [ngClass.lg]="'hs-infra-box-lg-mg'"
+                                    [ngStyle]="{'background': (pgValue == 1) ? '#7db77d' : '#f37e7e'}">
+                                    <div style="width: 20%; float: left; padding: 5px;"
+                                        [ngStyle]="{'background': (pgValue == 1) ? '#1b931f' : '#eb1111'}">
+                                        <i [ngClass]="(pgValue == 1) ? 'pi pi-check-circle' : 'pi pi-times-circle'"
+                                            style="color: white; font-size: 1.5rem; border-radius: 100% "></i>
+                                    </div>
+                                    <div style="width: 80%; float: right; padding: 5px; white-space: pre;">Play Ground
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="isFLAvailable" class="p-col-12 p-md-12 p-lg-12 flr-lst-main" style="height: 250px;">
+                              <marquee class="p-col-12 p-md-12 p-lg-12 marquee" scrollamount="2" scrolldelay="1"
+                                direction="up" onmouseover="this.stop()"             onmouseout="this.start()">
+                                <div *ngFor="let f of floorDetails">
+                                    <div class="p-col-12 p-md-12 p-lg-12 hs-fcl-list-gap">
+                                        <div class="p-grid card-material"
+                                            style="background: '#3c3c3c'; border: 1px solid rgb(117, 112, 112);">
+                                            <!-- [style.border-color]="f.fRBGColor" -->
+                                            <div style="width: 5%; float: left;" class="flr-no-box"
+                                                [style.background]="f.fLBGColor">
+                                                <div style="font-size: 22px;">{{f.floorNo}} </div>
+                                                <!-- <div style="font-size: 20px;"> Floor </div> -->
+                                            </div>
+                                            <div style="width: 95%; float: right; color: white; margin: auto;">
+                                                <div #row1 class="p-col-12 p-md-12 p-lg-12" style="padding: 2px;">
+                                                    <div class="p-grid" style="margin: auto;">
+                                                        <div class="p-col-6 p-md-3 p-lg-3"
+                                                            style="border: 1px solid #4a4545; height: fit-content; padding-bottom: 0;">
+                                                            <div class="p-grid">
+                                                                <div class="p-col-3 p-md-3 p-lg-3"
+                                                                    [style.background]="f.fLBGColor">
+                                                                    <img src="assets/layout/images/dashboard-bath.png"
+                                                                        class="image-icon">
+                                                                </div>
+                                                                <div class="p-col-6 p-md-6 p-lg-6 txt-center"
+                                                                    [style.background]="f.fRBGColor">
+                                                                    Bathroom
+                                                                </div>
+                                                                <div class="p-col-3 p-md-3 p-lg-3"
+                                                                    style="font-size: 15px"
+                                                                    [style.background]="f.fLBGColor">
+                                                                    {{f.bthRoom}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="p-col-6 p-md-3 p-lg-3 no-pad-btm"
+                                                            style="border: 1px solid #4a4545; height: fit-content;">
+                                                            <div class="p-grid">
+                                                                <div class="p-col-3 p-md-3 p-lg-3"
+                                                                    [style.background]="f.fLBGColor">
+                                                                    <img src="assets/layout/images/dashboard-kitchen.png"
+                                                                        class="image-icon">
+                                                                </div>
+                                                                <div class="p-col-6 p-md-6 p-lg-6 txt-center"
+                                                                    [style.background]="f.fRBGColor">
+                                                                    Kitchen
+                                                                </div>
+                                                                <div class="p-col-3 p-md-3 p-lg-3"
+                                                                    style="font-size: 15px"
+                                                                    [style.background]="f.fLBGColor">
+                                                                    {{f.ktRoom}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="p-col-6 p-md-3 p-lg-3 no-pad-btm"
+                                                            style="border: 1px solid #4a4545; height: fit-content;">
+                                                            <div class="p-grid">
+                                                                <div class="p-col-3 p-md-3 p-lg-3"
+                                                                    [style.background]="f.fLBGColor">
+                                                                    <img src="assets/layout/images/dashboard-library.png"
+                                                                        class="image-icon">
+                                                                </div>
+                                                                <div class="p-col-6 p-md-6 p-lg-6 txt-center"
+                                                                    [style.background]="f.fRBGColor">
+                                                                    Library
+                                                                </div>
+                                                                <div class="p-col-3 p-md-3 p-lg-3"
+                                                                    style="font-size: 15px"
+                                                                    [style.background]="f.fLBGColor">
+                                                                    {{f.lbRoom}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="p-col-6 p-md-3 p-lg-3 no-pad-btm"
+                                                            style="border: 1px solid #4a4545; height: fit-content;">
+                                                            <div class="p-grid">
+                                                                <div class="p-col-3 p-md-3 p-lg-3"
+                                                                    [style.background]="f.fLBGColor">
+                                                                    <img src="assets/layout/images/dashboard-student.png"
+                                                                        class="image-icon">
+                                                                </div>
+                                                                <div class="p-col-6 p-md-6 p-lg-6 txt-center"
+                                                                    [style.background]="f.fRBGColor">
+                                                                    Student
+                                                                </div>
+                                                                <div class="p-col-3 p-md-3 p-lg-3"
+                                                                    style="font-size: 15px"
+                                                                    [style.background]="f.fLBGColor">
+                                                                    {{f.stRoom}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div #row2 class="p-col-12 p-md-12 p-lg-12" style="padding: 2px;">
+                                                    <div class="p-grid" style="margin: auto;">
+                                                        <div class="p-col-6 p-md-3 p-lg-3 no-pad-btm"
+                                                            style="border: 1px solid #4a4545; height: fit-content;">
+                                                            <div class="p-grid">
+                                                                <div class="p-col-3 p-md-3 p-lg-3"
+                                                                    [style.background]="f.fLBGColor">
+                                                                    <img src="assets/layout/images/dashboard-study.png"
+                                                                        class="image-icon">
+                                                                </div>
+                                                                <div class="p-col-6 p-md-6 p-lg-6 no-padding txt-center"
+                                                                    [style.background]="f.fRBGColor">
+                                                                    Study Area
+                                                                </div>
+                                                                <div class="p-col-3 p-md-3 p-lg-3"
+                                                                    style="font-size: 15px"
+                                                                    [style.background]="f.fLBGColor">
+                                                                    {{f.stdyArea}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="p-col-6 p-md-3 p-lg-3 no-pad-btm"
+                                                            style="border: 1px solid #4a4545; height: fit-content;">
+                                                            <div class="p-grid">
+                                                                <div class="p-col-3 p-md-3 p-lg-3"
+                                                                    [style.background]="f.fLBGColor">
+                                                                    <img src="assets/layout/images/dashboard-toilet.png"
+                                                                        class="image-icon">
+                                                                </div>
+                                                                <div class="p-col-6 p-md-6 p-lg-6 txt-center"
+                                                                    [style.background]="f.fRBGColor">
+                                                                    Toilet
+                                                                </div>
+                                                                <div class="p-col-3 p-md-3 p-lg-3"
+                                                                    style="font-size: 15px"
+                                                                    [style.background]="f.fLBGColor">
+                                                                    {{f.tlRoom}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="p-col-6 p-md-3 p-lg-3 no-pad-btm"
+                                                            style="border: 1px solid #4a4545; height: fit-content;">
+                                                            <div class="p-grid">
+                                                                <div class="p-col-3 p-md-3 p-lg-3"
+                                                                    [style.background]="f.fLBGColor">
+                                                                    <img src="assets/layout/images/dashboard-urinal.png"
+                                                                        class="image-icon">
+                                                                </div>
+                                                                <div class="p-col-6 p-md-6 p-lg-6 txt-center"
+                                                                    [style.background]="f.fRBGColor">
+                                                                    Urinal
+                                                                </div>
+                                                                <div class="p-col-3 p-md-3 p-lg-3"
+                                                                    style="font-size: 15px"
+                                                                    [style.background]="f.fLBGColor">
+                                                                    {{f.urRoom}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="p-col-6 p-md-3 p-lg-3 no-pad-btm"
+                                                            style="border: 1px solid #4a4545; height: fit-content;">
+                                                            <div class="p-grid">
+                                                                <div class="p-col-3 p-md-3 p-lg-3"
+                                                                    [style.background]="f.fLBGColor">
+                                                                    <img src="assets/layout/images/dashboard-warden.png"
+                                                                        class="image-icon">
+                                                                </div>
+                                                                <div class="p-col-6 p-md-6 p-lg-6 txt-center"
+                                                                    [style.background]="f.fRBGColor">
+                                                                    Warden
+                                                                </div>
+                                                                <div class="p-col-3 p-md-3 p-lg-3"
+                                                                    style="font-size: 15px"
+                                                                    [style.background]="f.fLBGColor">
+                                                                    {{f.wrdRoom}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </marquee>
+                        </div>
+                    </div>
+                    <div #row5col2 class="p-col-12 p-md-6 p-lg-6 hs-child-div">
+                        <div class="hs-section-hdr">
+                            Facility Details
+                        </div>
+                        <div class="p-grid" style="justify-content: center;">
+                            <div class="p-col-10 p-md-10 p-lg-10 hs-fcl-box" [ngStyle]="{'overflow': isFCAvailable ? 'auto' : 'hidden'}">
+                                <div class="hs-fcl-title">Student Facility</div>
+                                <div *ngIf="isFCAvailable">
+                                    <div *ngFor="let s of studentFData">
+                                        <div class="p-col-12 p-md-12 p-lg-12">
+                                            <div class="p-grid hs-fcl-list-gap">
+                                                <div
+                                                    class="p-col-3 p-md-2 p-lg-2 hs-menu-name hs-menuitems-colorchange hs-title-count">
+                                                    {{s.count}}</div>
+                                                <div class="p-col-9 p-md-10 p-lg-10 hs-menu-item">{{s.title}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div *ngIf="!isFCAvailable" class="hs-not-available-txt">
+                                    NOT AVAILABLE
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-grid" style="justify-content: center;">
+                            <div class="p-col-10 p-md-10 p-lg-10 hs-fcl-box" [ngStyle]="{'overflow': isFCAvailable ? 'auto' : 'hidden'}">
+                                <div class="hs-fcl-title">Hostel Facility</div>
+                                <div *ngIf="isFCAvailable">
+                                    <div *ngFor="let h of hostelFData">
+                                        <div class="p-col-12 p-md-12 p-lg-12">
+                                            <div class="p-grid hs-fcl-list-gap">
+                                                <div
+                                                    class="p-col-3 p-md-2 p-lg-2 hs-menu-name hs-menuitems-colorchange hs-title-count">
+                                                    {{h.count}}</div>
+                                                <div class="p-col-9 p-md-10 p-lg-10 hs-menu-item">{{h.title}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div *ngIf="!isFCAvailable" class="hs-not-available-txt">
+                                    NOT AVAILABLE
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div #row6 class="p-col-12 p-md-12 p-lg-12 hs-parent-div card">
+                <div class="p-col-12 p-md-12 p-lg-12 no-padding">
+                    <div class="hs-section-hdr">
+                        Student Attendance
+                    </div>
+                    <!-- <p-chart type="line" [data]="attendanceData" [options]="chartOptions" [responsive]="true">
+                    </p-chart> -->
+                    <div class="p-col-12 p-md-12 p-lg-12 no-padding">
+                        <highcharts-chart [Highcharts]="Highcharts" [options]="attendanceData"
+                            style="height: 400px; display:block"></highcharts-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- </p-panel> -->
+    </div>
+</div>

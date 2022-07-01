@@ -17,6 +17,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./audit.component.css']
 })
 export class AuditComponent implements OnInit {
+  RowID: 0;
   districtName: string;
   talukName: string;
   hostelName: string;
@@ -26,6 +27,8 @@ export class AuditComponent implements OnInit {
   disableFields: boolean;
   login_user: User;
   maxDate: Date = new Date();
+  loading: boolean;
+  studentcount: any;
   @BlockUI() blockUI: NgBlockUI;
   @ViewChild ('f', { static: false }) auditForm: NgForm;
   constructor(private _authService: AuthService,private _restApiService: RestAPIService,
@@ -36,13 +39,42 @@ export class AuditComponent implements OnInit {
     this.districtName = this.login_user.districtName;
     this.talukName = this.login_user.talukName;
     this.hostelName = this.login_user.hostelName;
+    var hasBiomteric = this.login_user.hasBiometric;
+    if (hasBiomteric) {
+      this.disableFields = true;    
+    }
+    this.loadTable();
     this.GetAttendanceInfo();
   }
-
+  Displaymessage(){
+    var hasBiomteric = this.login_user.hasBiometric;
+    if (hasBiomteric) {
+      this.disableFields = true;
+      this._messageService.clear();
+          this._messageService.add({
+            key: 't-msg', severity: ResponseMessage.SEVERITY_INFO,
+            summary: ResponseMessage.SUMMARY_REJECTED, detail: ResponseMessage.Biometricvalidate
+          });
+    }else{
+      if(this.noOfStudent > 0)
+      {
+      this._messageService.clear();
+      this._messageService.add({
+        key: 't-msg', severity: ResponseMessage.SEVERITY_INFO,
+        summary: ResponseMessage.SUMMARY_ALERT, life: 4000,
+        detail: 'Attendance already exist for ' + this._datepipe.transform(this.attendanceDate, 'dd/MM/yyyy')
+      });
+    }else
+    {
+      this.GetAttendanceInfo();
+    }
+    }
+    
+  }
   onSubmit() {
     this.blockUI.start();
     const params = {
-      'Id': 0,
+      'Id': this.RowID,
       'HostelID': this.login_user.hostelId,
       'Districtcode': this.login_user.districtCode,
       'Talukid': this.login_user.talukId,
@@ -95,11 +127,13 @@ export class AuditComponent implements OnInit {
     this.noOfStudent = null;
     this.remarks = null;
     this.attendanceDate = new Date();
+    this.RowID = 0;
   }
   
   GetAttendanceInfo() {
     this.noOfStudent = null;
     this.remarks = null;
+    this.RowID = 0;
     if(this.attendanceDate !== null && this.attendanceDate !== undefined) {
     const params = {
       'HostelID': this.login_user.hostelId,
@@ -115,6 +149,7 @@ export class AuditComponent implements OnInit {
           res.Table.forEach(r => {
             this.noOfStudent = r.NOOfStudent;
             this.remarks = r.Remarks;
+            this.RowID = r.Id;
           })
           this._messageService.clear();
           this._messageService.add({
@@ -134,4 +169,43 @@ export class AuditComponent implements OnInit {
   }
 
 }
+
+loadTable() {
+  this.loading = true;
+    const params = {
+      'DCode': this.login_user.districtCode,
+      'TCode': this.login_user.talukId,
+      'HCode': this.login_user.hostelId,
+    }
+    this._restApiService.getByParameters(PathConstants.HostelWiseStudentCount_Get,params).subscribe(res => {
+      if (res !== undefined && res !== null && res.length !== 0) {
+          res.forEach(r => {
+            this.studentcount = r.StudentCount;
+          })
+          this.loading = false;
+      } 
+      // else {
+      //   this.loading = false;
+      //   this._messageService.clear();
+      //   this._messageService.add({
+      //     key: 't-msg', severity: ResponseMessage.SEVERITY_WARNING,
+      //     summary: ResponseMessage.SUMMARY_WARNING, detail: 'Student count not available'
+      //   })
+      // }
+    })
+  }
+
+  checkStudentCount(count) {
+    if(count > this.studentcount){
+      this.noOfStudent = [];
+      this._messageService.add({
+        key: 't-msg', severity: ResponseMessage.SEVERITY_WARNING,
+        summary: ResponseMessage.SUMMARY_WARNING, detail: 'Entered Student count is exceeded, The total student count is ' + this.studentcount
+      })
+    } else {
+      this._messageService.clear();
+      this.disableFields = false;
+    }
+  } 
+
 }

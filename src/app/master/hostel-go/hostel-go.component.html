@@ -54,6 +54,15 @@
                                             <textarea type="text" name="_remarks" class="p-col-12" pInputText
                                                 [(ngModel)]="remarks" rows="2" cols="15" required></textarea>
                                         </div>
+                                        <div class="p-col-12 p-md-6 p-lg-2">
+                                            <label for="_document">Document Upload</label>
+                                            <!-- <img [src]="docFile"/> -->
+                                            <input #document class="p-col-12" 
+                                                name="_document" type="file" pInputText
+                                                #userFile
+                                                (change)="uploadFile($event)"
+                                                accept=".pdf,.png,.jpg,.jpeg" />
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="p-col-12 p-md-12 p-lg-12 txt-center">
@@ -66,7 +75,7 @@
                         </div>
                     </div>
                     <p-table [columns]="cols" [value]="data" [paginator]="true" [rows]="10"
-                        [rowsPerPageOptions]="[5,10,15,20]" totalRecords="totalRecords"
+                        [rowsPerPageOptions]="[5,10,15,20]" responsiveLayout="scroll" totalRecords="totalRecords"
                         styleClass=p-datatable-gridlines>
                         <ng-template pTemplate="header" let-columns>
                             <tr>

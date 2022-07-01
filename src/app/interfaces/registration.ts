@@ -1,5 +1,5 @@
 export interface Registration {
-    //   constructor() {}
+ //   constructor() {}
     studentId: number;
     hostelId: number;
     studentName: string;
@@ -15,11 +15,14 @@ export interface Registration {
     subCaste: number;
     studentFilename: string;
     instituteName: string;
+    currentInstituteId: number;
+    currentInstituteInfo: any;
     medium: number;
     classId: number;
     courseYearId: number;
     courseTitle: string;
-    lastStudiedInstituteName: string;
+    instituteInfo: any;
+    lastStudiedInstituteCode: string;
     lastStudiedInstituteAddress: string;
     distanceFromHostelToHome: number;
     distanceFromHostelToInstitute: number;
@@ -39,6 +42,11 @@ export interface Registration {
     admissionNo: string;
     remarks: string;
     scholarshipId: any;
+    refugeeSelectedType: number;
+    refugeeId: string;
+    orphanageSelectedType: number;
+    isNewStudent: number;
+    communityCertificateNo: string;
     //bank
     bankId: number;
     bankName: string;
@@ -63,6 +71,11 @@ export interface Registration {
     guardianMobileNo: string;
     guardianQualification: string;
     totalYIncome: number;
+    fnTitleCode: number;
+    mnTitleCode: number;
+    gnTitleCode: number;
+    
+    //doc
     documentId: number;
     incomeCertificateFilename: string;
     tcFilename: string;

@@ -8,13 +8,16 @@ import { RestAPIService } from 'src/app/services/restAPI.service';
 import { ResponseMessage } from 'src/app/Common-Modules/messages';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
-
 @Component({
   selector: 'app-feedback',
   templateUrl: './feedback.component.html',
   styleUrls: ['./feedback.component.css']
 })
 export class FeedbackComponent implements OnInit {
+  StudentRegistrationDATA: any = [];
+  emailid : any;
+  existingmail : any;
+  studentexistingID: any;
   hostelName: string;
   studentName: string;
   feedBack: string;
@@ -29,7 +32,6 @@ export class FeedbackComponent implements OnInit {
   public formData = new FormData();
   feedBackImage: any = '';
   @ViewChild('f', { static: false }) feedbackForm: NgForm;
-
   constructor(private _authService: AuthService,private _restApiService: RestAPIService,private _messageService: MessageService
     ,private http: HttpClient, private _d: DomSanitizer) { }
 
@@ -41,7 +43,8 @@ export class FeedbackComponent implements OnInit {
       { field: 'FBMessage', header: 'Feedback', width: '200px', align: 'left !important'},
       { field: 'ReplyMessage', header: 'Reply Message', width: '200px', align: 'left !important'},
     ];
-    this.onView();
+    
+    
     this.login_user = this._authService.UserInfo;
     this.hostelName = this.login_user.hostelName;
     this.studentName = this.login_user.username
@@ -49,6 +52,9 @@ export class FeedbackComponent implements OnInit {
     this.Hostelid = this.login_user.hostelId;
     this.TalukId = this.login_user.talukId;
     this.studentid = this.login_user.userID;
+    this.emailid = this.login_user.emailId
+    this.checkRegistrationExists();  
+    
   }
   public uploadFile = (event) => {
     const selectedFile = event.target.files[0];
@@ -67,14 +73,13 @@ export class FeedbackComponent implements OnInit {
       }
       );
   }
-
   onSubmit() {
     const params = {
       'Slno': 0,
       'HostelId': this.Hostelid,
       'DistrictId': this.Districtid,
       'TalukId': this.TalukId,
-      'StudentId': 216,
+      'StudentId': this.studentexistingID,
       'FBMessage': this.feedBack,
       'ImgFileName': this.feedBackFileName,
       'Flag': 1,
@@ -90,7 +95,6 @@ export class FeedbackComponent implements OnInit {
             key: 't-msg', severity: ResponseMessage.SEVERITY_SUCCESS,
             summary: ResponseMessage.SUMMARY_SUCCESS, detail: ResponseMessage.SuccessMessage
           });
-
         } else {
           // this.blockUI.stop();
           this._messageService.clear();
@@ -117,27 +121,42 @@ export class FeedbackComponent implements OnInit {
 
       }
     })
-
-
   }
-
-
   onClear() {
     this.feedbackForm.form.markAsUntouched();
     this.feedbackForm.form.markAsPristine();
     this.feedBack = null;
     this.feedBackFileName = null;
   }
-
   onView() {
+  
     const params = {
-      'StudentId' : 216,
+      'StudentId': this.studentexistingID, 
+      'Type' : 0,
        }
     this._restApiService.getByParameters(PathConstants.FeedBack_Get, params).subscribe(res => {
-      if (res !== null && res !== undefined && res.Table.length !== 0) {
-        this.data = res.Table;
+      if (res !== null && res !== undefined && res.length !== 0) {
+        this.data = res.slice(0);
       }
     })
+  }
+  checkRegistrationExists() {   
+    this.StudentRegistrationDATA=[]
+    this._restApiService.get(PathConstants.StudentRegistration_Get).subscribe(r => {
+      this.StudentRegistrationDATA = r;     
+       if (this.StudentRegistrationDATA.length !== 0) {  
+        for (let i = 0; i < this.StudentRegistrationDATA.length; i++) {   
+          this.existingmail = (this.StudentRegistrationDATA[i].EmailId);      
+          if (this.existingmail === this.emailid) {           
+            this.studentexistingID = this.StudentRegistrationDATA[i].StudentId; 
+            this.onView();            
+            break; //break the loop
+          } else {  
+            continue;  //continuing the loop
+          }
+        }
+      }    
+    });
   }
 }
 

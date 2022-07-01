@@ -1,0 +1,52 @@
+<block-ui>
+    <div class="p-grid">
+            <p-toast position="top-center" key="t-msg"></p-toast>
+            <!-- <p-panel header="Taluk wise hostel details"> -->
+                <div class="p-col-11 p-md-11 p-lg-11 dist-dsh-txt-clr dist-dsh-content card-material">
+                    <div class="p-col-12 p-md-12 p-lg-12">
+                        <div style="text-align: center; font-size: 15px;border-bottom: 1px solid white; font-weight: 600;">Taluk-wise Hostel Details</div>
+                    </div>
+                    <div class="p-col-12 p-md-12 p-lg-12 dist-dsh-txt-clr" *ngFor="let t of data">
+                        <div class="p-grid" style="justify-content: center;">
+                            <div class="p-col-12 p-md-2 p-lg-2 tlk-dsh-box ripple" (click)="gotoHostel(t.Id)">
+                                <div>{{t.name}}</div>
+                            </div>
+                            <div class="p-col-6 p-md-4 p-lg-2 tlk-box tlk-box-subdiv-bg1">
+                                <div class="tlk-box-subdiv">Total Hostel
+                                    Count</div>
+                                <div class="tlk-circle tlk-circle1"><span class="tlk-circle1-count">{{t.hcount}}</span></div>
+                            </div>
+                            <div class="p-col-6 p-md-4 p-lg-2 tlk-box tlk-box-subdiv-bg2">
+                                <div class="tlk-box-subdiv">Total Hostel
+                                    Count</div>
+                                <div style="width: 50%;float: left;">
+                                    <div class="tlk-circle tlk-circle2"><span  style="font-size: 13px;">Boys</span> <br> <span class=" tlk-circle2-count">{{t.boysHostelCount}}</span></div>
+                                </div>
+                                <div style="width: 50%;float: right;">
+                                    <div class="tlk-circle tlk-circle2"><span  style="font-size: 13px;">Girls</span> <br> <span class=" tlk-circle2-count">{{t.girlsHostelCount}}</span></div>
+                                </div>
+                            </div>
+                            <div class="p-col-6 p-md-4 p-lg-2 tlk-box tlk-box-subdiv-bg3">
+                                <div class="tlk-box-subdiv">Sanctioned Strength</div>
+                                <div style="width: 50%;float: left;">
+                                    <div class="tlk-circle tlk-circle3"><span  style="font-size: 13px;">Boys </span><br><span class=" tlk-circle3-count">{{t.sanctionedBoysCount}}</span></div>
+                                </div>
+                                <div style="width: 50%;float: right;">
+                                    <div class="tlk-circle tlk-circle3"><span  style="font-size: 13px;">Girls </span><br> <span class=" tlk-circle3-count">{{t.sanctionedGirlsCount}}</span></div>
+                                </div>
+                            </div>
+                            <div class="p-col-6 p-md-4 p-lg-2 tlk-box tlk-box-subdiv-bg4">
+                                <div class="tlk-box-subdiv">Total Students Count</div>
+                                <div style="width: 50%;float: left;">
+                                    <div class="tlk-circle tlk-circle4"><span  style="font-size: 13px;">Boys </span><br><span class=" tlk-circle4-count">{{t.boysCount}}</span></div>
+                                </div>
+                                <div style="width: 50%;float: right;">
+                                    <div class="tlk-circle tlk-circle4"><span  style="font-size: 13px;">Girls</span> <br><span class=" tlk-circle4-count">{{t.girlsCount}}</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            <!-- </p-panel> -->
+        </div>
+    </div>
+</block-ui>
