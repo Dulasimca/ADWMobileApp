@@ -1,0 +1,130 @@
+<div class="p-col-12 p-md-12 p-lg-12 card border-teal">
+    <div class="div-dsh-main txt-center" style="font-weight: 500;">
+        <span class="txt-shadow-teal" [ngClass.xs]="'div-dsh-main-txt-xs'" [ngClass.sm]="'div-dsh-main-txt-xs'"
+            [ngClass.lt-md]="'div-dsh-main-txt-md'" [ngClass.lg]="'div-dsh-main-txt-lg'">Government Of Tamilnadu - ADW
+            Hostel Management</span>
+    </div>
+    <p-card>
+        <div #main class="p-col-12 p-md-12 p-lg-12 no-pad-top">
+            <div #row1 class="txt-center">
+                <div #grid1 *ngIf="roleId != 5" class="p-grid div-main">
+                    <div class="p-col-12 p-md-12 p-lg-12 no-pad-top"
+                        [ngStyle.xs]="{'margin-left.rem': -0.5}">
+                        <div class="p-grid" style="display: flex; justify-content: center;">
+                            <div #el1 *ngIf="(roleId == 1 || roleId == 2 || roleId == 3)"
+                                [ngClass]="(roleId==1) ? 'p-col-11 p-md-6 p-lg-2' : 'p-col-11 p-md-6 p-lg-3'"
+                                class="dashboard overview-box view1 card">
+                                <div class="p-col-12 p-md-12 p-lg-12">
+                                    <span class="dsh-tab-label">Hostel (in No's)</span>
+                                </div>
+                                <div class="p-col-12 p-md-12 p-lg-12 no-padding">
+                                    <span class="dsh-tab-value">{{hostelCount | number:'1.0':'en-US'}}</span>
+                                </div>
+                            </div>
+                            <div #el2 *ngIf="(roleId == 1 || roleId == 2 || roleId == 3)"
+                                [ngClass]="(roleId==1) ? 'p-col-11 p-md-6 p-lg-2' : 'p-col-11 p-md-6 p-lg-3'"
+                                class="dashboard overview-box view2 card">
+                                <div class="p-col-12 p-md-12 p-lg-12">
+                                    <span class="dsh-tab-label">Warden (in No's)</span>
+                                </div>
+                                <div class="p-col-12 p-md-12 p-lg-12 no-padding">
+                                    <span class="dsh-tab-value">{{wardenCount | number:'1.0':'en-US'}}</span>
+                                </div>
+                            </div>
+                            <div #el3 *ngIf="(roleId == 1 || roleId == 2 || roleId == 3)"
+                                [ngClass]="(roleId==1) ? 'p-col-11 p-md-6 p-lg-2' : 'p-col-11 p-md-6 p-lg-3'"
+                                class="dashboard overview-box view3 card">
+                                <div class="p-col-12 p-md-12 p-lg-12">
+                                    <span class="dsh-tab-label">Student (in No's)</span>
+                                </div>
+                                <div class="p-col-12 p-md-12 p-lg-12 no-padding">
+                                    <span *ngIf="isTypeNumber" class="dsh-tab-value">{{studentCount | number:'1.0':'en-US'}}</span>
+                                    <span *ngIf="!isTypeNumber" class="dsh-tab-value">{{studentCount}}</span>
+                                </div>
+                            </div>
+                            <div #el4 *ngIf="roleId==1"
+                                class="p-col-11 p-md-6 p-lg-2 dashboard overview-box view4 card">
+                                <div class="p-col-12 p-md-12 p-lg-12">
+                                    <span class="dsh-tab-label">Today Expenses</span>
+                                </div>
+                                <div class="p-col-12 p-md-12 p-lg-12 no-padding">
+                                    <span class="dsh-tab-value">{{expensesToday | currency:'INR'}}</span>
+                                </div>
+                            </div>
+                            <div #el5 *ngIf="roleId==1"
+                                class="p-col-11 p-md-6 p-lg-2 dashboard overview-box view5 card">
+                                <div class="p-col-12 p-md-12 p-lg-12">
+                                    <span class="dsh-tab-label">Monthly Expenses</span>
+                                </div>
+                                <div class="p-col-12 p-md-12 p-lg-12 no-padding">
+                                    <span class="dsh-tab-value">{{expensesMonthly | currency:'INR'}}</span>
+                                </div>
+                            </div>
+                            <div #el5 *ngIf="roleId==4"
+                                class="p-col-11 p-md-6 p-lg-3 dashboard overview-box view3 card">
+                                <div class="p-col-12 p-md-12 p-lg-12 no-padding">
+                                    <span class="dsh-tab-label">Hostel Strength</span> <br />
+                                    <span style="color: whitesmoke;">(total no.of students)</span>
+                                </div>
+                                <div class="p-col-12 p-md-12 p-lg-12 no-padding">
+                                    <span class="dsh-tab-value">{{totalStudent | number:'1.0':'en-US'}}</span>
+                                </div>
+                            </div>
+                            <div #el5 *ngIf="roleId==4"
+                                class="p-col-11 p-md-6 p-lg-3 dashboard overview-box view4 card">
+                                <div class="p-col-12 p-md-12 p-lg-12 no-padding">
+                                    <span class="dsh-tab-label">Today Attendance</span><br />
+                                    <span style="color: whitesmoke;">(no.of students present)</span>
+                                </div>
+                                <div class="p-col-12 p-md-12 p-lg-12 no-padding">
+                                    <span class="dsh-tab-value">{{totalPresent | number:'1.0':'en-US'}}</span>
+                                </div>
+                            </div>
+                            <div #el5 *ngIf="roleId==4"
+                                class="p-col-11 p-md-6 p-lg-3 dashboard overview-box view5 card">
+                                <div class="p-col-12 p-md-12 p-lg-12 no-padding">
+                                    <span class="dsh-tab-label">Device No'</span><br />
+                                    <span style="color: whitesmoke;">(no.of device available)</span>
+                                </div>
+                                <div class="p-col-12 p-md-12 p-lg-12 no-padding">
+                                    <span class="dsh-tab-value">{{totalDevice | number:'1.0':'en-US'}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- role id 5 -->
+                <div #grid1 *ngIf="roleId == 5" class="p-grid div-main" [routerLink]="['/feedback']">
+                    <div class="p-col-4"></div>
+                    <div #el5 class="p-col-12 p-md-6 p-lg-3 card no-padding" style="margin-left: 3%;">
+                        <div class="feedback-box feedback-box-1">
+                            <div class="feedback-box-header">
+                            </div>
+                            <div class="feedback-box-content">
+                                <div class="feedback-box-icon">
+                                    <i class="pi pi-comment"></i>
+                                </div>
+                                <div class="feedback-box-title">
+                                    Submit your feedback
+                                    <span><i class="pi pi-arrow-right"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div #row2 class="p-col-12 p-md-12 p-lg-12" *ngIf="roleId==1">
+                    <div #chart class="p-col-12 p-md-12 p-lg-12 no-padding card border-blue">
+                        <div class="div-dsh-hd" style="font-weight: 500;">District Wise Student Registration Count</div>
+                        <p-chart type="bar" [data]="studentCountData" [options]="barChartOptions" [responsive]="true"></p-chart>
+                    </div>
+                </div>
+                <div #row3 class="p-col-12 p-md-12 p-lg-12" *ngIf="roleId==1 || roleId==2">
+                    <div #chart class="p-col-12 p-md-12 p-lg-12 no-padding card border-blue">
+                        <div class="div-dsh-hd" style="font-weight: 500;">Month Wise Expenses</div>
+                        <p-chart type="line" [data]="consumptionData" [options]="chartOptions"></p-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </p-card>
+</div>

@@ -1,0 +1,15 @@
+<div class="camera-capture">
+  <!-- <input type="file" name="image" accept="image/*" capture="environment"> -->
+
+    <video class="video" *ngIf="enabled" #video id="video" width="300" height="300" autoplay autopictureinpicture="true"
+    ></video>
+    <canvas #canvas  id="canvas" style="width: 300px;" [style.height]="showImage ? '300px !important': '0 !important'" ></canvas>
+  
+    <div class="p-col-12 p-md-12 p-lg-12 txt-center no-pad-top" *ngIf="showButton">
+      <button style="height: 30px; width: 90px;padding: 5px 0px 5px 10px;"
+       type="button" pButton (click)="executeButtonAction()"><i class="pi pi-camera"></i> &nbsp; {{ getButtonName() }} </button>&nbsp;
+       <!-- <button *ngIf="showFlip" type="button" pButton (click)="flipCam()"><i class="fa fa-refresh"></i> </button> -->
+    </div>
+  </div>
+  
+  

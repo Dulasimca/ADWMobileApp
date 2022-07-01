@@ -1,0 +1,38 @@
+<block-ui>
+    <div class="p-grid">
+    <div class="p-col-12 p-md-12 p-lg-12">
+        <p-toast position="top-center" key="t-msg"></p-toast>
+            <p-panel header="Hostel-Image">
+                <p-card>
+                    <form #f="ngForm" name="hostelimageForm">
+                        <div class="p-col-12 p-md-12 p-lg-12 no-padding">
+                            <div class="p-grid">
+                                <div class="p-col-12 p-md-6 p-lg-4">
+                                    <div class="no-pad-top"><label>Hostel Name</label> </div>
+                                    <input type="text" [(ngModel)]="hostelname" name="hostelname" readonly="true"
+                                        pInputText required />
+                                </div>
+                                <div class="p-col-12 p-md-6 p-lg-2">
+                                    <div class="no-pad-top"><label>District Name</label> </div>
+                                    <input type="text" name="districtname" pInputText [(ngModel)]="districtname"
+                                        placeholder="District Name" readonly="true" required />
+                                </div>
+                                <div class="p-col-12 p-md-6 p-lg-2">
+                                    <div class="no-pad-top"><label>Taluk Name</label> </div>
+                                    <input type="text" name="talukname" [(ngModel)]="talukname" readonly="true"
+                                        placeholder="Taluk Name" pInputText required />
+                                </div>
+                                <div class="p-col-12 p-md-12 p-lg-12  txt-center">
+                                        <app-camera-capture #camera [showButton]="showBtn" (capture)="getCapture($event)"></app-camera-capture>
+                                </div>
+                                <div *ngIf="!showBtn" class="p-col-12 p-md-12 p-lg-12 no-pad-top">
+                                    <img [src]="hostelImage" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </p-card>
+            </p-panel>
+        </div>
+    </div>
+</block-ui>
